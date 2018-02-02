@@ -6,30 +6,12 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 18:44:58 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/01 18:46:13 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/02 19:45:35 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "mlx.h"
-#include "libft.h"
-#include "ctx.h"
-#include "events.h"
-#include "vector.h"
-#include "matrice4.h"
-#include "draw.h"
-#include "object.h"
-#include "scene.h"
-#include "camera.h"
-#include "mesh.h"
-#include "geometry.h"
-#include "plane.h"
-#include "cube.h"
-#include "surface.h"
-#include "surface2.h"
-#include "material.h"
-#include "mouse.h"
-#include "keyboard.h"
+#include <mlxyz.h>
 
 t_ctx		*ctx_init(void)
 {
