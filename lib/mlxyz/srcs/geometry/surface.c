@@ -6,12 +6,12 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 11:42:18 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/02 18:50:47 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/04 17:11:40 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <geometry/surface.h>
-#include <ctx.h>
+#include <core/core.h>
 
 static t_vector4	**surface_vertices(int x, int y, int subx, int suby)
 {
@@ -22,7 +22,7 @@ static t_vector4	**surface_vertices(int x, int y, int subx, int suby)
 	vertices = (t_vector4**)malloc(
 		sizeof(t_vector4*) * ((subx + 1) * (suby + 1) + 1));
 	if (!vertices)
-		crash("Broken malloc");
+		mlxyz_crash("Broken malloc");
 	i = 0;
 	while (i < suby + 1)
 	{
@@ -48,7 +48,7 @@ static t_edge		**surface_edges(t_vector4 **v, int x, int y)
 	int		j;
 
 	if (!(e = (t_edge**)malloc(sizeof(t_edge*) * ((x * y * 3) + (x + y) + 1))))
-		crash("Broken malloc");
+		mlxyz_crash("Broken malloc");
 	i = -1;
 	while (i++ < y + 1)
 	{
@@ -79,7 +79,7 @@ static t_face		**surface_faces(t_edge **edges, int subx, int suby)
 	(void)suby;
 	faces = (t_face**)malloc(sizeof(t_face*) * 3);
 	if (!faces)
-		crash("Broken malloc");
+		mlxyz_crash("Broken malloc");
 	faces[0] = NULL;
 	return (faces);
 }
@@ -90,7 +90,7 @@ t_geometry			*new_surface(int x, int y, int subx, int suby)
 
 	geo = (t_geometry*)malloc(sizeof(t_geometry));
 	if (!geo)
-		crash("Broken malloc");
+		mlxyz_crash("Broken malloc");
 	geo->vertices = surface_vertices(x, y, subx, suby);
 	geo->edges = surface_edges(geo->vertices, subx, suby);
 	geo->faces = surface_faces(geo->edges, subx, suby);

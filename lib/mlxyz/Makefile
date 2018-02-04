@@ -6,7 +6,7 @@
 #    By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/17 12:32:21 by gelambin          #+#    #+#              #
-#    Updated: 2018/02/02 20:22:36 by gelambin         ###   ########.fr        #
+#    Updated: 2018/02/04 17:09:21 by gelambin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,9 @@ CPPFLAGS=	-I../mlx/						\
 LIBS	=	-L../mlx -lmlx					\
 			-L../libft -lft
 
-SRCS	=	./srcs/events/events.c			\
+SRCS	=	./srcs/core/core.c				\
+			\
+			./srcs/events/events.c			\
 			./srcs/events/mouse.c			\
 			./srcs/events/keyboard.c		\
 			\
@@ -75,13 +77,9 @@ $(NAME) : $(OBJS)
 
 clean	:
 	rm -f $(OBJS)
-	$(MAKE) -C ../libft clean
-	$(MAKE) -C ../mlx clean
 
 fclean:
 	rm -f $(NAME) $(OBJS)
-	$(MAKE) -C ../libft fclean
-	$(MAKE) -C ../mlx clean
 
 re:
 	$(MAKE) $(MFLAGS) fclean

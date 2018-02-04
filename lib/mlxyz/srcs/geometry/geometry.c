@@ -6,12 +6,12 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 11:39:13 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/02 18:49:48 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/04 17:11:40 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <geometry/geometry.h>
-#include <ctx.h>
+#include <core/core.h>
 
 t_edge		*new_edge(t_vector4 *v1, t_vector4 *v2)
 {
@@ -19,7 +19,7 @@ t_edge		*new_edge(t_vector4 *v1, t_vector4 *v2)
 
 	edge = (t_edge*)malloc(sizeof(t_edge));
 	if (!edge)
-		crash("Broken malloc");
+		mlxyz_crash("Broken malloc");
 	edge->vertices[0] = v1;
 	edge->vertices[1] = v2;
 	return (edge);
@@ -31,7 +31,7 @@ t_face		*new_face(t_edge *edge1, t_edge *edge2, t_edge *edge3)
 
 	face = (t_face*)malloc(sizeof(t_face));
 	if (!face)
-		crash("Broken malloc");
+		mlxyz_crash("Broken malloc");
 	face->edges[0] = edge1;
 	face->edges[1] = edge2;
 	face->edges[2] = edge3;

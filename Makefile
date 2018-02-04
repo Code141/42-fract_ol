@@ -6,57 +6,50 @@
 #    By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/17 12:32:21 by gelambin          #+#    #+#              #
-#    Updated: 2018/02/02 20:16:41 by gelambin         ###   ########.fr        #
+#    Updated: 2018/02/04 16:32:43 by gelambin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	=	fractol
+NAME		=	fractol
 
-CC		=	gcc
-CFLAGS	=	#-Wall -Wextra -Werror
-CPPFLAGS=	-I./lib/mlx/					\
-			-I./lib/libft/includes/			\
-			-I./lib/mlxyz/includes/			\
-			-I./includes/
+CC			=	gcc
 
-LIBS	=	-L./lib/mlx -lmlx				\
-			-L./lib/mlxyz -lmlxyz			\
-			-L./lib/libft -lft
+CFLAGS		=	#-Wall -Wextra -Werror
 
-SRCS	=	./srcs/main.c					\
-			./srcs/closing.c				\
-			./srcs/loop.c
+CPPFLAGS	=	-I./lib/mlx/					\
+				-I./lib/libft/includes/			\
+				-I./lib/mlxyz/includes/			\
+				-I./includes/
 
-OBJS	=	$(SRCS:.c=.o)
+LIBS		=	-L./lib/mlx -lmlx				\
+				-L./lib/mlxyz -lmlxyz			\
+				-L./lib/libft -lft
 
-FMWS	=	-framework OpenGL				\
-			-framework AppKit
+SRCS		=	./srcs/main.c					\
+				./srcs/closing.c				\
+				./srcs/loop.c
 
-all		: $(NAME)
+OBJS		=	$(SRCS:.c=.o)
 
-#libft.a	:	./lib/libft/libft.a
-#	$(MAKE) -C ./lib/libft 
+FMWS		=	-framework OpenGL				\
+				-framework AppKit
 
-$(NAME) : $(OBJS)
+all			:	 $(NAME)
+
+$(NAME) 	:	 $(OBJS)
 	$(MAKE) -C ./lib/libft
 	$(MAKE) -C ./lib/mlx 
 	$(MAKE) -C ./lib/mlxyz 
 	gcc -O3 $(LIBS) $(FMWS) $(OBJS) -o $(NAME)
 
-clean	:
+clean		:
 	rm -f $(OBJS)
-	$(MAKE) -C ./lib/libft clean
-	$(MAKE) -C ./lib/mlx clean
-	$(MAKE) -C ./lib/mlxyz clean
 
-fclean:
+fclean		:
 	rm -f $(NAME) $(OBJS)
-	$(MAKE) -C ./lib/libft fclean
-	$(MAKE) -C ./lib/mlx clean
-	$(MAKE) -C ./lib/mlxyz clean
 
-re:
+re			:
 	$(MAKE) $(MFLAGS) fclean
 	$(MAKE) $(MFLAGS) all
 
-.PHONY: all clean fclean re
+.PHONY		:	 all clean fclean re

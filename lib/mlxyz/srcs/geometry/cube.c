@@ -6,12 +6,12 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 11:38:07 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/02 18:49:58 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/04 17:11:40 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <geometry/cube.h>
-#include <ctx.h>
+#include <core/core.h>
 
 static t_vector4	**cube_vertices(int x, int y, int z)
 {
@@ -19,7 +19,7 @@ static t_vector4	**cube_vertices(int x, int y, int z)
 
 	vertices = (t_vector4**)malloc(sizeof(t_vector4*) * 9);
 	if (!vertices)
-		crash("Broken malloc");
+		mlxyz_crash("Broken malloc");
 	vertices[0] = new_point(-x / 2, -y / 2, z / 2);
 	vertices[1] = new_point(-x / 2, y / 2, z / 2);
 	vertices[2] = new_point(x / 2, -y / 2, z / 2);
@@ -38,7 +38,7 @@ static t_edge		**cube_edges(t_vector4 **vertices)
 
 	edges = (t_edge**)malloc(sizeof(t_edge*) * 19);
 	if (!edges)
-		crash("Broken malloc");
+		mlxyz_crash("Broken malloc");
 	edges[0] = new_edge(vertices[0], vertices[1]);
 	edges[1] = new_edge(vertices[0], vertices[2]);
 	edges[2] = new_edge(vertices[1], vertices[3]);
@@ -68,7 +68,7 @@ static t_face		**cube_faces(t_edge **edges)
 	(void)edges;
 	faces = (t_face**)malloc(sizeof(t_face*) * 3);
 	if (!faces)
-		crash("Broken malloc");
+		mlxyz_crash("Broken malloc");
 	faces[0] = NULL;
 	return (faces);
 }
@@ -79,7 +79,7 @@ t_geometry			*new_cube(int x, int y, int z)
 
 	geo = (t_geometry*)malloc(sizeof(t_geometry));
 	if (!geo)
-		crash("Broken malloc");
+		mlxyz_crash("Broken malloc");
 	geo->vertices = cube_vertices(x, y, z);
 	geo->edges = cube_edges(geo->vertices);
 	geo->faces = cube_faces(geo->edges);

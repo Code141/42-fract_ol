@@ -6,12 +6,12 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 12:22:13 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/02 18:52:05 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/04 17:11:40 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <hud/stats.h>
-#include <ctx.h>
+#include <core/core.h>
 
 t_stats	*new_stats(void)
 {
@@ -20,7 +20,7 @@ t_stats	*new_stats(void)
 
 	stats = (t_stats*)malloc(sizeof(t_stats));
 	if (!stats)
-		crash("Broken malloc");
+		mlxyz_crash("Broken malloc");
 	stats->timestamp = (int)time(NULL);
 	ft_bzero(stats->fps, 100 * 4);
 	ft_bzero(stats->ms, 100 * 4);

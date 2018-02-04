@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/10 17:52:59 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/02 18:47:41 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/04 16:06:16 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	draw_graph(t_graph *graph, t_img *canevas)
 	}
 }
 
-void	draw_hud(t_ctx *ctx)
+void	draw_hud(t_mlxyz *mlxyz)
 {
-	draw_graph(ctx->hud->graphs[0], ctx->screen->canevas);
-	draw_graph(ctx->hud->graphs[1], ctx->screen->canevas);
+	draw_graph(mlxyz->hud->graphs[0], mlxyz->screen->canevas);
+	draw_graph(mlxyz->hud->graphs[1], mlxyz->screen->canevas);
 }

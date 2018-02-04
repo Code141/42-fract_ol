@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 17:57:10 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/02 19:26:14 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/04 17:00:29 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,12 @@
 
 # include <libft.h>
 # include <mlx.h>
-# include <ctx.h>
+
+# include <core/core.h>
 
 # include <color/color.h>
 
-# include <draw/draw.h>
-
-# include <events/events.h>
-# include <events/keyboard.h>
-# include <events/mouse.h>
+# include <screen/screen.h>
 
 # include <geometry/geometry.h>
 # include <geometry/plane.h>
@@ -46,10 +43,14 @@
 # include <math/matrice4.h>
 
 # include <object/object.h>
+
 # include <object/scene.h>
 # include <object/camera.h>
 # include <object/mesh.h>
 
-# include <screen/screen.h>
+# include <draw/draw.h>
+# include <events/events.h>
+# include <events/keyboard.h>
+# include <events/mouse.h>
 
 #endif

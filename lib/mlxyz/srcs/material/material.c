@@ -6,12 +6,12 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 12:23:59 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/02 18:52:49 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/04 17:11:40 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <material/material.h>
-#include <ctx.h>
+#include <core/core.h>
 
 t_material		*new_material(t_color_rgba color)
 {
@@ -19,7 +19,7 @@ t_material		*new_material(t_color_rgba color)
 
 	material = (t_material*)malloc(sizeof(t_material));
 	if (!material)
-		crash("Broken malloc");
+		mlxyz_crash("Broken malloc");
 	material->color = color;
 	return (material);
 }

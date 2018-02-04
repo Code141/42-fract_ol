@@ -6,12 +6,12 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/10 17:39:16 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/02 18:57:26 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/04 17:11:40 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <object/object.h>
-#include <ctx.h>
+#include <core/core.h>
 
 t_object	*new_object(t_mesh *mesh)
 {
@@ -19,7 +19,7 @@ t_object	*new_object(t_mesh *mesh)
 
 	obj = (t_object*)malloc(sizeof(t_object));
 	if (!obj)
-		crash("Broken malloc");
+		mlxyz_crash("Broken malloc");
 	obj->parent = NULL;
 	obj->children = NULL;
 	obj->mesh = mesh;

@@ -6,12 +6,12 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 12:21:17 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/02 18:51:35 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/04 17:11:40 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <hud/graph.h>
-#include <ctx.h>
+#include <core/core.h>
 
 t_graph	*new_graph(int length, int height, int *data)
 {
@@ -19,7 +19,7 @@ t_graph	*new_graph(int length, int height, int *data)
 
 	graph = (t_graph*)malloc(sizeof(t_graph));
 	if (!graph)
-		crash("Broken malloc");
+		mlxyz_crash("Broken malloc");
 	graph->length = length;
 	graph->height = height;
 	graph->data = data;

@@ -6,13 +6,13 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 20:53:31 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/02 18:47:53 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/04 16:06:16 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <draw/draw_mesh.h>
 
-void	draw_vertices(t_ctx *ctx, t_mesh *mesh, t_matrice4 *m)
+void	draw_vertices(t_mlxyz *mlxyz, t_mesh *mesh, t_matrice4 *m)
 {
 	int			i;
 	t_vector4	v1;
@@ -22,20 +22,20 @@ void	draw_vertices(t_ctx *ctx, t_mesh *mesh, t_matrice4 *m)
 	while (mesh->geometry->vertices[i])
 	{
 		v1 = matrice_apply(m, mesh->geometry->vertices[i]);
-		if (projection(ctx, &v1, &v2))
+		if (projection(mlxyz, &v1, &v2))
 			draw_point(
-				ctx->screen->canevas,
+				mlxyz->screen->canevas,
 				v2,
 				1,
 				color_blend(&mesh->material->color,
-					&ctx->camera->fog_color, v1.z
-					/ (ctx->camera->far - ctx->camera->near)
+					&mlxyz->camera->fog_color, v1.z
+					/ (mlxyz->camera->far - mlxyz->camera->near)
 					/ 11.5));
 		i++;
 	}
 }
 
-void	draw_edges(t_ctx *ctx, t_mesh *mesh, t_matrice4 *m)
+void	draw_edges(t_mlxyz *mlxyz, t_mesh *mesh, t_matrice4 *m)
 {
 	int				i;
 	t_vector4		v1a;
@@ -48,21 +48,21 @@ void	draw_edges(t_ctx *ctx, t_mesh *mesh, t_matrice4 *m)
 	{
 		v1a = matrice_apply(m, mesh->geometry->edges[i]->vertices[0]);
 		v1b = matrice_apply(m, mesh->geometry->edges[i]->vertices[1]);
-		if ((projection(ctx, &v1a, &v2a) + projection(ctx, &v1b, &v2b)))
+		if ((projection(mlxyz, &v1a, &v2a) + projection(mlxyz, &v1b, &v2b)))
 		{
-			line(ctx->screen->canevas, v2a, v2b,
-				color_blend(&mesh->material->color, &ctx->camera->fog_color,
-				fmin(v1a.z, v1b.z) / (ctx->camera->far - ctx->camera->near)
+			line(mlxyz->screen->canevas, v2a, v2b,
+				color_blend(&mesh->material->color, &mlxyz->camera->fog_color,
+				fmin(v1a.z, v1b.z) / (mlxyz->camera->far - mlxyz->camera->near)
 				/ 11.5));
 		}
 		i++;
 	}
 }
 
-void	draw_mesh(t_ctx *ctx, t_object *object, t_matrice4 *m)
+void	draw_mesh(t_mlxyz *mlxyz, t_object *object, t_matrice4 *m)
 {
 	t_matrice4		m3;
 
 	matrice_product(m, &object->mesh->matrice, &m3);
-	draw_edges(ctx, object->mesh, &m3);
+	draw_edges(mlxyz, object->mesh, &m3);
 }

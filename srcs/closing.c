@@ -6,28 +6,28 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 12:52:57 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/02 19:58:26 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/04 16:11:06 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
 #include <mlxyz.h>
 
-int		close_fdf(t_ctx *ctx)
+int		close_fdf(t_mlxyz *mlxyz)
 {
-	if (ctx->screen)
+	if (mlxyz->screen)
 	{
-		if (ctx->screen->canevas)
-			free(ctx->screen->canevas);
-		mlx_destroy_window(ctx->mlx, ctx->screen->win);
-		free(ctx->screen);
+		if (mlxyz->screen->canevas)
+			free(mlxyz->screen->canevas);
+		mlx_destroy_window(mlxyz->mlx, mlxyz->screen->win);
+		free(mlxyz->screen);
 	}
-	destroy_hud(ctx->hud);
-	destroy_camera(ctx->camera);
-	destroy_mouse(ctx->mouse);
-	destroy_keyboard(ctx->keyboard);
-	free(ctx->stats);
-	free(ctx);
+	destroy_hud(mlxyz->hud);
+	destroy_camera(mlxyz->camera);
+	destroy_mouse(mlxyz->mouse);
+	destroy_keyboard(mlxyz->keyboard);
+	free(mlxyz->stats);
+	free(mlxyz);
 	ft_putstr("Exit.");
 	exit(0);
 }

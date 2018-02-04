@@ -6,12 +6,12 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 15:01:14 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/02 18:49:10 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/04 17:11:40 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <events/mouse.h>
-#include <ctx.h>
+#include <core/core.h>
 
 int		mouse_move(int x, int y, t_mouse *mouse)
 {
@@ -45,7 +45,7 @@ t_mouse	*new_mouse(void)
 
 	mouse = (t_mouse*)malloc(sizeof(t_mouse));
 	if (!mouse)
-		crash("Broken malloc");
+		mlxyz_crash("Broken malloc");
 	ft_bzero(mouse, sizeof(t_mouse));
 	return (mouse);
 }
