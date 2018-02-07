@@ -1,37 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   closing.c                                          :+:      :+:    :+:   */
+/*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/01 12:52:57 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/07 00:39:12 by gelambin         ###   ########.fr       */
+/*   Created: 2018/02/07 09:11:43 by gelambin          #+#    #+#             */
+/*   Updated: 2018/02/07 09:14:25 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <mlx.h>
-#include <mlxyz.h>
+#ifndef FRACTOL_H
+# define FRACTOL_H
 
-int		close_fractol(t_mlxyz *mlxyz)
+typedef struct	s_fractol
 {
-	mlxyz_close(mlxyz);
-	while (1);
-	ft_putstr("Exit.");
-	exit(0);
-}
+	double		zoom;
+}				t_fractol;
 
-void	crash(char *str)
-{
-	ft_putendl("========== CRASH ==========");
-	ft_putendl(str);
-	ft_putendl("===========================");
-	exit(1);
-}
 
-void	show_usage(void)
-{
-	ft_putstr("usage: fractol");
-	ft_putstr(" target_file\n");
-	exit(0);
-}
+#endif

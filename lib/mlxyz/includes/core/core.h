@@ -37,6 +37,7 @@ typedef	struct	s_mlxyz
 	t_mouse		*mouse;
 	t_scene		*scene;
 	t_camera	*camera;
+	void		*app;
 }				t_mlxyz;
 
 t_mlxyz			*mlxyz_init(void);
