@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 17:57:10 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/04 17:00:29 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/08 01:08:10 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,32 +22,23 @@
 # include <mlx.h>
 
 # include <core/core.h>
-
 # include <color/color.h>
-
 # include <screen/screen.h>
-
 # include <geometry/geometry.h>
 # include <geometry/plane.h>
 # include <geometry/cube.h>
 # include <geometry/surface.h>
 # include <geometry/surface2.h>
-
 # include <hud/hud.h>
 # include <hud/stats.h>
 # include <hud/graph.h>
-
 # include <material/material.h>
-
 # include <math/vector.h>
 # include <math/matrice4.h>
-
 # include <object/object.h>
-
 # include <object/scene.h>
 # include <object/camera.h>
 # include <object/mesh.h>
-
 # include <draw/draw.h>
 # include <events/events.h>
 # include <events/keyboard.h>

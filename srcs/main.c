@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 18:44:58 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/07 09:13:08 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/08 00:25:08 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,9 @@ int			main(int argc, char **argv)
 	if (!fractol)
 		crash("t_fractol malloc fail");
 	fractol->zoom = 100;
+	fractol->x = 0;
+	fractol->y = 0;
 	mlxyz->app = fractol;
-
 	mlx_loop(mlxyz->mlx);
 	return (0);
 }

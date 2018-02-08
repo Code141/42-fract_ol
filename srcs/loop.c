@@ -6,74 +6,73 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 11:37:39 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/07 09:22:14 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/08 06:15:46 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "loop.h"
 #include <fractol.h>
 
-void	refresh_keyboard(t_mlxyz *mlxyz)
+void	refresh_keyboard(t_mlxyz *mlxyz, t_fractol *fractol)
 {
 	if (mlxyz->keyboard->key[53])
 		close_fractol(mlxyz);
 }
 
-void	refresh_mouse(t_mlxyz *mlxyz)
+void	refresh_mouse(t_mlxyz *mlxyz, t_fractol *fractol)
 {
-	int			delta_x;
-	int			delta_y;
+	double	delta_x;
+	double	delta_y;
 
 	if (mlxyz->mouse->button[4])
 	{
-		ft_putstr("+\n");
-		((t_fractol*)(mlxyz->app))->zoom += 1;
+		fractol->zoom *= 2;
+		fractol->x += mlxyz->mouse->x / fractol->zoom;
+		fractol->y += mlxyz->mouse->y / fractol->zoom;
 		mlxyz->mouse->button[4] = 0;
 	}
 	if (mlxyz->mouse->button[5])
 	{
-		ft_putstr("-\n");
-		((t_fractol*)(mlxyz->app))->zoom -= 1;
+		fractol->x -= mlxyz->mouse->x / fractol->zoom;
+		fractol->y -= mlxyz->mouse->y / fractol->zoom;
+		fractol->zoom /= 2;
 		mlxyz->mouse->button[5] = 0;
 	}
 	if (mlxyz->mouse->button[1])
 	{
 		delta_x = mlxyz->mouse->last_x - mlxyz->mouse->x;
 		delta_y = mlxyz->mouse->last_y - mlxyz->mouse->y;
-		((t_fractol*)(mlxyz->app))->zoom -= delta_x/2;
-		// Get u'r delta here
+		fractol->x += delta_x / fractol->zoom;
+		fractol->y += delta_y / fractol->zoom;
 		mlxyz->mouse->last_x = mlxyz->mouse->x;
 		mlxyz->mouse->last_y = mlxyz->mouse->y;
 	}
 }
 
-void	refresh_input_devices(t_mlxyz *mlxyz)
+void	refresh_input_devices(t_mlxyz *mlxyz, t_fractol *fractol)
 {
-	refresh_keyboard(mlxyz);
-	refresh_mouse(mlxyz);
-}
-
-int		mandelbrot(int x, int y, int iterations)
-{
-
-	return (1);
-	return (0);
+	refresh_keyboard(mlxyz, fractol);
+	refresh_mouse(mlxyz, fractol);
 }
 
 void	fractol(t_mlxyz *mlxyz, t_img *canevas)
 {
-	double	x1;
-	double	y1;
+	double	pos_x;
+	double	pos_y;
 	double	image_x;
 	double	image_y;
 	double	iterations;
 
-	x1 = -2.1;
-	y1 = -2.2;
+	/*	pos_x = -((mlxyz->screen->width / 2) / ((t_fractol*)(mlxyz->app))->zoom) + ((t_fractol*)(mlxyz->app))->x;
+
+	pos_y = -((mlxyz->screen->height / 2) / ((t_fractol*)(mlxyz->app))->zoom) + ((t_fractol*)(mlxyz->app))->y;
+*/
+	pos_x = ((t_fractol*)(mlxyz->app))->x;
+	pos_y = ((t_fractol*)(mlxyz->app))->y;
 
 	image_x = 810;
 	image_y = 720;
-	iterations = 50;
+	iterations = 60;
 
 	int x;
 	int y;
@@ -94,8 +93,8 @@ void	fractol(t_mlxyz *mlxyz, t_img *canevas)
 		y = 0;
 		while (y < image_y)
 		{
-			c_r = x / ((t_fractol*)(mlxyz->app))->zoom + x1;
-			c_i = y / ((t_fractol*)(mlxyz->app))->zoom + y1;
+			c_r = x / ((t_fractol*)(mlxyz->app))->zoom + pos_x;
+			c_i = y / ((t_fractol*)(mlxyz->app))->zoom + pos_y;
 			z_r = 0;
 			z_i = 0;
 			z_r_c = 0; 
@@ -110,10 +109,10 @@ void	fractol(t_mlxyz *mlxyz, t_img *canevas)
 				z_r = z_r_c - z_i_c + c_r;
 				z_i = 2 * z_i * old_z_r + c_i;
 				i++;
-((unsigned int*)canevas->data)[(y * canevas->width) + x] += 10;
+((unsigned int*)canevas->data)[(y * canevas->width) + x] += 0x0f01f0;
 			}
 			if (i == iterations)
-				((unsigned int*)canevas->data)[(y * canevas->width) + x] = 0xff0000;
+				((unsigned int*)canevas->data)[(y * canevas->width) + x] = 0x000000;
 			y++;
 		}
 		x++;
@@ -122,16 +121,14 @@ void	fractol(t_mlxyz *mlxyz, t_img *canevas)
 
 int		loop(t_mlxyz *mlxyz)
 {
-	refresh_input_devices(mlxyz);
+	refresh_input_devices(mlxyz, mlxyz->app);
 	refresh_stats(mlxyz->stats);
 
 	ft_bzero(mlxyz->screen->canevas->data,
 			mlxyz->screen->canevas->width * mlxyz->screen->canevas->height * 4);
 
 	fractol(mlxyz, mlxyz->screen->canevas);
-
-	//	render(mlxyz);
-
+//	render(mlxyz);
 	draw_hud(mlxyz);
 	mlx_put_image_to_window(mlxyz->mlx,
 			mlxyz->screen->win, mlxyz->screen->canevas->id, 0, 0);
