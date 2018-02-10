@@ -19,6 +19,7 @@
 typedef	struct	s_stats
 {
 	unsigned long long	timestamp;
+	unsigned long long	timestamp_m;
 	unsigned long long	last;
 	int					fps[100];
 	int					ms[100];

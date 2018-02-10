@@ -12,6 +12,7 @@
 
 #include "loop.h"
 #include <fractol.h>
+#include <math.h>
 
 void	refresh_keyboard(t_mlxyz *mlxyz, t_fractol *fractol)
 {
@@ -27,14 +28,14 @@ void	refresh_mouse(t_mlxyz *mlxyz, t_fractol *fractol)
 	if (mlxyz->mouse->button[4])
 	{
 		fractol->zoom *= 2;
-		fractol->x += mlxyz->mouse->x / fractol->zoom;
-		fractol->y += mlxyz->mouse->y / fractol->zoom;
+		fractol->x += (mlxyz->mouse->x - mlxyz->screen->width / 2) / fractol->zoom;
+		fractol->y += (mlxyz->mouse->y - mlxyz->screen->height / 2) / fractol->zoom;
 		mlxyz->mouse->button[4] = 0;
 	}
 	if (mlxyz->mouse->button[5])
 	{
-		fractol->x -= mlxyz->mouse->x / fractol->zoom;
-		fractol->y -= mlxyz->mouse->y / fractol->zoom;
+		fractol->x -= (mlxyz->mouse->x - mlxyz->screen->width / 2) / fractol->zoom;
+		fractol->y -= (mlxyz->mouse->y - mlxyz->screen->height / 2) / fractol->zoom;
 		fractol->zoom /= 2;
 		mlxyz->mouse->button[5] = 0;
 	}
@@ -63,15 +64,11 @@ void	fractol(t_mlxyz *mlxyz, t_img *canevas)
 	double	image_y;
 	double	iterations;
 
-	/*	pos_x = -((mlxyz->screen->width / 2) / ((t_fractol*)(mlxyz->app))->zoom) + ((t_fractol*)(mlxyz->app))->x;
-
+	pos_x = -((mlxyz->screen->width / 2) / ((t_fractol*)(mlxyz->app))->zoom) + ((t_fractol*)(mlxyz->app))->x;
 	pos_y = -((mlxyz->screen->height / 2) / ((t_fractol*)(mlxyz->app))->zoom) + ((t_fractol*)(mlxyz->app))->y;
-*/
-	pos_x = ((t_fractol*)(mlxyz->app))->x;
-	pos_y = ((t_fractol*)(mlxyz->app))->y;
 
-	image_x = 810;
-	image_y = 720;
+	image_x = mlxyz->screen->width;
+	image_y = mlxyz->screen->height;
 	iterations = 60;
 
 	int x;
@@ -86,6 +83,9 @@ void	fractol(t_mlxyz *mlxyz, t_img *canevas)
 	double i;
 	double old_z_r;
 
+
+	
+	unsigned int color;
 	x = 0;
 	y = 0;
 	while (x < image_x)
@@ -109,10 +109,12 @@ void	fractol(t_mlxyz *mlxyz, t_img *canevas)
 				z_r = z_r_c - z_i_c + c_r;
 				z_i = 2 * z_i * old_z_r + c_i;
 				i++;
-((unsigned int*)canevas->data)[(y * canevas->width) + x] += 0x0f01f0;
 			}
 			if (i == iterations)
-				((unsigned int*)canevas->data)[(y * canevas->width) + x] = 0x000000;
+				color = 0x000000; 
+			else
+				color = i / iterations * 255;//(unsigned int)(255 * cos((float)mlxyz->stats->timestamp_m * 360/ 1000 * 3.141 /180));
+			((unsigned int*)canevas->data)[(y * canevas->width) + x] = color;
 			y++;
 		}
 		x++;
@@ -123,6 +125,7 @@ int		loop(t_mlxyz *mlxyz)
 {
 	refresh_input_devices(mlxyz, mlxyz->app);
 	refresh_stats(mlxyz->stats);
+
 
 	ft_bzero(mlxyz->screen->canevas->data,
 			mlxyz->screen->canevas->width * mlxyz->screen->canevas->height * 4);

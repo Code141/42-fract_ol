@@ -39,7 +39,7 @@ int			main(int argc, char **argv)
 	fractol = (t_fractol*)malloc(sizeof(t_fractol));
 	if (!fractol)
 		crash("t_fractol malloc fail");
-	fractol->zoom = 100;
+	fractol->zoom = 150;
 	fractol->x = 0;
 	fractol->y = 0;
 	mlxyz->app = fractol;

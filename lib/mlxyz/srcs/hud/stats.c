@@ -47,8 +47,10 @@ void	refresh_stats(t_stats *stats)
 	unsigned long long	now;
 
 	gettimeofday(&tv, NULL);
+	stats->timestamp_m = (unsigned long long)(tv.tv_usec) / 1000;
 	now = (unsigned long long)(tv.tv_sec) * 1000
 		+ (unsigned long long)(tv.tv_usec) / 1000;
+
 	stats->frame++;
 	if (stats->timestamp + 1000 < now)
 	{
