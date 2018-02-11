@@ -6,39 +6,31 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 18:44:58 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/08 00:25:08 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/11 09:00:45 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <mlxyz.h>
 #include <fractol.h>
+#include <closing.h>
 
-typedef struct	s_mandelbrot
-{
-/*
-	double	x1 = -2.1;
-	double	x2 = 0.6;
-	double	y1 = -1.2;
-	double	y2 = 1.2;
-*/
-}				t_mandelbrot;
-
-
+#include <OpenCL/cl.h>
 int			main(int argc, char **argv)
 {
 	t_mlxyz		*mlxyz;
 	t_fractol	*fractol;
-	
+
 	argc--;
 	argv++;
 //	if (argc != 1)
 //		show_usage();
 	mlxyz = mlxyz_init();
-	
+
 	fractol = (t_fractol*)malloc(sizeof(t_fractol));
 	if (!fractol)
-		crash("t_fractol malloc fail");
+		crash_fractol("t_fractol malloc fail");
+	fractol->max_iter = 20;
 	fractol->zoom = 150;
 	fractol->x = 0;
 	fractol->y = 0;

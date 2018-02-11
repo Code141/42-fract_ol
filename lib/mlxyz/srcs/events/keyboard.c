@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 15:01:16 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/04 17:11:40 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/11 02:18:57 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@ int			key_release(int keycode, t_keyboard *keyboard)
 
 int			key_press(int keycode, t_keyboard *keyboard)
 {
+	ft_putstr("KeyPress [");
+	ft_putnbr(keycode);
+	ft_putstr("]\n");
 	keyboard->key[keycode] = 1;
 	return (1);
 }
