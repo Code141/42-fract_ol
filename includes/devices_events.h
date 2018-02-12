@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractol.h                                          :+:      :+:    :+:   */
+/*   devices_events.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/07 09:11:43 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/12 04:05:29 by gelambin         ###   ########.fr       */
+/*   Created: 2018/02/12 03:56:30 by gelambin          #+#    #+#             */
+/*   Updated: 2018/02/12 03:56:32 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FRACTOL_H
-# define FRACTOL_H
+#ifndef DEVICES_EVENTS_H
+# define DEVICES_EVENTS_H
 
-typedef struct	s_fractol
-{
-	int			max_iter;
-	double		zoom;
-	double		x;
-	double		y;
-}				t_fractol;
+#include <mlxyz.h>
+#include <fractol.h>
 
-void	fractol(t_mlxyz *mlxyz, t_fractol *fractol);
+void	refresh_keyboard(t_mlxyz *mlxyz, t_fractol *fractol);
+void	refresh_mouse(t_mlxyz *mlxyz, t_fractol *fractol);
+void	refresh_input_devices(t_mlxyz *mlxyz, t_fractol *fractol);
 
 #endif

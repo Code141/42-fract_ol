@@ -6,7 +6,7 @@
 #    By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/17 12:32:21 by gelambin          #+#    #+#              #
-#    Updated: 2018/02/11 09:07:27 by gelambin         ###   ########.fr        #
+#    Updated: 2018/02/12 04:02:02 by gelambin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,9 @@ LIBS		=	-L./lib/mlx -lmlx				\
 				-L./lib/libft -lft
 
 SRCS		=	./srcs/main.c					\
+				./srcs/fractol.c				\
+				./srcs/devices_events.c			\
+				./srcs/move.c					\
 				./srcs/closing.c				\
 				./srcs/loop.c					\
 				./srcs/fractals/mandelbrot.c
