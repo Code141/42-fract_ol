@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 18:44:58 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/13 07:12:32 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/13 08:31:00 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ int			main(int argc, char **argv)
 		free(str);
 	}
 
-	print_opencl();
+	test();
 //	init_opencl();
 
 //	mlxyz->app = &fractol;
 //	mlx_loop(mlxyz->mlx);
-while (1){};
+//while (1){};
 	return (0);
 }

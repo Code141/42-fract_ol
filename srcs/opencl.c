@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 02:15:09 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/13 07:14:18 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/13 08:33:53 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,34 +167,8 @@ int			init_opencl()
 
 	return (1);
 }
-/*
-__kernel void fft1D_1024 (__global float2 *in, __global float2 *out, __local float *sMemx, __local float *sMemy)
-{
-	int tid = get_local_id(0);
-	int blockIdx = get_group_id(0) * 1024 + tid;
-	float2 data[16];
 
-	// starting index of data to/from global memory
-	in = in + blockIdx;
-	out = out + blockIdx;
-	globalLoads(data, in, 64);						// coalesced global reads
-	fftRadix16Pass(data);							// in-place radix-16 pass
-	twiddleFactorMul(data, tid, 1024, 0);
-	// local shuffle using local memory
-	localShuffle(data, sMemx, sMemy, tid, (((tid & 15) * 65) + (tid >> 4)));
-	fftRadix16Pass(data);							// in-place radix-16 pass
-	twiddleFactorMul(data, tid, 64, 4);				// twiddle factor multiplication
-	localShuffle(data, sMemx, sMemy, tid, (((tid >> 4) * 64) + (tid & 15)));
-	// four radix-4 function calls
-	fftRadix4Pass(data);
-	fftRadix4Pass(data + 4);
-	fftRadix4Pass(data + 8);
-	fftRadix4Pass(data + 12);
-	// coalesced global writes
-	globalStores(data, out, 64);
 
-}
-*/
 
 
 
@@ -203,14 +177,12 @@ __kernel void fft1D_1024 (__global float2 *in, __global float2 *out, __local flo
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <CL/cl.h>
-
-#endif
-
+	 
+	 
 #define MEM_SIZE (128)
 #define MAX_SOURCE_SIZE (0x100000)
 	 
-int main()
+int test()
 {
 	cl_device_id device_id = NULL;
 	cl_context context = NULL;
@@ -226,22 +198,14 @@ int main()
 	char string[MEM_SIZE];
 	 
 	FILE *fp;
-	char fileName[] = "./hello.cl";
+	char *loaded_kernel;
 	char *source_str;
 	size_t source_size;
 	 
-	/* Load the source code containing the kernel*/
-	fp = fopen(fileName, "r");
-	if (!fp) {
-		fprintf(stderr, "Failed to load kernel.\n");
-		exit(1);
-	}
-	source_str = (char*)malloc(MAX_SOURCE_SIZE);
-	source_size = fread(source_str, 1, MAX_SOURCE_SIZE, fp);
-	fclose(fp);
-	 
+
 	/* Get Platform and Device Info */
 	ret = clGetPlatformIDs(1, &platform_id, &ret_num_platforms);
+
 	ret = clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_DEFAULT, 1, &device_id, &ret_num_devices);
 	 
 	/* Create OpenCL context */
@@ -253,9 +217,20 @@ int main()
 	/* Create Memory Buffer */
 	memobj = clCreateBuffer(context, CL_MEM_READ_WRITE,MEM_SIZE * sizeof(char), NULL, &ret);
 	 
+	/* Load the source code containing the kernel*/
+	loaded_kernel = "./hello.cl";
+	source_str = ft_get_file(loaded_kernel);
+	if (!source_str)
+	{
+		ft_putstr("Failed to load kernel.\n");
+		return (0);
+	}
+	source_size = ft_strlen(source_str);
+
 	/* Create Kernel Program from the source */
 	program = clCreateProgramWithSource(context, 1, (const char **)&source_str,
 			(const size_t *)&source_size, &ret);
+	free(source_str);
 	 
 	/* Build Kernel Program */
 	ret = clBuildProgram(program, 1, &device_id, NULL, NULL, NULL);
@@ -267,11 +242,10 @@ int main()
 	ret = clSetKernelArg(kernel, 0, sizeof(cl_mem), (void *)&memobj);
 	 
 	/* Execute OpenCL Kernel */
-	ret = clEnqueueTask(command_queue, kernel, 0, NULL,NULL);
+	ret = clEnqueueTask(command_queue, kernel, 0, NULL, NULL);
 	 
 	/* Copy results from the memory buffer */
-	ret = clEnqueueReadBuffer(command_queue, memobj, CL_TRUE, 0,
-			MEM_SIZE * sizeof(char),string, 0, NULL, NULL);
+	ret = clEnqueueReadBuffer(command_queue, memobj, CL_TRUE, 0, MEM_SIZE * sizeof(char), string, 0, NULL, NULL);
 	 
 	/* Display Result */
 	puts(string);
@@ -285,7 +259,6 @@ int main()
 	ret = clReleaseCommandQueue(command_queue);
 	ret = clReleaseContext(context);
 	 
-	free(source_str);
-	 
-	return 0;
+	return (1);
 }
+
