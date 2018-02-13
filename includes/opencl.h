@@ -1,20 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memdel.c                                        :+:      :+:    :+:   */
+/*   opencl.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/10 12:16:20 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/13 06:41:54 by gelambin         ###   ########.fr       */
+/*   Created: 2018/02/13 02:15:53 by gelambin          #+#    #+#             */
+/*   Updated: 2018/02/13 02:16:50 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#ifndef OPENCL_H
+# define OPENCL_H
 
-void	ft_memdel(void **ap)
-{
-	if (!ap)
-		return ;
-	free(ap);
-}
+int			init_opencl();
+
+#endif

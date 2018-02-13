@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 12:34:20 by gelambin          #+#    #+#             */
-/*   Updated: 2018/01/31 18:39:20 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/13 06:45:01 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct	s_file
 }				t_file;
 
 int				ft_get_next_line(const int fd, char **line);
+char			*ft_get_file(char *file_name);
 void			*ft_memset(void *b, int c, size_t len);
 void			*ft_bzero(void *s, size_t n);
 void			*ft_memcpy(void *dst, const void *src, size_t n);
@@ -95,7 +96,7 @@ void			ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list			*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 t_list			*ft_lst_join(t_list *alst, t_list *blist);
 unsigned int	ft_lst_weight(t_list *alst);
-void			*ft_lst_fold(t_list *alst);
+t_list			*ft_lst_fold(t_list *alst);
 t_list			*ft_lst_remove(t_list **alst, t_list *elem);
 void			ft_putnbr_base(int nbr, char *base);
 int				ft_atoi_base(char *str, char *base);

@@ -6,7 +6,7 @@
 #    By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/12 21:09:18 by gelambin          #+#    #+#              #
-#    Updated: 2018/01/31 18:38:26 by gelambin         ###   ########.fr        #
+#    Updated: 2018/02/13 06:47:54 by gelambin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ SRCS +=	ft_lstnew.c			ft_lstdelone.c			ft_lstdel.c				\
 SRCS +=	ft_atoi_base.c	ft_sqrt.c		ft_factorial.c	ft_power.c			\
 		ft_putnbr_base.c
 
-SRCS +=	ft_get_next_line.c
+SRCS +=	ft_get_next_line.c	ft_get_file.c
 
 INC =	libft.h
 

@@ -6,14 +6,14 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/05 18:18:42 by gelambin          #+#    #+#             */
-/*   Updated: 2017/12/15 16:39:01 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/13 06:46:40 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
 
-void	*ft_lst_fold(t_list *alst)
+t_list	*ft_lst_fold(t_list *alst)
 {
 	void			*data;
 	unsigned int	weight;
@@ -24,6 +24,7 @@ void	*ft_lst_fold(t_list *alst)
 	if (!new)
 		return (NULL);
 	new->content = (void*)malloc(weight);
+	new->next = NULL;
 	if (!new->content)
 		return (NULL);
 	new->content_size = weight;
