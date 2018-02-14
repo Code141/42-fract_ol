@@ -1,4 +1,4 @@
-__kernel void hello(__global char* string)
+__kernel void hello(__global char *string, __global int *x)
 {
 	string[0] = 'H';
 	string[1] = 'e';
@@ -13,5 +13,8 @@ __kernel void hello(__global char* string)
 	string[10] = 'l';
 	string[11] = 'd';
 	string[12] = '!';
-	string[13] = '\0';
+	string[20] = '\0';
+
+
+	string[*x] = 'X';
 }

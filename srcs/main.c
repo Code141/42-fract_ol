@@ -46,6 +46,7 @@ int			main(int argc, char **argv)
 
 //	mlxyz->app = &fractol;
 //	mlx_loop(mlxyz->mlx);
-//while (1){};
+
+//	while (1){};
 	return (0);
 }

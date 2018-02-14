@@ -188,6 +188,7 @@ int test()
 	cl_context context = NULL;
 	cl_command_queue command_queue = NULL;
 	cl_mem memobj = NULL;
+	cl_mem memobj2 = NULL;
 	cl_program program = NULL;
 	cl_kernel kernel = NULL;
 	cl_platform_id platform_id = NULL;
@@ -201,7 +202,6 @@ int test()
 	char *loaded_kernel;
 	char *source_str;
 	size_t source_size;
-	 
 
 	/* Get Platform and Device Info */
 	ret = clGetPlatformIDs(1, &platform_id, &ret_num_platforms);
@@ -216,7 +216,15 @@ int test()
 	 
 	/* Create Memory Buffer */
 	memobj = clCreateBuffer(context, CL_MEM_READ_WRITE,MEM_SIZE * sizeof(char), NULL, &ret);
+
+	int value;
+	value = 1;
+
+	memobj2 = clCreateBuffer(context, CL_MEM_READ_WRITE, sizeof(int), NULL, &ret);
 	 
+	ret = clEnqueueReadBuffer(command_queue, memobj, CL_TRUE, 0, MEM_SIZE * sizeof(char), string, 0, NULL, NULL);
+	ret = clEnqueueWriteBuffer(command_queue, memobj2, CL_TRUE, 0, sizeof(int), (void*)&value, 0, NULL, NULL);
+
 	/* Load the source code containing the kernel*/
 	loaded_kernel = "./hello.cl";
 	source_str = ft_get_file(loaded_kernel);
@@ -240,6 +248,8 @@ int test()
 	 
 	/* Set OpenCL Kernel Parameters */
 	ret = clSetKernelArg(kernel, 0, sizeof(cl_mem), (void *)&memobj);
+
+	ret = clSetKernelArg(kernel, 1, sizeof(cl_mem), (void*)&memobj2);
 	 
 	/* Execute OpenCL Kernel */
 	ret = clEnqueueTask(command_queue, kernel, 0, NULL, NULL);
