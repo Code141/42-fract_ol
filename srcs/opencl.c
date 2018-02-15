@@ -6,13 +6,15 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 02:15:09 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/13 08:33:53 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/15 08:01:01 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <OpenCL/cl.h>
 #include <libft.h>
 
+#define MEM_SIZE (128)
+#define MAX_SOURCE_SIZE (0x100000)
 cl_uint		get_platforms(cl_platform_id **platforms)
 {
 	cl_uint	platforms_count;
@@ -24,6 +26,8 @@ cl_uint		get_platforms(cl_platform_id **platforms)
 		*platforms = (cl_platform_id*)malloc(sizeof(cl_platform_id) * platforms_count);
 		clGetPlatformIDs(platforms_count, *platforms, NULL);
 	}
+	else
+		ft_putstr("No platform available\n");
 	return (platforms_count);
 }
 
@@ -38,6 +42,8 @@ cl_uint		get_devices(cl_platform_id platform, cl_device_id	**devices)
 		*devices = (cl_device_id*)malloc(sizeof(cl_device_id) * devices_count);
 		clGetDeviceIDs(platform, CL_DEVICE_TYPE_ALL, devices_count, *devices, NULL);
 	}
+	else
+		ft_putstr("No devices available\n");
 	return (devices_count);
 }
 
@@ -83,150 +89,94 @@ void		print_device_info(cl_device_id device, char *name, cl_device_info type)
 	}
 }
 
+void		print_available_plateforms(cl_platform_id *platforms, cl_uint num_platforms)
+{
+	int i;
+
+	ft_putstr("Available plateforms :\n");
+	i = 0;
+	while (i < num_platforms)
+	{
+		ft_putstr("	Plateform [");
+		ft_putnbr(i);
+		ft_putstr("] :\n");
+		print_plateform_info(platforms[i], "		Name	", CL_PLATFORM_NAME);
+		print_plateform_info(platforms[i], "		Vendor	", CL_PLATFORM_VENDOR);
+		print_plateform_info(platforms[i], "		Version	", CL_PLATFORM_VERSION);
+		print_plateform_info(platforms[i], "		Profile	", CL_PLATFORM_PROFILE);
+		print_plateform_info(platforms[i], "		Extensions", CL_PLATFORM_EXTENSIONS);
+		ft_putstr("\n");
+		i++;
+	}
+}
+
+void		print_available_devices(cl_device_id *devices, cl_uint num_devices)
+{
+	int i;
+	
+	ft_putstr("Available devices :\n");
+	i = 0;
+	while (i < num_devices)
+	{
+		ft_putstr("	Device [");
+		ft_putnbr(i);
+		ft_putstr("] :\n");
+		print_device_info(devices[i], "		device		", CL_DEVICE_NAME);
+		print_device_info(devices[i], "		hardware version", CL_DEVICE_VERSION);
+		print_device_info(devices[i], "		software version", CL_DRIVER_VERSION);
+		print_device_info(devices[i], "		opencl c version", CL_DEVICE_OPENCL_C_VERSION);
+		print_device_info(devices[i], "		parallel compute units", CL_DEVICE_MAX_COMPUTE_UNITS);
+		ft_putstr("\n");
+		i++;
+	}
+}
+
+
 int			init_opencl()
 {
 	cl_uint			num_platforms;
 	cl_platform_id	*platforms;
-	cl_platform_id	default_platform;
+	cl_platform_id	platform;
 
 	cl_uint			num_devices;
 	cl_device_id	*devices;
-	cl_device_id	default_device;
+	cl_device_id	device;
 
 
 	ft_putstr("- Init OpenCl -\n");
 	num_platforms = get_platforms(&platforms);
 	if (!num_platforms)
-	{
-		ft_putstr("No cl_platform available\n");
 		return (0);
-	}
 
-	default_platform = platforms[0];
-	ft_putstr("Using plateform :\n");
-	print_plateform_info(default_platform, "	Name	", CL_PLATFORM_NAME);
-	print_plateform_info(default_platform, "	Vendor	", CL_PLATFORM_VENDOR);
-	print_plateform_info(default_platform, "	Version	", CL_PLATFORM_VERSION);
-	print_plateform_info(default_platform, "	Profile	", CL_PLATFORM_PROFILE);
-	print_plateform_info(default_platform, "	Extensions", CL_PLATFORM_EXTENSIONS);
+	print_available_plateforms(platforms, num_platforms);
+
+	platform = platforms[0];
+	ft_putstr("Plateform [");
+	ft_putnbr(0);
+	ft_putstr("] selected.\n");
 	ft_putstr("\n");
 
-	num_devices = get_devices(default_platform, &devices);
+	num_devices = get_devices(platform, &devices);
 	if (!num_devices)
-	{
-		ft_putstr("No cl_devices available\n");
 		return (0);
-	}
 
-	default_device = devices[1];
-	print_device_info(default_device, "	Device		", CL_DEVICE_NAME);
-	print_device_info(default_device, "	Hardware version", CL_DEVICE_VERSION);
-	print_device_info(default_device, "	Software version", CL_DRIVER_VERSION);
-	print_device_info(default_device, "	OpenCL C version", CL_DEVICE_OPENCL_C_VERSION);
-	print_device_info(default_device, "	Parallel compute units", CL_DEVICE_MAX_COMPUTE_UNITS);
+	print_available_devices(devices, num_devices);
+	device = devices[1];
+	ft_putstr("Device [");
+	ft_putnbr(1);
+	ft_putstr("] selected.\n");
 
-	cl_context	context;
+/******************************************************************************/
 
-	context = clCreateContext(NULL, 1, &default_device, NULL, NULL, NULL);
-/*
-
-	// creation d'une queue de commande sur le premier GPU 
-	cl_command_queue queue;
-	queue = clCreateCommandQueue(context, default_device, 0, NULL);
-
-	// allocation des tampons mémoire
-	cl_mem memobjs[2];
-	
-	
-	int num_entries;
-	num_entries = 10;
-
-	memobjs[0] = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(float)*2*num_entries, srcA, NULL);
-	memobjs[1] = clCreateBuffer(context, CL_MEM_READ_WRITE, sizeof(float)*2*num_entries, NULL, NULL);
-
-	// création du programme de calcul (le programme qui s'execute sur le GPU)
-	program = clCreateProgramWithSource(context, 1, &fft1D_1024_kernel_src, NULL, NULL);
-
-	// compilation du programme
-	clBuildProgram(program, 0, NULL, NULL, NULL, NULL);
-
-	// création du noyau de calcul
-	kernel = clCreateKernel(program, "fft1D_1024", NULL);
-
-	// mise en place des paramètres
-	clSetKernelArg(kernel, 0, sizeof(cl_mem), (void *)&memobjs[0]);
-	clSetKernelArg(kernel, 1, sizeof(cl_mem), (void *)&memobjs[1]);
-	clSetKernelArg(kernel, 2, sizeof(float)*(local_work_size[0]+1)*16, NULL);
-	clSetKernelArg(kernel, 3, sizeof(float)*(local_work_size[0]+1)*16, NULL);
-
-	// création des objets de travail et lancement du calcul
-	global_work_size[0] = num_entries;
-	local_work_size[0] = 64;
-	clEnqueueNDRangeKernel(queue, kernel, 1, NULL, global_work_size, local_work_size, 0, NULL, NULL);
-*/
-
-	return (1);
-}
-
-
-
-
-
-
-
-
-#include <stdio.h>
-#include <stdlib.h>
-	 
-	 
-#define MEM_SIZE (128)
-#define MAX_SOURCE_SIZE (0x100000)
-	 
-int test()
-{
-	cl_device_id device_id = NULL;
-	cl_context context = NULL;
-	cl_command_queue command_queue = NULL;
-	cl_mem memobj = NULL;
-	cl_mem memobj2 = NULL;
-	cl_program program = NULL;
-	cl_kernel kernel = NULL;
-	cl_platform_id platform_id = NULL;
-	cl_uint ret_num_devices;
-	cl_uint ret_num_platforms;
 	cl_int ret;
-	 
+
 	char string[MEM_SIZE];
-	 
-	FILE *fp;
-	char *loaded_kernel;
-	char *source_str;
-	size_t source_size;
-
-	/* Get Platform and Device Info */
-	ret = clGetPlatformIDs(1, &platform_id, &ret_num_platforms);
-
-	ret = clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_DEFAULT, 1, &device_id, &ret_num_devices);
-	 
-	/* Create OpenCL context */
-	context = clCreateContext(NULL, 1, &device_id, NULL, NULL, &ret);
-	 
-	/* Create Command Queue */
-	command_queue = clCreateCommandQueue(context, device_id, 0, &ret);
-	 
-	/* Create Memory Buffer */
-	memobj = clCreateBuffer(context, CL_MEM_READ_WRITE,MEM_SIZE * sizeof(char), NULL, &ret);
-
-	int value;
-	value = 1;
-
-	memobj2 = clCreateBuffer(context, CL_MEM_READ_WRITE, sizeof(int), NULL, &ret);
-	 
-	ret = clEnqueueReadBuffer(command_queue, memobj, CL_TRUE, 0, MEM_SIZE * sizeof(char), string, 0, NULL, NULL);
-	ret = clEnqueueWriteBuffer(command_queue, memobj2, CL_TRUE, 0, sizeof(int), (void*)&value, 0, NULL, NULL);
 
 	/* Load the source code containing the kernel*/
-	loaded_kernel = "./hello.cl";
+	char *loaded_kernel;
+	loaded_kernel = "./srcs/kernel/mandelbrot.cl";
+	char *source_str;
+	size_t source_size;
 	source_str = ft_get_file(loaded_kernel);
 	if (!source_str)
 	{
@@ -234,41 +184,76 @@ int test()
 		return (0);
 	}
 	source_size = ft_strlen(source_str);
-
+	/* Create OpenCL context */
+	cl_context context;
+	context = clCreateContext(NULL, 1, &device, NULL, NULL, &ret);
+	/* Create Command Queue */
+	cl_command_queue command_queue;
+	command_queue = clCreateCommandQueue(context, device, 0, &ret);
 	/* Create Kernel Program from the source */
+	cl_program program;
 	program = clCreateProgramWithSource(context, 1, (const char **)&source_str,
 			(const size_t *)&source_size, &ret);
 	free(source_str);
-	 
-	/* Build Kernel Program */
-	ret = clBuildProgram(program, 1, &device_id, NULL, NULL, NULL);
-	 
-	/* Create OpenCL Kernel */
-	kernel = clCreateKernel(program, "hello", &ret);
-	 
-	/* Set OpenCL Kernel Parameters */
-	ret = clSetKernelArg(kernel, 0, sizeof(cl_mem), (void *)&memobj);
 
-	ret = clSetKernelArg(kernel, 1, sizeof(cl_mem), (void*)&memobj2);
-	 
+	/* Build Kernel Program */
+	ret = clBuildProgram(program, 1, &device, NULL, NULL, NULL);
+	/* Create OpenCL Kernel */
+	cl_kernel kernel;
+	kernel = clCreateKernel(program, "mandelbrot", &ret);
+
+	/* Create Memory Buffer */
+	cl_mem mem_cr;
+	cl_mem mem_ci;
+	cl_mem mem_i;
+	cl_mem mem_r;
+
+	mem_cr = clCreateBuffer(context, CL_MEM_READ_WRITE, sizeof(double), NULL, &ret);
+	mem_ci = clCreateBuffer(context, CL_MEM_READ_WRITE, sizeof(double), NULL, &ret);
+	mem_i = clCreateBuffer(context, CL_MEM_READ_WRITE, sizeof(int), NULL, &ret);
+	mem_r = clCreateBuffer(context, CL_MEM_READ_WRITE, sizeof(int), NULL, &ret);
+
+	/* Set OpenCL Kernel Parameters */
+	ret = clSetKernelArg(kernel, 0, sizeof(cl_mem), (void*)&mem_cr);
+	ret = clSetKernelArg(kernel, 1, sizeof(cl_mem), (void*)&mem_ci);
+	ret = clSetKernelArg(kernel, 2, sizeof(cl_mem), (void*)&mem_i);
+	ret = clSetKernelArg(kernel, 3, sizeof(cl_mem), (void*)&mem_r);
+
+
+	double cr;
+	double ci;
+	int i;
+	int r;
+
+	cr = 100;
+	ci = 10;
+	i = 1;
+	r = 0;
+
+	ret = clEnqueueWriteBuffer(command_queue, mem_cr, CL_TRUE, 0, sizeof(double), (void*)&cr, 0, NULL, NULL);
+	ret = clEnqueueWriteBuffer(command_queue, mem_ci, CL_TRUE, 0, sizeof(double), (void*)&ci, 0, NULL, NULL);
+	ret = clEnqueueWriteBuffer(command_queue, mem_i, CL_TRUE, 0, sizeof(int), (void*)&i, 0, NULL, NULL);
+
 	/* Execute OpenCL Kernel */
 	ret = clEnqueueTask(command_queue, kernel, 0, NULL, NULL);
-	 
+
 	/* Copy results from the memory buffer */
-	ret = clEnqueueReadBuffer(command_queue, memobj, CL_TRUE, 0, MEM_SIZE * sizeof(char), string, 0, NULL, NULL);
-	 
+	ret = clEnqueueReadBuffer(command_queue, mem_r, CL_TRUE, 0, sizeof(int), (void*)&r, 0, NULL, NULL);
+
 	/* Display Result */
-	puts(string);
-	 
+	ft_putnbr(r);
+
+
 	/* Finalization */
 	ret = clFlush(command_queue);
 	ret = clFinish(command_queue);
 	ret = clReleaseKernel(kernel);
 	ret = clReleaseProgram(program);
-	ret = clReleaseMemObject(memobj);
+	ret = clReleaseMemObject(mem_ci);
+	ret = clReleaseMemObject(mem_cr);
+	ret = clReleaseMemObject(mem_i);
+	ret = clReleaseMemObject(mem_r);
 	ret = clReleaseCommandQueue(command_queue);
 	ret = clReleaseContext(context);
-	 
 	return (1);
 }
-

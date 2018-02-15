@@ -18,6 +18,7 @@ set hlsearch
 set ignorecase
 set incsearch
 set laststatus=2
+set listchars=nbsp:·,tab:»·,trail:·,extends:>,precedes:<
 set modelines=1
 set ruler
 set shiftwidth=4
@@ -63,12 +64,12 @@ set nosplitbelow
 set nosplitright
 wincmd t
 set winheight=1 winwidth=1
-exe 'vert 1resize ' . ((&columns * 84 + 139) / 279)
-exe 'vert 2resize ' . ((&columns * 84 + 139) / 279)
+exe 'vert 1resize ' . ((&columns * 84 + 127) / 254)
+exe 'vert 2resize ' . ((&columns * 84 + 127) / 254)
 exe '3resize ' . ((&lines * 10 + 39) / 78)
-exe 'vert 3resize ' . ((&columns * 109 + 139) / 279)
+exe 'vert 3resize ' . ((&columns * 84 + 127) / 254)
 exe '4resize ' . ((&lines * 65 + 39) / 78)
-exe 'vert 4resize ' . ((&columns * 109 + 139) / 279)
+exe 'vert 4resize ' . ((&columns * 84 + 127) / 254)
 argglobal
 edit Makefile
 setlocal noautoindent
@@ -130,6 +131,7 @@ setlocal keywordprg=
 setlocal nolinebreak
 setlocal nolisp
 setlocal lispwords=
+set list
 setlocal nolist
 setlocal makeprg=
 setlocal matchpairs=(:),{:},[:]
@@ -174,12 +176,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 20 - ((18 * winheight(0) + 38) / 76)
+let s:l = 19 - ((17 * winheight(0) + 38) / 76)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-20
-normal! 0
+19
+normal! 04|
 lcd ~/cursus/fract_ol
 wincmd w
 argglobal
@@ -243,6 +245,7 @@ setlocal keywordprg=
 setlocal nolinebreak
 setlocal nolisp
 setlocal lispwords=
+set list
 setlocal nolist
 setlocal makeprg=
 setlocal matchpairs=(:),{:},[:]
@@ -356,6 +359,7 @@ setlocal keywordprg=
 setlocal nolinebreak
 setlocal nolisp
 setlocal lispwords=
+set list
 setlocal nolist
 setlocal makeprg=
 setlocal matchpairs=(:),{:},[:]
@@ -469,6 +473,7 @@ setlocal keywordprg=
 setlocal nolinebreak
 setlocal nolisp
 setlocal lispwords=
+set list
 setlocal nolist
 setlocal makeprg=
 setlocal matchpairs=(:),{:},[:]
@@ -521,12 +526,12 @@ normal! zt
 normal! 0
 wincmd w
 2wincmd w
-exe 'vert 1resize ' . ((&columns * 84 + 139) / 279)
-exe 'vert 2resize ' . ((&columns * 84 + 139) / 279)
+exe 'vert 1resize ' . ((&columns * 84 + 127) / 254)
+exe 'vert 2resize ' . ((&columns * 84 + 127) / 254)
 exe '3resize ' . ((&lines * 10 + 39) / 78)
-exe 'vert 3resize ' . ((&columns * 109 + 139) / 279)
+exe 'vert 3resize ' . ((&columns * 84 + 127) / 254)
 exe '4resize ' . ((&lines * 65 + 39) / 78)
-exe 'vert 4resize ' . ((&columns * 109 + 139) / 279)
+exe 'vert 4resize ' . ((&columns * 84 + 127) / 254)
 tabnext 1
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
