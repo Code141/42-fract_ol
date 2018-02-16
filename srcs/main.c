@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 18:44:58 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/15 04:03:37 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/16 07:17:25 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,17 @@ int			main(int argc, char **argv)
 
 //	test();
 
-	init_opencl();
+
+//Define (query) platform and create a command queue
+//Define memory objects (clCreateBuffer)
+//Create Program (library of kernels)
+//Build the program
+//Setup kernel (clCreateKernel, clSetKernelArg)
+//Get the results back to the Host
+
+
+	t_opencl	*opencl;
+	init_opencl(opencl);
 
 	mlxyz->app = &fractol;
 //	mlx_loop(mlxyz->mlx);

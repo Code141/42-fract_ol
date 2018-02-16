@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/12 03:59:59 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/12 04:07:31 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/16 05:09:52 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	fractol_color(t_mlxyz *mlxyz, t_fractol *fractol, int x, int y, int i)
 		color = 0x000000; 
 	else
 		color = 255 - (i * 255 / fractol->max_iter);
-//	(unsigned int)(255 * cos((float)mlxyz->stats->timestamp_m * 360/ 1000 * 3.141 /180));
+//	(unsigned int)(255 * cos((float)mlxyz->stats->timestamp_m * 360 / 1000 * 3.141 / 180));
 	((unsigned int*)canevas->data)[(y * canevas->width) + x] = color;
 }
 
