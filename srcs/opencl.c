@@ -202,7 +202,7 @@ int			init_opencl(t_opencl	*opencl)
 	mem_cr = clCreateBuffer(opencl->context, CL_MEM_READ_WRITE, sizeof(double), NULL, &opencl->ret);
 	mem_ci = clCreateBuffer(opencl->context, CL_MEM_READ_WRITE, sizeof(double), NULL, &opencl->ret);
 	mem_i = clCreateBuffer(opencl->context, CL_MEM_READ_WRITE, sizeof(int), NULL, &opencl->ret);
-	mem_r = clCreateBuffer(opencl->context, CL_MEM_READ_WRITE, 10*10*sizeof(size_t), NULL, &opencl->ret);
+	mem_r = clCreateBuffer(opencl->context, CL_MEM_READ_WRITE, 10000*sizeof(size_t), NULL, &opencl->ret);
 
 // Set OpenCL Kernel Parameters
 	opencl->ret = clSetKernelArg(opencl->kernel, 0, sizeof(cl_mem), (void*)&mem_cr);
@@ -213,7 +213,7 @@ int			init_opencl(t_opencl	*opencl)
 	double cr;
 	double ci;
 	int i;
-	size_t r[10][10];
+	size_t r[10000];
 
 	cr = 100;
 	ci = 10;
@@ -225,61 +225,40 @@ int			init_opencl(t_opencl	*opencl)
 
 	// Execute OpenCL Kernel
 //	opencl->ret = clEnqueueTask(opencl->command_queue, opencl->kernel, 0, NULL, NULL);
-	
+
 	int x;
 	int y;
 
 	x = 1;
 	y = 1;
-	const size_t global_work_size = 10;//x * y;
-	cl_uint work_dim;
+	const size_t global_work_size = 1024;//x * y;
+	const size_t local_work_size = 64;//x * y;
 
+	cl_uint work_dim;
 	work_dim = 1;
+
 	clEnqueueNDRangeKernel (
 		opencl->command_queue,
 		opencl->kernel,
 		work_dim,
 		NULL,
 		&global_work_size,
-		(const size_t*)NULL,
+		&local_work_size,
 		0, NULL, NULL);
 
-
 // Copy results from the memory buffer
-	opencl->ret = clEnqueueReadBuffer(opencl->command_queue, mem_r, CL_TRUE, 0, 10*10*sizeof(size_t), (void*)&r, 0, NULL, NULL);
-
+	opencl->ret = clEnqueueReadBuffer(opencl->command_queue, mem_r, CL_TRUE, 0, 10000*sizeof(size_t), (void*)&r, 0, NULL, NULL);
 // Display Result
- int a;
-	a = 0;
- printf("%zu, %zu, %zu, %zu, %zu, %zu, %zu\n",
-		   r[a][0],r[a][1],r[a][2],r[a][3],r[a][4],r[a][5],r[a][6]);
-	a = 1;
- printf("%zu, %zu, %zu, %zu, %zu, %zu, %zu\n",
-		   r[a][0],r[a][1],r[a][2],r[a][3],r[a][4],r[a][5],r[a][6]);
-	a = 2;
- printf("%zu, %zu, %zu, %zu, %zu, %zu, %zu\n",
-		   r[a][0],r[a][1],r[a][2],r[a][3],r[a][4],r[a][5],r[a][6]);
-	a = 3;
- printf("%zu, %zu, %zu, %zu, %zu, %zu, %zu\n",
-		   r[a][0],r[a][1],r[a][2],r[a][3],r[a][4],r[a][5],r[a][6]);
-	a = 4;
- printf("%zu, %zu, %zu, %zu, %zu, %zu, %zu\n",
-		   r[a][0],r[a][1],r[a][2],r[a][3],r[a][4],r[a][5],r[a][6]);
-	a = 5;
- printf("%zu, %zu, %zu, %zu, %zu, %zu, %zu\n",
-		   r[a][0],r[a][1],r[a][2],r[a][3],r[a][4],r[a][5],r[a][6]);
-	a = 6;
- printf("%zu, %zu, %zu, %zu, %zu, %zu, %zu\n",
-		   r[a][0],r[a][1],r[a][2],r[a][3],r[a][4],r[a][5],r[a][6]);
-	a = 7;
- printf("%zu, %zu, %zu, %zu, %zu, %zu, %zu\n",
-		   r[a][0],r[a][1],r[a][2],r[a][3],r[a][4],r[a][5],r[a][6]);
-	a = 8;
- printf("%zu, %zu, %zu, %zu, %zu, %zu, %zu\n",
-		   r[a][0],r[a][1],r[a][2],r[a][3],r[a][4],r[a][5],r[a][6]);
-	a = 9;
- printf("%zu, %zu, %zu, %zu, %zu, %zu, %zu\n",
-		   r[a][0],r[a][1],r[a][2],r[a][3],r[a][4],r[a][5],r[a][6]);
+int a;
+a = 0;
+
+	printf("G_size | G_id  | Lsize | L_id  | GR_nb | GR_id | offset\n");
+while (a < global_work_size)
+{
+	printf("%zu	%zu	%zu	%zu	%zu	%zu	%zu\n",
+		r[7*a+0],r[7*a+1],r[7*a+2],r[7*a+3],r[7*a+4],r[7*a+5],r[7*a+6]);
+	a++;
+}
 	// Clear
 	opencl->ret = clFlush(opencl->command_queue);
 	opencl->ret = clFinish(opencl->command_queue);

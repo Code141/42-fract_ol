@@ -24,13 +24,13 @@ int			main(int argc, char **argv)
 	argv++;
 	//	if (argc != 1)
 	//		show_usage();
-	mlxyz = mlxyz_init();
+//	mlxyz = mlxyz_init();
 
 	fractol.max_iter = 20;
 	fractol.zoom = 150;
 	fractol.x = 0;
 	fractol.y = 0;
-	
+
 	char *str;
 
 	str = NULL;
@@ -55,7 +55,7 @@ int			main(int argc, char **argv)
 	t_opencl	*opencl;
 	init_opencl(opencl);
 
-	mlxyz->app = &fractol;
+//	mlxyz->app = &fractol;
 //	mlx_loop(mlxyz->mlx);
 
 //	while (1){};
