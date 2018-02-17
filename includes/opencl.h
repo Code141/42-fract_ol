@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 02:15:53 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/16 07:18:59 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/17 06:11:35 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ typedef struct	s_opencl
 	cl_command_queue	command_queue;
 	cl_program			program;
 	cl_kernel			kernel;
+	size_t				global_work_size[3];
+	cl_mem				mem[2];
 	cl_int				ret;
 }				t_opencl;
 

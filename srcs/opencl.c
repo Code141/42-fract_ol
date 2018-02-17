@@ -6,13 +6,14 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 02:15:09 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/16 08:09:57 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/17 08:09:13 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <OpenCL/cl.h>
 #include <opencl.h>
 #include <libft.h>
+#include <mlxyz.h>
 
 #define MEM_SIZE (128)
 #define MAX_SOURCE_SIZE (0x100000)
@@ -72,7 +73,8 @@ void		print_device_info(cl_device_id device, char *name, cl_device_info type, in
 
 	if (num)
 	{
-		clGetDeviceInfo(device, type, sizeof(c_u), &c_u, NULL);
+		c_u = -1;
+		clGetDeviceInfo(device, type, sizeof(size_t), &c_u, NULL);
 		ft_putstr(name);
 		ft_putstr("	: ");
 		ft_putnbr(c_u);
@@ -128,9 +130,9 @@ void		print_available_devices(cl_device_id *devices, cl_uint num_devices)
 		print_device_info(devices[i], "		opencl c version	", CL_DEVICE_OPENCL_C_VERSION, 0);
 		print_device_info(devices[i], "		parallel compute units	", CL_DEVICE_MAX_COMPUTE_UNITS, 1);
 		print_device_info(devices[i], "		device adress bits	", CL_DEVICE_ADDRESS_BITS, 1);
-		print_device_info(devices[i], "		max work groupe size	", CL_DEVICE_MAX_WORK_GROUP_SIZE, 1);
-		print_device_info(devices[i], "		max work groupe item size", CL_DEVICE_MAX_WORK_ITEM_SIZES, 1);
 		print_device_info(devices[i], "		max work item dimentions", CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS, 1);
+		print_device_info(devices[i], "		max work groupe size	", CL_DEVICE_MAX_WORK_GROUP_SIZE, 1);
+		print_device_info(devices[i], "		max work groupe item size", CL_DEVICE_MAX_WORK_ITEM_SIZES, 1); // RETURN SIZE_T[] <- ARRAY SIZE IS MAX DIMENTION !!
 
 	
 	ft_putstr("\n");
@@ -163,10 +165,6 @@ int			init_opencl(t_opencl	*opencl)
 {
 
 	ft_putstr("- Init OpenCl -\n");
-	opencl = (t_opencl*)malloc(sizeof(t_opencl));
-	if (!opencl)
-		return (0);
-	ft_bzero(opencl, sizeof(t_opencl));
 	if (!get_platforms(opencl))
 		return (0);
 	if (!get_devices(opencl))
@@ -189,86 +187,55 @@ int			init_opencl(t_opencl	*opencl)
 	ft_putnbr(1);
 	ft_putstr("] selected.\n");
 /******************************************************************************/
-
-	if (!load_kernel(opencl, "./srcs/kernel/mandelbrot.cl", "mandelbrot"))
-		return (0);
-
-// Create Memory Buffer
-	cl_mem mem_cr;
-	cl_mem mem_ci;
-	cl_mem mem_i;
-	cl_mem mem_r;
-
-	mem_cr = clCreateBuffer(opencl->context, CL_MEM_READ_WRITE, sizeof(double), NULL, &opencl->ret);
-	mem_ci = clCreateBuffer(opencl->context, CL_MEM_READ_WRITE, sizeof(double), NULL, &opencl->ret);
-	mem_i = clCreateBuffer(opencl->context, CL_MEM_READ_WRITE, sizeof(int), NULL, &opencl->ret);
-	mem_r = clCreateBuffer(opencl->context, CL_MEM_READ_WRITE, 10000*sizeof(size_t), NULL, &opencl->ret);
-
-// Set OpenCL Kernel Parameters
-	opencl->ret = clSetKernelArg(opencl->kernel, 0, sizeof(cl_mem), (void*)&mem_cr);
-	opencl->ret = clSetKernelArg(opencl->kernel, 1, sizeof(cl_mem), (void*)&mem_ci);
-	opencl->ret = clSetKernelArg(opencl->kernel, 2, sizeof(cl_mem), (void*)&mem_i);
-	opencl->ret = clSetKernelArg(opencl->kernel, 3, sizeof(cl_mem), (void*)&mem_r);
-
-	double cr;
-	double ci;
-	int i;
-	size_t r[10000];
-
-	cr = 100;
-	ci = 10;
-	i = 1;
-
-	opencl->ret = clEnqueueWriteBuffer(opencl->command_queue, mem_cr, CL_TRUE, 0, sizeof(double), (void*)&cr, 0, NULL, NULL);
-	opencl->ret = clEnqueueWriteBuffer(opencl->command_queue, mem_ci, CL_TRUE, 0, sizeof(double), (void*)&ci, 0, NULL, NULL);
-	opencl->ret = clEnqueueWriteBuffer(opencl->command_queue, mem_i, CL_TRUE, 0, sizeof(int), (void*)&i, 0, NULL, NULL);
-
-	// Execute OpenCL Kernel
-//	opencl->ret = clEnqueueTask(opencl->command_queue, opencl->kernel, 0, NULL, NULL);
-
-	int x;
-	int y;
-
-	x = 1;
-	y = 1;
-	const size_t global_work_size = 1024;//x * y;
-	const size_t local_work_size = 64;//x * y;
-
-	cl_uint work_dim;
-	work_dim = 1;
-
-	clEnqueueNDRangeKernel (
-		opencl->command_queue,
-		opencl->kernel,
-		work_dim,
-		NULL,
-		&global_work_size,
-		&local_work_size,
-		0, NULL, NULL);
-
-// Copy results from the memory buffer
-	opencl->ret = clEnqueueReadBuffer(opencl->command_queue, mem_r, CL_TRUE, 0, 10000*sizeof(size_t), (void*)&r, 0, NULL, NULL);
-// Display Result
-int a;
-a = 0;
-
-	printf("G_size | G_id  | Lsize | L_id  | GR_nb | GR_id | offset\n");
-while (a < global_work_size)
-{
-	printf("%zu	%zu	%zu	%zu	%zu	%zu	%zu\n",
-		r[7*a+0],r[7*a+1],r[7*a+2],r[7*a+3],r[7*a+4],r[7*a+5],r[7*a+6]);
-	a++;
-}
-	// Clear
+/*	// Clear
 	opencl->ret = clFlush(opencl->command_queue);
 	opencl->ret = clFinish(opencl->command_queue);
 	opencl->ret = clReleaseKernel(opencl->kernel);
 	opencl->ret = clReleaseProgram(opencl->program);
-	opencl->ret = clReleaseMemObject(mem_ci);
-	opencl->ret = clReleaseMemObject(mem_cr);
-	opencl->ret = clReleaseMemObject(mem_i);
-	opencl->ret = clReleaseMemObject(mem_r);
+	opencl->ret = clReleaseMemObject(opencl->mem[0]);
+	opencl->ret = clReleaseMemObject(opencl->mem[1]);
 	opencl->ret = clReleaseCommandQueue(opencl->command_queue);
 	opencl->ret = clReleaseContext(opencl->context);
+*/	return (1);
+}
+
+int		set_kernel(t_opencl *opencl, t_mlxyz *mlxyz)
+{
+	if (!load_kernel(opencl, "./srcs/kernel/mandelbrot.cl", "mandelbrot"))
+		return (0);
+	opencl->global_work_size[0] = mlxyz->screen->width;
+	opencl->global_work_size[1] = mlxyz->screen->height;
+	opencl->global_work_size[2] = 1;
+
+	// Create Memory Buffer
+
+	opencl->mem[0] = clCreateBuffer(opencl->context, CL_MEM_READ_WRITE, sizeof(int), NULL, &opencl->ret);
+
+	opencl->mem[1] = clCreateBuffer(opencl->context, CL_MEM_READ_WRITE,
+		mlxyz->screen->width * mlxyz->screen->height * sizeof(int),
+		NULL, &opencl->ret);
+
+// Set OpenCL Kernel Parameters
+	opencl->ret = clSetKernelArg(opencl->kernel, 0, sizeof(cl_mem), (void*)&opencl->mem[0]);
+	opencl->ret = clSetKernelArg(opencl->kernel, 1, sizeof(cl_mem), (void*)&opencl->mem[1]);
+
+return (1);
+}
+
+int		loop_opencl(t_mlxyz *mlxyz, t_opencl *opencl)
+{
+	int i;
+
+	i = 1;
+
+	opencl->ret = clEnqueueWriteBuffer(opencl->command_queue, opencl->mem[0], CL_TRUE, 0, sizeof(int), (void*)&i, 0, NULL, NULL);
+
+
+	clEnqueueNDRangeKernel(opencl->command_queue, opencl->kernel, 2, NULL,
+			opencl->global_work_size, NULL, 0, NULL, NULL);
+
+// Read buffer
+
+	opencl->ret = clEnqueueReadBuffer(opencl->command_queue, opencl->mem[1], CL_TRUE, 0, mlxyz->screen->width * mlxyz->screen->height*sizeof(int), (void*)mlxyz->screen->canevas->data, 0, NULL, NULL);
 	return (1);
 }
