@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 18:44:58 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/17 08:08:50 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/19 12:59:49 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,22 @@
 
 int			main(int argc, char **argv)
 {
-	t_mlxyz		*mlxyz;
-	t_fractol	fractol;
-
 	argc--;
 	argv++;
 //	if (argc != 1)
 //		show_usage();
 
+
+	t_mlxyz		*mlxyz;
 	mlxyz = mlxyz_init();
 
-	fractol.max_iter = 20;
-	fractol.zoom = 150;
+
+	t_fractol	fractol;
+	fractol.render = 1;
+	fractol.max_iter = 50;
+	fractol.zoom = 100;
 	fractol.x = 0;
 	fractol.y = 0;
-
 
 
 	t_opencl	*opencl;
@@ -42,12 +43,13 @@ int			main(int argc, char **argv)
 
 	init_opencl(opencl);
 	set_kernel(opencl, mlxyz);
+
 	fractol.opencl = opencl;
-//	loop_opencl(mlxyz, opencl);
 
 	mlxyz->app = &fractol;
-	mlx_loop(mlxyz->mlx);
 
+
+	mlx_loop(mlxyz->mlx);
 //	while (1){};
 	return (0);
 }

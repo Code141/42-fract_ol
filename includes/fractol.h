@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/07 09:11:43 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/17 06:29:51 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/19 08:12:36 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <opencl.h>
 typedef struct	s_fractol
 {
+	int			render;
 	int			max_iter;
 	double		zoom;
 	double		x;

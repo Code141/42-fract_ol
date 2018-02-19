@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/12 03:35:02 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/12 03:57:02 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/19 08:24:27 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 
 void	refresh_keyboard(t_mlxyz *mlxyz, t_fractol *fractol)
 {
+	if (mlxyz->keyboard->key[36])
+		fractol->render += 1;
 	if (mlxyz->keyboard->key[69])
 		fractol_zoom_in(mlxyz, fractol);
 	if (mlxyz->keyboard->key[78])

@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/12 03:50:08 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/12 03:50:42 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/19 08:43:17 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,3 @@ void	fractol_zoom_out(t_mlxyz *mlxyz, t_fractol *fractol)
 		fractol->zoom /= 2;
 	}
 }
-
-

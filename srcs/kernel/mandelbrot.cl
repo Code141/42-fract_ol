@@ -1,18 +1,77 @@
-__kernel void mandelbrot(__global int *i, __global int *r)
+__kernel void	mandelbrot(__global double *params, __global int *r)
 {
 	__local int x;
 	__local int width;
 	__local int y;
 	__local int height;
 
-	x = get_global_id(0);
 	width = get_global_size(0);
-	y = get_global_id(1);
 	height = get_global_size(1);
+	x = get_global_id(0);
+	y = get_global_id(1);
 
-	r[x + (y * width)] = 0x0000ff;
+
+/* PARAMETRAGE */
+
+	__local double zoom;
+	__local	double pos_x;
+	__local double pos_y;
+	__local int max_iter;
+
+	max_iter = params[0];
+	zoom = params[1];
+	pos_x = params[2];
+	pos_y = params[3];
 
 
+	__local double	c_r;
+	__local double	c_i;
 
-//	printf("[KERNEL]	{G} x : %d; y : %d;\n", x, y);
+	c_r = (-(width / 2) + x) / zoom + pos_x;
+	c_i = (-(height / 2) + y) / zoom + pos_y;
+
+	__local double	z_r;
+	__local double	z_i;
+	__local double	z_r_c;
+	__local double	z_i_c;
+	__local int		i;
+
+	z_r_c = c_r * c_r;
+	z_i_c = c_i * c_i;
+	z_i = (c_i + c_i) * c_r + c_i;
+	z_r = z_r_c - z_i_c + c_r;
+
+	i = 0;
+	while (z_r_c + z_i_c <= 4 && i < max_iter)
+	{
+		z_r_c = z_r * z_r;
+		z_i_c = z_i * z_i;
+		z_i = (z_i + z_i) * z_r + c_i;
+		z_r = z_r_c - z_i_c + c_r;
+		i++;
+
+	}
+
+	__local unsigned int color;
+	__local double pos;
+
+	pos = (double)i / (double)max_iter;
+
+	color = 0xff0000;
+	if (pos == 1)
+		color = 0xffffff;
+	else if(pos == 0)
+		color = 0x000000;
+	else
+	{
+
+double PI;
+
+
+color = (int)(pos * 255);
+//color += (int)(sin(x*PI+PI/2) * 255) * 256;
+//color += (int)(sin(x*PI- PI/2) * 255) * 256 * 256;
+
+	}
+	r[x + (y * width)] = color;
 }

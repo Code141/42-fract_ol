@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 02:15:09 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/17 08:09:13 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/19 08:30:19 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 #include <opencl.h>
 #include <libft.h>
 #include <mlxyz.h>
+#include <fractol.h>
 
-#define MEM_SIZE (128)
-#define MAX_SOURCE_SIZE (0x100000)
 
 int			get_platforms(t_opencl *opencl)
 {
@@ -209,7 +208,7 @@ int		set_kernel(t_opencl *opencl, t_mlxyz *mlxyz)
 
 	// Create Memory Buffer
 
-	opencl->mem[0] = clCreateBuffer(opencl->context, CL_MEM_READ_WRITE, sizeof(int), NULL, &opencl->ret);
+	opencl->mem[0] = clCreateBuffer(opencl->context, CL_MEM_READ_WRITE, 4 * sizeof(double), NULL, &opencl->ret);
 
 	opencl->mem[1] = clCreateBuffer(opencl->context, CL_MEM_READ_WRITE,
 		mlxyz->screen->width * mlxyz->screen->height * sizeof(int),
@@ -222,13 +221,16 @@ int		set_kernel(t_opencl *opencl, t_mlxyz *mlxyz)
 return (1);
 }
 
-int		loop_opencl(t_mlxyz *mlxyz, t_opencl *opencl)
+int		loop_opencl(t_mlxyz *mlxyz, t_fractol *fractol, t_opencl *opencl)
 {
-	int i;
+	double params[4];
 
-	i = 1;
+	params[0] = fractol->max_iter;
+	params[1] = fractol->zoom;
+	params[2] = fractol->x;
+	params[3] = fractol->y;
 
-	opencl->ret = clEnqueueWriteBuffer(opencl->command_queue, opencl->mem[0], CL_TRUE, 0, sizeof(int), (void*)&i, 0, NULL, NULL);
+	opencl->ret = clEnqueueWriteBuffer(opencl->command_queue, opencl->mem[0], CL_TRUE, 0, 4 * sizeof(double), (void*)params, 0, NULL, NULL);
 
 
 	clEnqueueNDRangeKernel(opencl->command_queue, opencl->kernel, 2, NULL,

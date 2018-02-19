@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 11:37:39 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/17 08:15:38 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/19 09:31:57 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,17 @@ int		loop(t_mlxyz *mlxyz)
 	app = mlxyz->app;
 	opencl = app->opencl;
 
-	refresh_input_devices(mlxyz, mlxyz->app);
+	refresh_input_devices(mlxyz, app);
 	refresh_stats(mlxyz->stats);
-	ft_bzero(mlxyz->screen->canevas->data,
-		mlxyz->screen->canevas->width * mlxyz->screen->canevas->height * 4);
-
-	fractol(mlxyz, mlxyz->app);
+//	ft_bzero(mlxyz->screen->canevas->data,
+//		mlxyz->screen->canevas->width * mlxyz->screen->canevas->height * 4);
 
 	//	render(mlxyz);
 
-	loop_opencl(mlxyz, opencl);
+	if (app->render % 2)
+		loop_opencl(mlxyz, app, opencl);
+	else
+		fractol(mlxyz, app);
 
 	draw_hud(mlxyz);
 	mlx_put_image_to_window(mlxyz->mlx,
