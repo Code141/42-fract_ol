@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 11:37:39 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/19 09:31:57 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/20 07:45:54 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,6 @@ int		loop(t_mlxyz *mlxyz)
 	draw_hud(mlxyz);
 	mlx_put_image_to_window(mlxyz->mlx,
 		mlxyz->screen->win, mlxyz->screen->canevas->id, 0, 0);
+
 	return (1);
 }

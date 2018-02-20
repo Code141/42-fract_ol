@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 18:44:58 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/19 12:59:49 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/20 08:12:24 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int			main(int argc, char **argv)
 
 	t_fractol	fractol;
 	fractol.render = 1;
-	fractol.max_iter = 50;
+	fractol.max_iter = 100;
 	fractol.zoom = 100;
 	fractol.x = 0;
 	fractol.y = 0;

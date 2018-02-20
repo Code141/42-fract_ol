@@ -53,25 +53,19 @@ __kernel void	mandelbrot(__global double *params, __global int *r)
 	}
 
 	__local unsigned int color;
-	__local double pos;
+	__local float pos;
 
-	pos = (double)i / (double)max_iter;
+	pos = (float)i / (float)max_iter;
 
-	color = 0xff0000;
+	color = 0;
+// B G R A
 	if (pos == 1)
 		color = 0xffffff;
-	else if(pos == 0)
-		color = 0x000000;
 	else
 	{
-
-double PI;
-
-
-color = (int)(pos * 255);
-//color += (int)(sin(x*PI+PI/2) * 255) * 256;
-//color += (int)(sin(x*PI- PI/2) * 255) * 256 * 256;
-
+	color += (unsigned int)(255 * ((sinpi(pos + M_PI_F * 2) + 1) / 2)) << 16;
+	color += (unsigned int)(255 * ((sinpi(pos) + 1) / 2)) << 8;
+	color += 0x0000ff * (1 - ((sinpi(pos) + 1) / 2));
 	}
 	r[x + (y * width)] = color;
 }
