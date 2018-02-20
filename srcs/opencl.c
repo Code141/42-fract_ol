@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 02:15:09 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/20 06:33:41 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/20 12:08:02 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ int			get_devices(t_opencl *opencl)
 
 void		print_plateform_info(cl_platform_id platform, char *name, cl_platform_info type)
 {
-	char*			info;
-	size_t			info_size;
+	char*	info;
+	size_t	info_size;
 
 	clGetPlatformInfo(platform, type, 0, NULL, &info_size);
 	info = (char*)malloc(info_size);
@@ -66,9 +66,9 @@ void		print_plateform_info(cl_platform_id platform, char *name, cl_platform_info
 
 void		print_device_info(cl_device_id device, char *name, cl_device_info type, int num)
 {
-	char*			info;
-	size_t			info_size;
-	cl_uint			c_u;
+	char*	info;
+	size_t	info_size;
+	cl_uint	c_u;
 
 	if (num)
 	{
@@ -132,15 +132,14 @@ void		print_available_devices(cl_device_id *devices, cl_uint num_devices)
 		print_device_info(devices[i], "		max work item dimentions", CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS, 1);
 		print_device_info(devices[i], "		max work groupe size	", CL_DEVICE_MAX_WORK_GROUP_SIZE, 1);
 		print_device_info(devices[i], "		max work groupe item size", CL_DEVICE_MAX_WORK_ITEM_SIZES, 1); // RETURN SIZE_T[] <- ARRAY SIZE IS MAX DIMENTION !!
-
-	
-	ft_putstr("\n");
+		ft_putstr("\n");
 		i++;
 	}
 }
 
 int			load_kernel(t_opencl *opencl, char *load_kernel, char *kernel_name)
 {
+	//       FLOATING POINT OPTI
 	char	*source_str;
 	size_t	source_size;
 	
@@ -154,7 +153,7 @@ int			load_kernel(t_opencl *opencl, char *load_kernel, char *kernel_name)
 	opencl->program = clCreateProgramWithSource(opencl->context, 1,
 		(const char **)&source_str, (const size_t *)&source_size, &opencl->ret);
 	opencl->ret = clBuildProgram(opencl->program, 1, &opencl->device,
-		NULL, NULL, NULL);
+		"-cl-single-precision-constant -cl-denorms-are-zero -cl-fp32-correctly-rounded-divide-sqrt -cl-opt-disable -cl-mad-enable -cl-no-signed-zeros -cl-finite-math-only -cl-unsafe-math-optimizations -cl-fast-relaxed-math", NULL, NULL);
 	opencl->kernel = clCreateKernel(opencl->program, kernel_name, &opencl->ret);
 	free(source_str);
 	return (1);
@@ -186,7 +185,8 @@ int			init_opencl(t_opencl	*opencl)
 	ft_putnbr(1);
 	ft_putstr("] selected.\n");
 /******************************************************************************/
-/*	// Clear
+
+/*
 	opencl->ret = clFlush(opencl->command_queue);
 	opencl->ret = clFinish(opencl->command_queue);
 	opencl->ret = clReleaseKernel(opencl->kernel);
@@ -195,7 +195,10 @@ int			init_opencl(t_opencl	*opencl)
 	opencl->ret = clReleaseMemObject(opencl->mem[1]);
 	opencl->ret = clReleaseCommandQueue(opencl->command_queue);
 	opencl->ret = clReleaseContext(opencl->context);
-*/	return (1);
+*/
+	free(opencl->platforms);
+	free(opencl->devices);
+	return (1);
 }
 
 int		set_kernel(t_opencl *opencl, t_mlxyz *mlxyz)
@@ -205,39 +208,17 @@ int		set_kernel(t_opencl *opencl, t_mlxyz *mlxyz)
 	opencl->global_work_size[0] = mlxyz->screen->width;
 	opencl->global_work_size[1] = mlxyz->screen->height;
 	opencl->global_work_size[2] = 1;
-
-	// Create Memory Buffer
-
-	opencl->mem[0] = clCreateBuffer(opencl->context, CL_MEM_READ_WRITE, 4 * sizeof(double), NULL, &opencl->ret);
-
+	opencl->mem[0] = clCreateBuffer(opencl->context, CL_MEM_READ_WRITE,
+		4 * sizeof(double), NULL, &opencl->ret);
 	opencl->mem[1] = clCreateBuffer(opencl->context, CL_MEM_READ_WRITE,
 		mlxyz->screen->width * mlxyz->screen->height * sizeof(int),
 		NULL, &opencl->ret);
 
 // Set OpenCL Kernel Parameters
-	opencl->ret = clSetKernelArg(opencl->kernel, 0, sizeof(cl_mem), (void*)&opencl->mem[0]);
-	opencl->ret = clSetKernelArg(opencl->kernel, 1, sizeof(cl_mem), (void*)&opencl->mem[1]);
-
-return (1);
-}
-
-int		loop_opencl(t_mlxyz *mlxyz, t_fractol *fractol, t_opencl *opencl)
-{
-	double params[4];
-
-	params[0] = fractol->max_iter;
-	params[1] = fractol->zoom;
-	params[2] = fractol->x;
-	params[3] = fractol->y;
-
-	opencl->ret = clEnqueueWriteBuffer(opencl->command_queue, opencl->mem[0], CL_TRUE, 0, 4 * sizeof(double), (void*)params, 0, NULL, NULL);
-
-
-	clEnqueueNDRangeKernel(opencl->command_queue, opencl->kernel, 2, NULL,
-			opencl->global_work_size, NULL, 0, NULL, NULL);
-
-// Read buffer
-
-	opencl->ret = clEnqueueReadBuffer(opencl->command_queue, opencl->mem[1], CL_TRUE, 0, mlxyz->screen->width * mlxyz->screen->height*sizeof(int), (void*)mlxyz->screen->canevas->data, 0, NULL, NULL);
+	opencl->ret = clSetKernelArg(opencl->kernel,
+		0, sizeof(cl_mem), (void*)&opencl->mem[0]);
+	opencl->ret = clSetKernelArg(opencl->kernel,
+		1, sizeof(cl_mem), (void*)&opencl->mem[1]);
 	return (1);
 }
+

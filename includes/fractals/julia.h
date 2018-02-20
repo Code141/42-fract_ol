@@ -1,32 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   closing.c                                          :+:      :+:    :+:   */
+/*   julia.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/01 12:52:57 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/20 11:15:17 by gelambin         ###   ########.fr       */
+/*   Created: 2018/02/20 12:23:21 by gelambin          #+#    #+#             */
+/*   Updated: 2018/02/20 12:24:20 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <mlx.h>
+#ifndef JULIA_H
+# define JULIA_H
 #include <mlxyz.h>
+#include <fractol.h>
 
-int		close_fractol(t_mlxyz *mlxyz)
-{
-	mlxyz_close(mlxyz);
-	while (1);
-	ft_putstr("Exit.");
-	exit(0);
-}
+void	julia_loop(t_mlxyz *mlxyz, t_fractol *fractol);
+int		julia(double c_r, double c_i, int iterations);
 
-void	crash_fractol(char *str)
-{
-	ft_putendl("========== CRASH ==========");
-	ft_putendl(str);
-	ft_putendl("===========================");
-	exit(1);
-}
-
-
+#endif

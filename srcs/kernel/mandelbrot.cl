@@ -1,40 +1,38 @@
 __kernel void	mandelbrot(__global double *params, __global int *r)
 {
-	__local int x;
-	__local int width;
-	__local int y;
-	__local int height;
+	__private int	x;
+	__private int	width;
+	__private int	y;
+	__private int	height;
 
 	width = get_global_size(0);
 	height = get_global_size(1);
 	x = get_global_id(0);
 	y = get_global_id(1);
 
-
 /* PARAMETRAGE */
 
-	__local double zoom;
-	__local	double pos_x;
-	__local double pos_y;
-	__local int max_iter;
+	__private double	zoom;
+	__private double	pos_x;
+	__private double	pos_y;
+	__private int		max_iter;
 
 	max_iter = params[0];
 	zoom = params[1];
 	pos_x = params[2];
 	pos_y = params[3];
 
-
-	__local double	c_r;
-	__local double	c_i;
+	__private double	c_r;
+	__private double	c_i;
 
 	c_r = (-(width / 2) + x) / zoom + pos_x;
 	c_i = (-(height / 2) + y) / zoom + pos_y;
 
-	__local double	z_r;
-	__local double	z_i;
-	__local double	z_r_c;
-	__local double	z_i_c;
-	__local int		i;
+	__private double	z_r;
+	__private double	z_i;
+	__private double	z_r_c;
+	__private double	z_i_c;
+	__private int		i;
 
 	z_r_c = c_r * c_r;
 	z_i_c = c_i * c_i;
@@ -49,11 +47,10 @@ __kernel void	mandelbrot(__global double *params, __global int *r)
 		z_i = (z_i + z_i) * z_r + c_i;
 		z_r = z_r_c - z_i_c + c_r;
 		i++;
-
 	}
 
-	__local unsigned int color;
-	__local float pos;
+	__private	unsigned int color;
+	__private	float pos;
 
 	pos = (float)i / (float)max_iter;
 

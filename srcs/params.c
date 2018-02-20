@@ -1,32 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   closing.c                                          :+:      :+:    :+:   */
+/*   params.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/01 12:52:57 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/20 11:15:17 by gelambin         ###   ########.fr       */
+/*   Created: 2018/02/20 11:00:08 by gelambin          #+#    #+#             */
+/*   Updated: 2018/02/20 12:07:24 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <mlx.h>
-#include <mlxyz.h>
+#include <stdlib.h>
+#include <libft.h>
 
-int		close_fractol(t_mlxyz *mlxyz)
+void	show_usage(void)
 {
-	mlxyz_close(mlxyz);
-	while (1);
-	ft_putstr("Exit.");
+	ft_putstr("usage: fractol");
+	ft_putstr(" [fractal-name]\n");
+	ft_putstr("Fractales :\n");
+	ft_putstr("	Julia\n");
+	ft_putstr("	Mandelbrot\n");
 	exit(0);
 }
 
-void	crash_fractol(char *str)
+void	params(int ac, char **av)
 {
-	ft_putendl("========== CRASH ==========");
-	ft_putendl(str);
-	ft_putendl("===========================");
-	exit(1);
+
+	if (ac == 0)
+		show_usage();
+	if (!ft_strcmp(*av, "Mandelbrot\0"))
+		ft_putstr(*av);
+	else if (!ft_strcmp(*av, "Julia\0"))
+		ft_putstr(*av);
+	else
+		show_usage();
+
 }
-
-

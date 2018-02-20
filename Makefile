@@ -6,7 +6,7 @@
 #    By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/17 12:32:21 by gelambin          #+#    #+#              #
-#    Updated: 2018/02/13 06:10:38 by gelambin         ###   ########.fr        #
+#    Updated: 2018/02/20 12:17:52 by gelambin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,12 +26,14 @@ LIBS		=	-L./lib/mlx -lmlx				\
 				-L./lib/libft -lft
 
 SRCS		=	./srcs/main.c					\
+				./srcs/params.c				\
 				./srcs/fractol.c				\
 				./srcs/opencl.c					\
 				./srcs/devices_events.c			\
 				./srcs/move.c					\
 				./srcs/closing.c				\
 				./srcs/loop.c					\
+				./srcs/fractals/julia.c			\
 				./srcs/fractals/mandelbrot.c
 
 OBJS		=	$(SRCS:.c=.o)

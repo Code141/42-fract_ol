@@ -6,13 +6,14 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 02:15:53 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/17 06:11:35 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/20 12:21:23 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef OPENCL_H
 # define OPENCL_H
 # include <OpenCL/cl.h>
+# include <mlxyz.h>
 
 typedef struct	s_opencl
 {
@@ -32,5 +33,6 @@ typedef struct	s_opencl
 }				t_opencl;
 
 int				init_opencl(t_opencl *opencl);
+int				set_kernel(t_opencl *opencl, t_mlxyz *mlxyz);
 
 #endif
