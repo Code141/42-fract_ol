@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 11:37:39 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/20 12:11:47 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/21 12:54:17 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,21 @@
 #include <mlxyz.h>
 #include <fractol.h>
 #include <devices_events.h>
+#include <math.h>
 
 int		loop_opencl(t_mlxyz *mlxyz, t_fractol *fractol, t_opencl *opencl)
 {
-	double params[4];
+	double params[7];
 
 	params[0] = fractol->max_iter;
 	params[1] = fractol->zoom;
 	params[2] = fractol->x;
 	params[3] = fractol->y;
+	params[4] = fractol->color_indice; 
+	params[5] = 0; // CR (for julia)
+	params[6] = 0; // CI
 
-	opencl->ret = clEnqueueWriteBuffer(opencl->command_queue, opencl->mem[0], CL_TRUE, 0, 4 * sizeof(double), (void*)params, 0, NULL, NULL);
+	opencl->ret = clEnqueueWriteBuffer(opencl->command_queue, opencl->mem[0], CL_TRUE, 0, 7 * sizeof(double), (void*)params, 0, NULL, NULL);
 
 	clEnqueueNDRangeKernel(opencl->command_queue, opencl->kernel, 2, NULL,
 			opencl->global_work_size, NULL, 0, NULL, NULL);
@@ -48,11 +52,12 @@ int		loop(t_mlxyz *mlxyz)
 
 	//	render(mlxyz);
 
+	app->color_indice = ((double)(mlxyz->stats->now % 100000) / 100000);
+
 	if (app->render % 2)
 		loop_opencl(mlxyz, app, opencl);
 	else
 		fractol(mlxyz, app);
-
 	draw_hud(mlxyz);
 	mlx_put_image_to_window(mlxyz->mlx,
 		mlxyz->screen->win, mlxyz->screen->canevas->id, 0, 0);

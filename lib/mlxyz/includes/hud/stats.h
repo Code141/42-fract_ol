@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/10 17:55:46 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/02 19:51:18 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/21 12:22:01 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 typedef	struct	s_stats
 {
 	unsigned long long	timestamp;
-	unsigned long long	timestamp_m;
+	unsigned long long	now;
+	unsigned long long	timestamp_ms;
 	unsigned long long	last;
 	int					fps[100];
 	int					ms[100];

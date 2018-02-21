@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 12:22:13 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/04 17:11:40 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/21 12:22:33 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,21 @@ void	array_shift_right(int *array, int size)
 void	refresh_stats(t_stats *stats)
 {
 	struct timeval		tv;
-	unsigned long long	now;
 
 	gettimeofday(&tv, NULL);
-	stats->timestamp_m = (unsigned long long)(tv.tv_usec) / 1000;
-	now = (unsigned long long)(tv.tv_sec) * 1000
+	stats->timestamp_ms = (unsigned long long)(tv.tv_usec) / 1000;
+	stats->now = (unsigned long long)(tv.tv_sec) * 1000
 		+ (unsigned long long)(tv.tv_usec) / 1000;
 
 	stats->frame++;
-	if (stats->timestamp + 1000 < now)
+	if (stats->timestamp + 1000 < stats->now)
 	{
-		stats->timestamp = now;
+		stats->timestamp = stats->now;
 		array_shift_right(stats->fps, 100);
 		stats->fps[0] = stats->frame;
 		stats->frame = 0;
 	}
 	array_shift_right(stats->ms, 100);
-	stats->ms[0] = now - stats->last;
-	stats->last = now;
+	stats->ms[0] = stats->now - stats->last;
+	stats->last = stats->now;
 }

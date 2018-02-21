@@ -16,11 +16,13 @@ __kernel void	mandelbrot(__global double *params, __global int *r)
 	__private double	pos_x;
 	__private double	pos_y;
 	__private int		max_iter;
+	__private double	color_indice;
 
 	max_iter = params[0];
 	zoom = params[1];
 	pos_x = params[2];
 	pos_y = params[3];
+	color_indice = params[4];
 
 	__private double	c_r;
 	__private double	c_i;
@@ -60,9 +62,9 @@ __kernel void	mandelbrot(__global double *params, __global int *r)
 		color = 0xffffff;
 	else
 	{
-	color += (unsigned int)(255 * ((sinpi(pos + M_PI_F * 2) + 1) / 2)) << 16;
-	color += (unsigned int)(255 * ((sinpi(pos) + 1) / 2)) << 8;
-	color += 0x0000ff * (1 - ((sinpi(pos) + 1) / 2));
+		color += (unsigned int)(255 * ((sinpi((pos + M_PI_F * 2 * color_indice) * 8) + 1) / 2)) << 16;
+		color += (unsigned int)(255 * ((sinpi(pos * 6) + 1) / 2)) << 8;
+		color += 0x0000ff * (1 - ((sinpi(pos * 3 * color_indice) + 1) / 2));
 	}
 	r[x + (y * width)] = color;
 }

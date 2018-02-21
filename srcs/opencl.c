@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 02:15:09 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/20 12:08:02 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/21 14:15:32 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ int			load_kernel(t_opencl *opencl, char *load_kernel, char *kernel_name)
 	opencl->program = clCreateProgramWithSource(opencl->context, 1,
 		(const char **)&source_str, (const size_t *)&source_size, &opencl->ret);
 	opencl->ret = clBuildProgram(opencl->program, 1, &opencl->device,
-		"-cl-single-precision-constant -cl-denorms-are-zero -cl-fp32-correctly-rounded-divide-sqrt -cl-opt-disable -cl-mad-enable -cl-no-signed-zeros -cl-finite-math-only -cl-unsafe-math-optimizations -cl-fast-relaxed-math", NULL, NULL);
+		"-cl-fast-relaxed-math", NULL, NULL);
 	opencl->kernel = clCreateKernel(opencl->program, kernel_name, &opencl->ret);
 	free(source_str);
 	return (1);
@@ -209,7 +209,7 @@ int		set_kernel(t_opencl *opencl, t_mlxyz *mlxyz)
 	opencl->global_work_size[1] = mlxyz->screen->height;
 	opencl->global_work_size[2] = 1;
 	opencl->mem[0] = clCreateBuffer(opencl->context, CL_MEM_READ_WRITE,
-		4 * sizeof(double), NULL, &opencl->ret);
+		7 * sizeof(double), NULL, &opencl->ret);
 	opencl->mem[1] = clCreateBuffer(opencl->context, CL_MEM_READ_WRITE,
 		mlxyz->screen->width * mlxyz->screen->height * sizeof(int),
 		NULL, &opencl->ret);
