@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 12:22:13 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/21 12:22:33 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/22 14:31:10 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	refresh_stats(t_stats *stats)
 	stats->timestamp_ms = (unsigned long long)(tv.tv_usec) / 1000;
 	stats->now = (unsigned long long)(tv.tv_sec) * 1000
 		+ (unsigned long long)(tv.tv_usec) / 1000;
-
 	stats->frame++;
 	if (stats->timestamp + 1000 < stats->now)
 	{

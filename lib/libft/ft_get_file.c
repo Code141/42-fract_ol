@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 03:40:10 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/13 06:48:52 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/22 13:30:29 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	read_file(int fd, t_list **file)
 	return (1);
 }
 
-char	*ft_get_file(char *file_name)
+char		*ft_get_file(char *file_name)
 {
 	char	*str;
 	t_list	*file;
@@ -46,7 +46,7 @@ char	*ft_get_file(char *file_name)
 	if (fd < 0)
 		return (NULL);
 	if (!read_file(fd, &file))
-		return(NULL);
+		return (NULL);
 	close(fd);
 	str = (char*)malloc(sizeof(char) * (file->content_size + 1));
 	if (!str)

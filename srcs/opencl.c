@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 12:57:39 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/22 13:08:59 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/22 15:08:22 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@
 
 int			get_platforms(t_opencl *opencl)
 {
-	cl_uint	platforms_count;
-
 	opencl->platforms_count = 0;
 	clGetPlatformIDs(0, NULL, &opencl->platforms_count);
 	if (opencl->platforms_count)

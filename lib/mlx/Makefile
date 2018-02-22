@@ -1,24 +1,29 @@
-#
-#
+NAME	=	libmlx.a
 
-NOM=libmlx.a
-SRC= mlx_shaders.c mlx_new_window.m mlx_init_loop.m mlx_new_image.m mlx_xpm.c mlx_int_str_to_wordtab.c
-OBJ1=$(SRC:.c=.o)
-OBJ=$(OBJ1:.m=.o)
-CFLAGS+=-O3
+CFLAGS	+=	-O3
 
-all: $(NOM)
+SRC		=	mlx_shaders.c					\
+			mlx_new_window.m				\
+			mlx_init_loop.m					\
+			mlx_new_image.m					\
+			mlx_xpm.c						\
+			mlx_int_str_to_wordtab.c
 
-$(NOM):	$(OBJ)
-	ar -r $(NOM) $(OBJ)
-	ranlib $(NOM)
+OBJ1	=	$(SRC:.c=.o)
+OBJ		=	$(OBJ1:.m=.o)
 
-clean:
+all		:	$(NAME)
+
+$(NAME)	:	$(OBJ)
+	ar -r $(NAME) $(OBJ)
+	ranlib $(NAME)
+
+clean	:
 	rm -f $(OBJ) *~
 	rm -f mlx_app
 
-fclean:
-	rm -f $(NOM) $(OBJ) *~
+fclean	:
+	rm -f $(NAME) $(OBJ) *~
 	rm -f mlx_app
 
-re: clean all
+re		:	clean all

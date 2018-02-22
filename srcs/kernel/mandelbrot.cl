@@ -27,8 +27,8 @@ __kernel void	mandelbrot(__global double *params, __global int *r)
 	__private double	c_r;
 	__private double	c_i;
 
-	c_i = (-(width / 2) + x) / zoom + pos_x;
-	c_r = (-(height / 2) + y) / zoom + pos_y;
+	c_r = (-(width / 2) + x) / zoom + pos_x;
+	c_i = (-(height / 2) + y) / zoom + pos_y;
 
 	__private double	z_r;
 	__private double	z_i;

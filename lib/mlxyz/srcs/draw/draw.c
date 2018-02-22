@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 20:25:27 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/04 16:06:16 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/22 14:31:45 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,5 @@ void		draw_obj(t_mlxyz *mlxyz, t_object *object)
 
 void		render(t_mlxyz *mlxyz)
 {
-
+	(void)mlxyz;
 }

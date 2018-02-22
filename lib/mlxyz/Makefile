@@ -6,14 +6,14 @@
 #    By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/17 12:32:21 by gelambin          #+#    #+#              #
-#    Updated: 2018/02/04 17:09:21 by gelambin         ###   ########.fr        #
+#    Updated: 2018/02/22 14:31:27 by gelambin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	libmlxyz.a
 
 CC		=	gcc
-CFLAGS	=	#-Wall -Wextra -Werror
+CFLAGS	=	-Wall -Wextra -Werror
 CPPFLAGS=	-I../mlx/						\
 			-I../libft/includes/			\
 			-I./includes/

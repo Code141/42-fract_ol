@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/07 09:11:43 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/22 13:18:19 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/22 15:07:39 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@ typedef struct	s_fractol
 	t_opencl	*opencl;
 }				t_fractol;
 
+void			crash_fractol(char *str);
+int				close_fractol(t_mlxyz *mlxyz);
+void			show_usage(void);
+void			set_fractal_type(char *fractal_name, t_fractol *fractol);
 void			fractol(t_mlxyz *mlxyz, t_fractol *fractol);
 void			fractol_color(t_mlxyz *mlxyz, int x, int y, int i);
 void			mandelbrot_loop(t_mlxyz *mlxyz, t_fractol *fractol);
