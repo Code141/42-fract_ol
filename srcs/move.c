@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/12 03:50:08 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/21 11:46:37 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/22 12:56:38 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,26 +21,22 @@ void	fractol_move(t_mlxyz *mlxyz, t_fractol *fractol, int x, int y)
 
 void	fractol_zoom_in(t_mlxyz *mlxyz, t_fractol *fractol)
 {
-
 	fractol->zoom *= 1.0625;
 	fractol_move(
-			mlxyz,
-			fractol,
-			(double)(mlxyz->mouse->x - mlxyz->screen->width / 2) * 0.0625,
-			(double)(mlxyz->mouse->y - mlxyz->screen->height / 2) * 0.0625
-		);
+		mlxyz,
+		fractol,
+		(double)(mlxyz->mouse->x - mlxyz->screen->width / 2) * 0.0625,
+		(double)(mlxyz->mouse->y - mlxyz->screen->height / 2) * 0.0625);
 }
 
 void	fractol_zoom_out(t_mlxyz *mlxyz, t_fractol *fractol)
 {
-	if (fractol->zoom > 180)
-	{
-		fractol_move(
-				mlxyz,
-				fractol,
-				-(mlxyz->mouse->x - mlxyz->screen->width / 2)/16,
-				-(mlxyz->mouse->y - mlxyz->screen->height / 2)/16
-				);
-		fractol->zoom /= 1.0625;
-	}
+	if (fractol->zoom < 180)
+		return ;
+	fractol_move(
+		mlxyz,
+		fractol,
+		-(mlxyz->mouse->x - mlxyz->screen->width / 2) / 16,
+		-(mlxyz->mouse->y - mlxyz->screen->height / 2) / 16);
+	fractol->zoom /= 1.0625;
 }

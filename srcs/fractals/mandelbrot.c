@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/07 07:42:16 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/20 12:25:24 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/22 13:11:36 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,20 @@ void	mandelbrot_loop(t_mlxyz *mlxyz, t_fractol *fractol)
 	double	c_r;
 	double	c_i;
 	int		x;
-	int 	y;
-	int 	i;
+	int		y;
+	int		i;
 
 	x = -(mlxyz->screen->width / 2);
 	while (x < mlxyz->screen->width)
 	{
-		c_r =  (-(mlxyz->screen->width / 2) + x) / fractol->zoom + fractol->x;
+		c_r = (-(mlxyz->screen->width / 2) + x) / fractol->zoom + fractol->x;
 		y = 0;
 		while (y < mlxyz->screen->height)
 		{
-			c_i = (-(mlxyz->screen->height / 2) + y) / fractol->zoom + fractol->y;
+			c_i = (-(mlxyz->screen->height / 2) + y)
+				/ fractol->zoom + fractol->y;
 			i = mandelbrot(c_r, c_i, fractol->max_iter);
-			fractol_color(mlxyz, fractol, x, y, i);
+			fractol_color(mlxyz, x, y, i);
 			y++;
 		}
 		x++;

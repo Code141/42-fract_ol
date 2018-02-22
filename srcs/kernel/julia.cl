@@ -1,4 +1,4 @@
-__kernel void	mandelbrot(__global double *params, __global int *r)
+__kernel void	julia(__global double *params, __global int *r)
 {
 	__private int	x;
 	__private int	width;
@@ -24,11 +24,16 @@ __kernel void	mandelbrot(__global double *params, __global int *r)
 	pos_y = params[3];
 	color_indice = params[4];
 
+	__private double	c_r_e;
+	__private double	c_i_e;
+	c_r_e = params[5];
+	c_i_e = params[6];
+
 	__private double	c_r;
 	__private double	c_i;
 
-	c_i = (-(width / 2) + x) / zoom + pos_x;
-	c_r = (-(height / 2) + y) / zoom + pos_y;
+	c_r = (-(width / 2) + x) / zoom + pos_x;
+	c_i = (-(height / 2) + y) / zoom + pos_y;
 
 	__private double	z_r;
 	__private double	z_i;
@@ -38,16 +43,15 @@ __kernel void	mandelbrot(__global double *params, __global int *r)
 
 	z_r_c = c_r * c_r;
 	z_i_c = c_i * c_i;
-	z_i = (c_i + c_i) * c_r + c_i;
-	z_r = z_r_c - z_i_c + c_r;
-
+	z_i = (c_i + c_i) * c_r  + c_r_e;
+	z_r = z_r_c - z_i_c + c_i_e;
 	i = 0;
 	while (z_r_c + z_i_c <= 4 && i < max_iter)
 	{
 		z_r_c = z_r * z_r;
 		z_i_c = z_i * z_i;
-		z_i = (z_i + z_i) * z_r + c_i;
-		z_r = z_r_c - z_i_c + c_r;
+		z_i = (z_i + z_i) * z_r  + c_r_e;
+		z_r = z_r_c - z_i_c + c_i_e;
 		i++;
 	}
 

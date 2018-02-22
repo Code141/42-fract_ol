@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 02:15:53 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/20 12:21:23 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/22 12:13:30 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct	s_opencl
 	cl_int				ret;
 }				t_opencl;
 
-int				init_opencl(t_opencl *opencl);
-int				set_kernel(t_opencl *opencl, t_mlxyz *mlxyz);
+t_opencl		*init_opencl();
+int				set_kernel(t_opencl *opencl, t_mlxyz *mlxyz, char *kernel_name);
 
 #endif

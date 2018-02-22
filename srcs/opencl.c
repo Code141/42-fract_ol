@@ -1,12 +1,12 @@
-/*************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   opencl.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/13 02:15:09 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/21 14:15:32 by gelambin         ###   ########.fr       */
+/*   Created: 2018/02/22 12:57:39 by gelambin          #+#    #+#             */
+/*   Updated: 2018/02/22 13:08:59 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,16 @@
 #include <mlxyz.h>
 #include <fractol.h>
 
+/*
+	opencl->ret = clFlush(opencl->command_queue);
+	opencl->ret = clFinish(opencl->command_queue);
+	opencl->ret = clReleaseKernel(opencl->kernel);
+	opencl->ret = clReleaseProgram(opencl->program);
+	opencl->ret = clReleaseMemObject(opencl->mem[0]);
+	opencl->ret = clReleaseMemObject(opencl->mem[1]);
+	opencl->ret = clReleaseCommandQueue(opencl->command_queue);
+	opencl->ret = clReleaseContext(opencl->context);
+*/
 
 int			get_platforms(t_opencl *opencl)
 {
@@ -25,7 +35,8 @@ int			get_platforms(t_opencl *opencl)
 	clGetPlatformIDs(0, NULL, &opencl->platforms_count);
 	if (opencl->platforms_count)
 	{
-		opencl->platforms = (cl_platform_id*)malloc(sizeof(cl_platform_id) * opencl->platforms_count);
+		opencl->platforms = (cl_platform_id*)malloc(
+			sizeof(cl_platform_id) * opencl->platforms_count);
 		clGetPlatformIDs(opencl->platforms_count, opencl->platforms, NULL);
 		return (1);
 	}
@@ -37,11 +48,14 @@ int			get_platforms(t_opencl *opencl)
 int			get_devices(t_opencl *opencl)
 {
 	opencl->devices_count = 0;
-	clGetDeviceIDs(opencl->platform, CL_DEVICE_TYPE_ALL, 0, NULL, &opencl->devices_count);
+	clGetDeviceIDs(opencl->platform, CL_DEVICE_TYPE_ALL, 0, NULL,
+		&opencl->devices_count);
 	if (opencl->devices_count)
 	{
-		opencl->devices = (cl_device_id*)malloc(sizeof(cl_device_id) * opencl->devices_count);
-		clGetDeviceIDs(opencl->platform, CL_DEVICE_TYPE_ALL, opencl->devices_count, opencl->devices, NULL);
+		opencl->devices = (cl_device_id*)malloc(
+			sizeof(cl_device_id) * opencl->devices_count);
+		clGetDeviceIDs(opencl->platform, CL_DEVICE_TYPE_ALL,
+			opencl->devices_count, opencl->devices, NULL);
 		return (1);
 	}
 	else
@@ -49,101 +63,18 @@ int			get_devices(t_opencl *opencl)
 	return (0);
 }
 
-void		print_plateform_info(cl_platform_id platform, char *name, cl_platform_info type)
+int			load_kernel(t_opencl *opencl, char *kernel_name)
 {
-	char*	info;
-	size_t	info_size;
-
-	clGetPlatformInfo(platform, type, 0, NULL, &info_size);
-	info = (char*)malloc(info_size);
-	clGetPlatformInfo(platform, type, info_size, info, NULL);
-	ft_putstr(name);
-	ft_putstr("	: ");
-	ft_putstr(info);
-	ft_putstr("\n");
-	free(info);
-}
-
-void		print_device_info(cl_device_id device, char *name, cl_device_info type, int num)
-{
-	char*	info;
-	size_t	info_size;
-	cl_uint	c_u;
-
-	if (num)
-	{
-		c_u = -1;
-		clGetDeviceInfo(device, type, sizeof(size_t), &c_u, NULL);
-		ft_putstr(name);
-		ft_putstr("	: ");
-		ft_putnbr(c_u);
-		ft_putstr("\n");
-	}
-	else
-	{
-		clGetDeviceInfo(device, type, 0, NULL, &info_size);
-		info = (char*)malloc(info_size);
-		clGetDeviceInfo(device, type, info_size, info, NULL);
-		ft_putstr(name);
-		ft_putstr("	: ");
-		ft_putstr(info);
-		ft_putstr("\n");
-		free(info);
-	}
-}
-
-void		print_available_plateforms(cl_platform_id *platforms, cl_uint num_platforms)
-{
-	int i;
-
-	ft_putstr("Available plateforms :\n");
-	i = 0;
-	while (i < num_platforms)
-	{
-		ft_putstr("	Plateform [");
-		ft_putnbr(i);
-		ft_putstr("] :\n");
-		print_plateform_info(platforms[i], "		Name	", CL_PLATFORM_NAME);
-		print_plateform_info(platforms[i], "		Vendor	", CL_PLATFORM_VENDOR);
-		print_plateform_info(platforms[i], "		Version	", CL_PLATFORM_VERSION);
-		print_plateform_info(platforms[i], "		Profile	", CL_PLATFORM_PROFILE);
-		ft_putstr("\n");
-		i++;
-	}
-}
-
-void		print_available_devices(cl_device_id *devices, cl_uint num_devices)
-{
-	int i;
-	
-	ft_putstr("Available devices :\n");
-	i = 0;
-	while (i < num_devices)
-	{
-		ft_putstr("	Device [");
-		ft_putnbr(i);
-		ft_putstr("] :\n");
-		print_device_info(devices[i], "		device			", CL_DEVICE_NAME, 0);
-		print_device_info(devices[i], "		hardware version	", CL_DEVICE_VERSION, 0);
-		print_device_info(devices[i], "		software version	", CL_DRIVER_VERSION, 0);
-		print_device_info(devices[i], "		opencl c version	", CL_DEVICE_OPENCL_C_VERSION, 0);
-		print_device_info(devices[i], "		parallel compute units	", CL_DEVICE_MAX_COMPUTE_UNITS, 1);
-		print_device_info(devices[i], "		device adress bits	", CL_DEVICE_ADDRESS_BITS, 1);
-		print_device_info(devices[i], "		max work item dimentions", CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS, 1);
-		print_device_info(devices[i], "		max work groupe size	", CL_DEVICE_MAX_WORK_GROUP_SIZE, 1);
-		print_device_info(devices[i], "		max work groupe item size", CL_DEVICE_MAX_WORK_ITEM_SIZES, 1); // RETURN SIZE_T[] <- ARRAY SIZE IS MAX DIMENTION !!
-		ft_putstr("\n");
-		i++;
-	}
-}
-
-int			load_kernel(t_opencl *opencl, char *load_kernel, char *kernel_name)
-{
-	//       FLOATING POINT OPTI
+	char	*path;
+	char	*tmp;
 	char	*source_str;
 	size_t	source_size;
-	
-	source_str = ft_get_file(load_kernel);
+
+	tmp = ft_strjoin("./srcs/kernel/", kernel_name);
+	path = ft_strjoin(tmp, ".cl");
+	free(tmp);
+	source_str = ft_get_file(path);
+	free(path);
 	if (!source_str)
 	{
 		ft_putstr("Failed to load kernel file.\n");
@@ -159,51 +90,33 @@ int			load_kernel(t_opencl *opencl, char *load_kernel, char *kernel_name)
 	return (1);
 }
 
-int			init_opencl(t_opencl	*opencl)
+t_opencl	*init_opencl(void)
 {
+	t_opencl	*opencl;
 
+	opencl = (t_opencl*)malloc(sizeof(t_opencl));
+	if (!opencl)
+		return (NULL);
+	ft_bzero(opencl, sizeof(t_opencl));
 	ft_putstr("- Init OpenCl -\n");
 	if (!get_platforms(opencl))
-		return (0);
+		return (NULL);
 	if (!get_devices(opencl))
-		return (0);
+		return (NULL);
 	opencl->platform = opencl->platforms[0];
 	opencl->device = opencl->devices[1];
-
-// Create OpenCL context
-	opencl->context = clCreateContext(NULL, 1, &opencl->device, NULL, NULL, &opencl->ret);
-// Create Command Queue
-	opencl->command_queue = clCreateCommandQueue(opencl->context, opencl->device, 0, &opencl->ret);
-
-/******************************************************************************/
-	print_available_plateforms(opencl->platforms, opencl->platforms_count);
-	ft_putstr("Plateform [");
-	ft_putnbr(0);
-	ft_putstr("] selected.\n\n");
-	print_available_devices(opencl->devices, opencl->devices_count);
-	ft_putstr("Device	  [");
-	ft_putnbr(1);
-	ft_putstr("] selected.\n");
-/******************************************************************************/
-
-/*
-	opencl->ret = clFlush(opencl->command_queue);
-	opencl->ret = clFinish(opencl->command_queue);
-	opencl->ret = clReleaseKernel(opencl->kernel);
-	opencl->ret = clReleaseProgram(opencl->program);
-	opencl->ret = clReleaseMemObject(opencl->mem[0]);
-	opencl->ret = clReleaseMemObject(opencl->mem[1]);
-	opencl->ret = clReleaseCommandQueue(opencl->command_queue);
-	opencl->ret = clReleaseContext(opencl->context);
-*/
+	opencl->context = clCreateContext(NULL, 1, &opencl->device, NULL, NULL,
+		&opencl->ret);
+	opencl->command_queue = clCreateCommandQueue(opencl->context,
+		opencl->device, 0, &opencl->ret);
 	free(opencl->platforms);
 	free(opencl->devices);
-	return (1);
+	return (opencl);
 }
 
-int		set_kernel(t_opencl *opencl, t_mlxyz *mlxyz)
+int			set_kernel(t_opencl *opencl, t_mlxyz *mlxyz, char *fractale_name)
 {
-	if (!load_kernel(opencl, "./srcs/kernel/mandelbrot.cl", "mandelbrot"))
+	if (!load_kernel(opencl, fractale_name))
 		return (0);
 	opencl->global_work_size[0] = mlxyz->screen->width;
 	opencl->global_work_size[1] = mlxyz->screen->height;
@@ -213,12 +126,9 @@ int		set_kernel(t_opencl *opencl, t_mlxyz *mlxyz)
 	opencl->mem[1] = clCreateBuffer(opencl->context, CL_MEM_READ_WRITE,
 		mlxyz->screen->width * mlxyz->screen->height * sizeof(int),
 		NULL, &opencl->ret);
-
-// Set OpenCL Kernel Parameters
 	opencl->ret = clSetKernelArg(opencl->kernel,
 		0, sizeof(cl_mem), (void*)&opencl->mem[0]);
 	opencl->ret = clSetKernelArg(opencl->kernel,
 		1, sizeof(cl_mem), (void*)&opencl->mem[1]);
 	return (1);
 }
-

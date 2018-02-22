@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 08:14:30 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/21 12:47:30 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/22 13:12:13 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ int		tricorn(double c_r, double c_i, int iterations)
 
 	z_r_c = z_r * z_r;
 	z_i_c = z_i * z_i;
-	z_i = - 2 * z_r * z_i + c_i;
+	z_i = -2 * z_r * z_i + c_i;
 	z_r = z_r_c - z_i_c + c_r;
 	while (z_r_c + z_i_c <= 4 && iterations)
 	{
 		z_r_c = z_r * z_r;
 		z_i_c = z_i * z_i;
-		z_i = - 2 * z_r * z_i + c_i;
+		z_i = -2 * z_r * z_i + c_i;
 		z_r = z_r_c - z_i_c + c_r;
 		iterations--;
 	}
@@ -41,19 +41,20 @@ void	tricorn_loop(t_mlxyz *mlxyz, t_fractol *fractol)
 	double	c_r;
 	double	c_i;
 	int		x;
-	int 	y;
-	int 	i;
+	int		y;
+	int		i;
 
 	x = -(mlxyz->screen->width / 2);
 	while (x < mlxyz->screen->width)
 	{
-		c_r =  (-(mlxyz->screen->width / 2) + x) / fractol->zoom + fractol->x;
+		c_r = (-(mlxyz->screen->width / 2) + x) / fractol->zoom + fractol->x;
 		y = 0;
 		while (y < mlxyz->screen->height)
 		{
-			c_i = (-(mlxyz->screen->height / 2) + y) / fractol->zoom + fractol->y;
+			c_i = (-(mlxyz->screen->height / 2) + y)
+				/ fractol->zoom + fractol->y;
 			i = tricorn(c_r, c_i, fractol->max_iter);
-			fractol_color(mlxyz, fractol, x, y, i);
+			fractol_color(mlxyz, x, y, i);
 			y++;
 		}
 		x++;
