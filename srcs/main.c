@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 18:44:58 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/22 12:52:35 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/26 12:18:51 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int			main(int argc, char **argv)
 	opencl = init_opencl();
 	if (set_kernel(opencl, mlxyz, fractol->fractal_name))
 		fractol->render = 1;
+
 	fractol->opencl = opencl;
 	mlxyz->app = fractol;
 	mlx_loop(mlxyz->mlx);

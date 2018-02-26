@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tricorn.c                                          :+:      :+:    :+:   */
+/*   flarebrot.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/21 08:14:30 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/26 12:20:47 by gelambin         ###   ########.fr       */
+/*   Created: 2018/02/26 18:17:47 by gelambin          #+#    #+#             */
+/*   Updated: 2018/02/26 18:27:21 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <mlxyz.h>
 #include <fractol.h>
 
-int		tricorn(double c_r, double c_i, int iterations)
+int		flarebrot(double c_r, double c_i, int iterations, t_mlxyz *mlxyz)
 {
 	double z_r;
 	double z_i;
@@ -25,20 +25,28 @@ int		tricorn(double c_r, double c_i, int iterations)
 	z_i = 0;
 	z_r_c = z_r * z_r;
 	z_i_c = z_i * z_i;
-	z_i = -2 * z_r * z_i + c_i;
-	z_r = z_r_c - z_i_c + c_r;
+
+	double indicex;
+	indicex = ((double)(mlxyz->mouse->x) / mlxyz->screen->width * 2 - 1) * 24;
+	double indicey;
+	indicey = ((double)(mlxyz->mouse->y) / mlxyz->screen->height * 2 - 1) * 24;
+
+
+	z_i = indicey * z_r * z_i + c_i;
+	z_r = z_r_c - z_i_c + c_r * indicex;
+
 	while (z_r_c + z_i_c <= 4 && iterations)
 	{
 		z_r_c = z_r * z_r;
 		z_i_c = z_i * z_i;
-		z_i = -2 * z_r * z_i + c_i;
-		z_r = z_r_c - z_i_c + c_r;
+		z_i = indicey * z_r * z_i + c_i;
+		z_r = z_r_c - z_i_c + c_r * indicex;
 		iterations--;
 	}
 	return (iterations);
 }
 
-void	tricorn_loop(t_mlxyz *mlxyz, t_fractol *fractol)
+void	flarebrot_loop(t_mlxyz *mlxyz, t_fractol *fractol)
 {
 	double	c_r;
 	double	c_i;
@@ -55,7 +63,7 @@ void	tricorn_loop(t_mlxyz *mlxyz, t_fractol *fractol)
 		{
 			c_i = (-(mlxyz->screen->height / 2) + y)
 				/ fractol->zoom + fractol->y;
-			i = tricorn(c_r, c_i, fractol->max_iter);
+			i = flarebrot(c_r, c_i, fractol->max_iter, mlxyz);
 			fractol_color(mlxyz, x, y, i);
 			y++;
 		}

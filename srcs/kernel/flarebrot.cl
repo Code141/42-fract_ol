@@ -1,4 +1,4 @@
-__kernel void	burning_ship(__global double *params, __global int *r)
+__kernel void	flarebrot(__global double *params, __global int *r)
 {
 	__private int	x;
 	__private int	width;
@@ -24,6 +24,12 @@ __kernel void	burning_ship(__global double *params, __global int *r)
 	pos_y = params[3];
 	color_indice = params[4];
 
+	__private double	c_r_e;
+	__private double	c_i_e;
+
+	c_r_e = (params[5] - pos_x) * zoom / 24;
+	c_i_e = (params[6] - pos_y) * zoom / 24;
+
 	__private double	c_r;
 	__private double	c_i;
 
@@ -36,20 +42,30 @@ __kernel void	burning_ship(__global double *params, __global int *r)
 	__private double	z_i_c;
 	__private int		i;
 
-	z_r_c = 0;
-	z_i_c = 0;
-	z_r = fabs(z_r_c - z_i_c + c_r);
-	z_i = fabs(2 * z_r * 0 + c_i);
-
 	i = 0;
+	z_r_c = c_r * c_r;
+	z_i_c = c_i * c_i;
+
+	z_i = c_i_e * z_r * z_i + c_i;
+	z_r = z_r_c - z_i_c + c_r * c_r_e ;
+
 	while (z_r_c + z_i_c <= 4 && i < max_iter)
 	{
 		z_r_c = z_r * z_r;
 		z_i_c = z_i * z_i;
-		z_i = fabs(2 * z_r * z_i + c_i);
-		z_r = fabs(z_r_c - z_i_c + c_r);
+		z_i = c_i_e * z_r * z_i + c_i;
+		z_r = z_r_c - z_i_c + c_r * c_r_e;
 		i++;
 	}
+
+
+
+
+
+
+
+
+
 	__private	unsigned int color;
 	__private	float pos;
 

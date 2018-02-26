@@ -1,4 +1,4 @@
-__kernel void	mandelbrot(__global double *params, __global int *r)
+__kernel void	tricorn(__global double *params, __global int *r)
 {
 	__private int	x;
 	__private int	width;
@@ -38,15 +38,14 @@ __kernel void	mandelbrot(__global double *params, __global int *r)
 
 	z_r_c = c_r * c_r;
 	z_i_c = c_i * c_i;
-	z_i = (c_i + c_i) * c_r + c_i;
+	z_i = -2 * c_r * c_i + c_i;
 	z_r = z_r_c - z_i_c + c_r;
-
 	i = 0;
 	while (z_r_c + z_i_c <= 4 && i < max_iter)
 	{
 		z_r_c = z_r * z_r;
 		z_i_c = z_i * z_i;
-		z_i = (z_i + z_i) * z_r + c_i;
+		z_i = -2 * z_r * z_i + c_i;
 		z_r = z_r_c - z_i_c + c_r;
 		i++;
 	}

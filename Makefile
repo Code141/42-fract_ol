@@ -6,7 +6,7 @@
 #    By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/17 12:32:21 by gelambin          #+#    #+#              #
-#    Updated: 2018/02/22 15:13:05 by gelambin         ###   ########.fr        #
+#    Updated: 2018/02/26 18:19:26 by gelambin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,9 @@ SRCS		=	./srcs/main.c					\
 				./srcs/fractals/julia.c			\
 				./srcs/fractals/mandelbrot.c	\
 				./srcs/fractals/burning_ship.c	\
-				./srcs/fractals/tricorn.c
+				./srcs/fractals/tricorn.c		\
+				./srcs/fractals/buddhabrot.c	\
+				./srcs/fractals/flarebrot.c
 
 OBJS		=	$(SRCS:.c=.o)
 

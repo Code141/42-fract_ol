@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tricorn.c                                          :+:      :+:    :+:   */
+/*   buddhabrot.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/21 08:14:30 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/26 12:20:47 by gelambin         ###   ########.fr       */
+/*   Created: 2018/02/26 18:20:25 by gelambin          #+#    #+#             */
+/*   Updated: 2018/02/26 18:20:55 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <mlxyz.h>
 #include <fractol.h>
 
-int		tricorn(double c_r, double c_i, int iterations)
+int		buddhabrot(double c_r, double c_i, int iterations)
 {
 	double z_r;
 	double z_i;
@@ -38,7 +38,7 @@ int		tricorn(double c_r, double c_i, int iterations)
 	return (iterations);
 }
 
-void	tricorn_loop(t_mlxyz *mlxyz, t_fractol *fractol)
+void	buddhabrot_loop(t_mlxyz *mlxyz, t_fractol *fractol)
 {
 	double	c_r;
 	double	c_i;
@@ -55,7 +55,7 @@ void	tricorn_loop(t_mlxyz *mlxyz, t_fractol *fractol)
 		{
 			c_i = (-(mlxyz->screen->height / 2) + y)
 				/ fractol->zoom + fractol->y;
-			i = tricorn(c_r, c_i, fractol->max_iter);
+			i = buddhabrot(c_r, c_i, fractol->max_iter);
 			fractol_color(mlxyz, x, y, i);
 			y++;
 		}

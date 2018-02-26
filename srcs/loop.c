@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 11:37:39 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/22 15:19:12 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/26 18:19:00 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@ void	loop_cpu(t_mlxyz *mlxyz, t_fractol *fractol)
 		burning_ship_loop(mlxyz, fractol);
 	if (fractol->fractal == 3)
 		tricorn_loop(mlxyz, fractol);
+	if (fractol->fractal == 4)
+		buddhabrot_loop(mlxyz, fractol);
+	if (fractol->fractal == 5)
+		flarebrot_loop(mlxyz, fractol);
 }
 
 int		loop_opencl(t_mlxyz *mlxyz, t_fractol *fractol, t_opencl *opencl)

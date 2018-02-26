@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/07 09:11:43 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/22 15:07:39 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/26 18:21:01 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,8 @@ void			burning_ship_loop(t_mlxyz *mlxyz, t_fractol *fractol);
 int				burning_ship(double c_r, double c_i, int iterations);
 void			tricorn_loop(t_mlxyz *mlxyz, t_fractol *fractol);
 int				tricorn(double c_r, double c_i, int iterations);
-
+void			flarebrot_loop(t_mlxyz *mlxyz, t_fractol *fractol);
+int				flarebrot(double c_r, double c_i, int iterations, t_mlxyz *mlxyz);
+void			buddhabrot_loop(t_mlxyz *mlxyz, t_fractol *fractol);
+int				buddhabrot(double c_r, double c_i, int iterations);
 #endif

@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 12:57:39 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/22 15:08:22 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/02/26 12:14:39 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,16 @@ int			load_kernel(t_opencl *opencl, char *kernel_name)
 	source_size = ft_strlen(source_str);
 	opencl->program = clCreateProgramWithSource(opencl->context, 1,
 		(const char **)&source_str, (const size_t *)&source_size, &opencl->ret);
+	if (opencl->ret != 0)
+		return (0);
 	opencl->ret = clBuildProgram(opencl->program, 1, &opencl->device,
 		"-cl-fast-relaxed-math", NULL, NULL);
+	if (opencl->ret != 0)
+		return (0);
 	opencl->kernel = clCreateKernel(opencl->program, kernel_name, &opencl->ret);
+	if (opencl->ret != 0)
+		return (0);
+	ft_putnbr(opencl->ret);
 	free(source_str);
 	return (1);
 }
