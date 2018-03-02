@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 12:57:39 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/26 12:14:39 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/02 17:30:18 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,6 @@
 #include <libft.h>
 #include <mlxyz.h>
 #include <fractol.h>
-
-/*
-	opencl->ret = clFlush(opencl->command_queue);
-	opencl->ret = clFinish(opencl->command_queue);
-	opencl->ret = clReleaseKernel(opencl->kernel);
-	opencl->ret = clReleaseProgram(opencl->program);
-	opencl->ret = clReleaseMemObject(opencl->mem[0]);
-	opencl->ret = clReleaseMemObject(opencl->mem[1]);
-	opencl->ret = clReleaseCommandQueue(opencl->command_queue);
-	opencl->ret = clReleaseContext(opencl->context);
-*/
 
 int			get_platforms(t_opencl *opencl)
 {
@@ -74,24 +63,16 @@ int			load_kernel(t_opencl *opencl, char *kernel_name)
 	source_str = ft_get_file(path);
 	free(path);
 	if (!source_str)
-	{
-		ft_putstr("Failed to load kernel file.\n");
 		return (0);
-	}
 	source_size = ft_strlen(source_str);
 	opencl->program = clCreateProgramWithSource(opencl->context, 1,
 		(const char **)&source_str, (const size_t *)&source_size, &opencl->ret);
-	if (opencl->ret != 0)
-		return (0);
 	opencl->ret = clBuildProgram(opencl->program, 1, &opencl->device,
 		"-cl-fast-relaxed-math", NULL, NULL);
-	if (opencl->ret != 0)
-		return (0);
 	opencl->kernel = clCreateKernel(opencl->program, kernel_name, &opencl->ret);
-	if (opencl->ret != 0)
-		return (0);
-	ft_putnbr(opencl->ret);
 	free(source_str);
+	if (opencl->ret)
+		return (0);
 	return (1);
 }
 

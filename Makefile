@@ -6,7 +6,7 @@
 #    By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/17 12:32:21 by gelambin          #+#    #+#              #
-#    Updated: 2018/02/26 18:19:26 by gelambin         ###   ########.fr        #
+#    Updated: 2018/03/02 21:17:30 by gelambin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,7 @@ NAME		=	fractol
 
 CC			=	gcc
 
-CFLAGS		=	#-Wall -Wextra -Werror
-
+CFLAGS		=	-Wall -Wextra -Werror
 CPPFLAGS	=	-I./lib/mlx/					\
 				-I./lib/libft/includes/			\
 				-I./lib/mlxyz/includes/			\
@@ -37,8 +36,7 @@ SRCS		=	./srcs/main.c					\
 				./srcs/fractals/mandelbrot.c	\
 				./srcs/fractals/burning_ship.c	\
 				./srcs/fractals/tricorn.c		\
-				./srcs/fractals/buddhabrot.c	\
-				./srcs/fractals/flarebrot.c
+				./srcs/fractals/bullet.c
 
 OBJS		=	$(SRCS:.c=.o)
 

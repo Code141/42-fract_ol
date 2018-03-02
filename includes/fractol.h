@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/07 09:11:43 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/26 18:21:01 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/02 21:03:40 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,13 @@ typedef struct	s_fractol
 	double		x;
 	double		y;
 	double		color_indice;
+	double		cre;
+	double		cim;
 	t_opencl	*opencl;
 }				t_fractol;
 
 void			crash_fractol(char *str);
-int				close_fractol(t_mlxyz *mlxyz);
+void			close_fractol(t_mlxyz *mlxyz);
 void			show_usage(void);
 void			set_fractal_type(char *fractal_name, t_fractol *fractol);
 void			fractol(t_mlxyz *mlxyz, t_fractol *fractol);
@@ -41,8 +43,9 @@ void			burning_ship_loop(t_mlxyz *mlxyz, t_fractol *fractol);
 int				burning_ship(double c_r, double c_i, int iterations);
 void			tricorn_loop(t_mlxyz *mlxyz, t_fractol *fractol);
 int				tricorn(double c_r, double c_i, int iterations);
-void			flarebrot_loop(t_mlxyz *mlxyz, t_fractol *fractol);
-int				flarebrot(double c_r, double c_i, int iterations, t_mlxyz *mlxyz);
+void			bullet_loop(t_mlxyz *mlxyz, t_fractol *fractol);
+int				bullet(double c_r, double c_i, int iterations,
+					t_fractol *fractol);
 void			buddhabrot_loop(t_mlxyz *mlxyz, t_fractol *fractol);
 int				buddhabrot(double c_r, double c_i, int iterations);
 #endif

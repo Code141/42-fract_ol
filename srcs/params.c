@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/20 11:00:08 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/26 18:19:10 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/02 20:55:50 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,8 @@ void	show_usage(void)
 	ft_putstr("	mandelbrot\n");
 	ft_putstr("	burning_ship\n");
 	ft_putstr("	tricorn\n");
-	ft_putstr("	buddhabrot\n");
-	ft_putstr("	flarebrot\n");
-		exit(0);
+	ft_putstr("	bullet\n");
+	exit(0);
 }
 
 void	set_fractal_type(char *fractal_name, t_fractol *fractol)
@@ -38,12 +37,9 @@ void	set_fractal_type(char *fractal_name, t_fractol *fractol)
 		fractol->fractal = 2;
 	else if (!ft_strcmp(fractal_name, "tricorn\0"))
 		fractol->fractal = 3;
-	else if (!ft_strcmp(fractal_name, "buddhabrot\0"))
+	else if (!ft_strcmp(fractal_name, "bullet\0"))
 		fractol->fractal = 4;
-	else if (!ft_strcmp(fractal_name, "flarebrot\0"))
-		fractol->fractal = 5;
 	else
 		show_usage();
-
 	fractol->fractal_name = fractal_name;
 }

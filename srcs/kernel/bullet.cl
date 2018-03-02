@@ -1,4 +1,4 @@
-__kernel void	flarebrot(__global double *params, __global int *r)
+__kernel void	bullet(__global double *params, __global int *r)
 {
 	__private int	x;
 	__private int	width;
@@ -18,17 +18,16 @@ __kernel void	flarebrot(__global double *params, __global int *r)
 	__private int		max_iter;
 	__private double	color_indice;
 
+	__private double	c_r_e;
+	__private double	c_i_e;
+
 	max_iter = params[0];
 	zoom = params[1];
 	pos_x = params[2];
 	pos_y = params[3];
 	color_indice = params[4];
-
-	__private double	c_r_e;
-	__private double	c_i_e;
-
-	c_r_e = (params[5] - pos_x) * zoom / 24;
-	c_i_e = (params[6] - pos_y) * zoom / 24;
+	c_r_e = -fabs(params[5]);
+	c_i_e = params[6];
 
 	__private double	c_r;
 	__private double	c_i;
@@ -42,29 +41,20 @@ __kernel void	flarebrot(__global double *params, __global int *r)
 	__private double	z_i_c;
 	__private int		i;
 
-	i = 0;
 	z_r_c = c_r * c_r;
 	z_i_c = c_i * c_i;
+	z_i = (c_i + c_i) * c_r + c_i;
+	z_r = z_r_c - z_i_c + c_r;
 
-	z_i = c_i_e * z_r * z_i + c_i;
-	z_r = z_r_c - z_i_c + c_r * c_r_e ;
-
-	while (z_r_c + z_i_c <= 4 && i < max_iter)
+	i = 0;
+	while (z_r_c + z_i_c <= 16 && i < max_iter)
 	{
-		z_r_c = z_r * z_r;
-		z_i_c = z_i * z_i;
-		z_i = c_i_e * z_r * z_i + c_i;
-		z_r = z_r_c - z_i_c + c_r * c_r_e;
+		z_r_c = z_r * (z_r / c_r_e) + -c_r_e;
+		z_i_c = z_i * z_i - z_r;
+		z_i = (z_i + z_i) * z_r;
+		z_r = z_r_c - z_i_c + c_r;
 		i++;
 	}
-
-
-
-
-
-
-
-
 
 	__private	unsigned int color;
 	__private	float pos;

@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 08:00:38 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/26 11:36:59 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/02 21:00:09 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int		burning_ship(double c_r, double c_i, int iterations)
 	double z_r_c;
 	double z_i_c;
 
+	z_r = 0;
+	z_i = 0;
 	z_r_c = z_r * z_r;
 	z_i_c = z_i * z_i;
 	z_i = fabs(2 * z_r * z_i + c_i);

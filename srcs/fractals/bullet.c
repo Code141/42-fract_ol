@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   flarebrot.c                                        :+:      :+:    :+:   */
+/*   bullet.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/26 18:17:47 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/26 18:27:21 by gelambin         ###   ########.fr       */
+/*   Created: 2018/03/02 20:49:12 by gelambin          #+#    #+#             */
+/*   Updated: 2018/03/02 21:17:14 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <mlxyz.h>
 #include <fractol.h>
 
-int		flarebrot(double c_r, double c_i, int iterations, t_mlxyz *mlxyz)
+int		bullet(double c_r, double c_i, int iterations, t_fractol *fractol)
 {
 	double z_r;
 	double z_i;
@@ -23,30 +23,22 @@ int		flarebrot(double c_r, double c_i, int iterations, t_mlxyz *mlxyz)
 
 	z_r = 0;
 	z_i = 0;
-	z_r_c = z_r * z_r;
-	z_i_c = z_i * z_i;
-
-	double indicex;
-	indicex = ((double)(mlxyz->mouse->x) / mlxyz->screen->width * 2 - 1) * 24;
-	double indicey;
-	indicey = ((double)(mlxyz->mouse->y) / mlxyz->screen->height * 2 - 1) * 24;
-
-
-	z_i = indicey * z_r * z_i + c_i;
-	z_r = z_r_c - z_i_c + c_r * indicex;
-
+	z_r_c = c_r * c_r;
+	z_i_c = c_i * c_i;
+	z_i = (c_i + c_i) * c_r + c_i;
+	z_r = z_r_c - z_i_c + c_r;
 	while (z_r_c + z_i_c <= 4 && iterations)
 	{
-		z_r_c = z_r * z_r;
-		z_i_c = z_i * z_i;
-		z_i = indicey * z_r * z_i + c_i;
-		z_r = z_r_c - z_i_c + c_r * indicex;
+		z_r_c = z_r * (z_r / fractol->cre) + -(fractol->cre);
+		z_i_c = z_i * z_i - z_r;
+		z_i = (z_i + z_i) * z_r;
+		z_r = z_r_c - z_i_c + c_r;
 		iterations--;
 	}
 	return (iterations);
 }
 
-void	flarebrot_loop(t_mlxyz *mlxyz, t_fractol *fractol)
+void	bullet_loop(t_mlxyz *mlxyz, t_fractol *fractol)
 {
 	double	c_r;
 	double	c_i;
@@ -54,6 +46,8 @@ void	flarebrot_loop(t_mlxyz *mlxyz, t_fractol *fractol)
 	int		y;
 	int		i;
 
+	fractol->cre = -(fabs(fractol->x + (-(mlxyz->screen->width / 2) +
+					mlxyz->mouse->x) / fractol->zoom));
 	x = -(mlxyz->screen->width / 2);
 	while (x < mlxyz->screen->width)
 	{
@@ -63,7 +57,7 @@ void	flarebrot_loop(t_mlxyz *mlxyz, t_fractol *fractol)
 		{
 			c_i = (-(mlxyz->screen->height / 2) + y)
 				/ fractol->zoom + fractol->y;
-			i = flarebrot(c_r, c_i, fractol->max_iter, mlxyz);
+			i = bullet(c_r, c_i, fractol->max_iter, fractol);
 			fractol_color(mlxyz, x, y, i);
 			y++;
 		}
