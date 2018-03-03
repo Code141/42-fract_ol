@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/07 09:11:43 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/02 21:03:40 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/03 21:56:32 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ typedef struct	s_fractol
 	double		x;
 	double		y;
 	double		color_indice;
-	double		cre;
-	double		cim;
+	double		cr;
+	double		ci;
 	t_opencl	*opencl;
 }				t_fractol;
 

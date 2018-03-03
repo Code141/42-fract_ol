@@ -1,69 +1,79 @@
-__kernel void	burning_ship(__global double *params, __global int *r)
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   burning_ship.cl                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/03 17:59:33 by gelambin          #+#    #+#             */
+/*   Updated: 2018/03/03 18:00:03 by gelambin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+typedef struct	s_fractol
 {
-	__private int	x;
-	__private int	width;
-	__private int	y;
-	__private int	height;
+	char		*fractal_name;
+	int			fractal;
+	int			render;
+	int			max_iter;
+	double		zoom;
+	double		x;
+	double		y;
+	double		color_indice;
+	double		cre;
+	double		cim;
+}				t_fractol;
+
+unsigned int	color(float pos, double c_indice)
+{
+	if (pos == 1)
+		return (0xffffff);
+	return (((unsigned int)(255 * ((sinpi((pos + M_PI_F * 2 * c_indice) * 8)
+			+ 1) / 2)) << 16)
+		+ ((unsigned int)(255 * ((sinpi(pos * 6) + 1) / 2)) << 8)
+		+ (0x0000ff * (1 - ((sinpi(pos * 3 * c_indice) + 1) / 2))));
+}
+
+unsigned int	mandelbrot(double c_r, double c_i, int max_iter)
+{
+	double	z_r;
+	double	z_i;
+	double	z_r_c;
+	double	z_i_c;
+
+	z_r_c = 0;
+	z_i_c = 0;
+	z_r = fabs(z_r_c - z_i_c + c_r);
+	z_i = fabs(2 * z_r * 0 + c_i);
+	while (z_r_c + z_i_c <= 4 && max_iter)
+	{
+		z_r_c = z_r * z_r;
+		z_i_c = z_i * z_i;
+		z_i = fabs(2 * z_r * z_i + c_i);
+		z_r = fabs(z_r_c - z_i_c + c_r);
+		max_iter--;
+	}
+	return (max_iter);
+}
+
+__kernel void	luncher(__global t_fractol *fractol, __global int *r)
+{
+	int	width;
+	int	height;
+	int	x;
+	int	y;
+	double	c_r;
+	double	c_i;
 
 	width = get_global_size(0);
 	height = get_global_size(1);
 	x = get_global_id(0);
 	y = get_global_id(1);
 
-/* PARAMETRAGE */
+	c_r = (-(width / 2) + x) / fractol->zoom + fractol->x;
+	c_i = (-(height / 2) + y) / fractol->zoom + fractol->y;
 
-	__private double	zoom;
-	__private double	pos_x;
-	__private double	pos_y;
-	__private int		max_iter;
-	__private double	color_indice;
-
-	max_iter = params[0];
-	zoom = params[1];
-	pos_x = params[2];
-	pos_y = params[3];
-	color_indice = params[4];
-
-	__private double	c_r;
-	__private double	c_i;
-
-	c_r = (-(width / 2) + x) / zoom + pos_x;
-	c_i = (-(height / 2) + y) / zoom + pos_y;
-
-	__private double	z_r;
-	__private double	z_i;
-	__private double	z_r_c;
-	__private double	z_i_c;
-	__private int		i;
-
-	z_r_c = 0;
-	z_i_c = 0;
-	z_r = fabs(z_r_c - z_i_c + c_r);
-	z_i = fabs(2 * z_r * 0 + c_i);
-
-	i = 0;
-	while (z_r_c + z_i_c <= 4 && i < max_iter)
-	{
-		z_r_c = z_r * z_r;
-		z_i_c = z_i * z_i;
-		z_i = fabs(2 * z_r * z_i + c_i);
-		z_r = fabs(z_r_c - z_i_c + c_r);
-		i++;
-	}
-	__private	unsigned int color;
-	__private	float pos;
-
-	pos = (float)i / (float)max_iter;
-
-	color = 0;
-// B G R A
-	if (pos == 1)
-		color = 0xffffff;
-	else
-	{
-		color += (unsigned int)(255 * ((sinpi((pos + M_PI_F * 2 * color_indice) * 8) + 1) / 2)) << 16;
-		color += (unsigned int)(255 * ((sinpi(pos * 6) + 1) / 2)) << 8;
-		color += 0x0000ff * (1 - ((sinpi(pos * 3 * color_indice) + 1) / 2));
-	}
-	r[x + (y * width)] = color;
+	r[x + (y * width)] = color(
+		((float)(fractol->max_iter - mandelbrot(c_r, c_i, fractol->max_iter))
+		/ fractol->max_iter), fractol->color_indice);
 }

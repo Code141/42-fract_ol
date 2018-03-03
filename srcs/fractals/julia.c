@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/20 12:18:25 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/02 18:47:35 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/03 21:57:35 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ int		julia(double c_r, double c_i, int iterations, t_mlxyz *mlxyz)
 
 	z_r_c = c_r * c_r;
 	z_i_c = c_i * c_i;
-	z_i = (c_i + c_i) * c_r + ((t_fractol*)mlxyz->app)->cim;
-	z_r = z_r_c - z_i_c + ((t_fractol*)mlxyz->app)->cre;
+	z_i = (c_i + c_i) * c_r + ((t_fractol*)mlxyz->app)->ci;
+	z_r = z_r_c - z_i_c + ((t_fractol*)mlxyz->app)->cr;
 	while (z_r_c + z_i_c <= 4 && iterations)
 	{
 		z_r_c = z_r * z_r;
 		z_i_c = z_i * z_i;
-		z_i = (z_i + z_i) * z_r + ((t_fractol*)mlxyz->app)->cim;
-		z_r = z_r_c - z_i_c + ((t_fractol*)mlxyz->app)->cre;
+		z_i = (z_i + z_i) * z_r + ((t_fractol*)mlxyz->app)->ci;
+		z_r = z_r_c - z_i_c + ((t_fractol*)mlxyz->app)->cr;
 		iterations--;
 	}
 	return (iterations);
@@ -43,9 +43,9 @@ void	julia_loop(t_mlxyz *mlxyz, t_fractol *fractol)
 	int		y;
 	int		i;
 
-	fractol->cre = (-(mlxyz->screen->width / 2) + mlxyz->mouse->x)
+	fractol->cr = (-(mlxyz->screen->width / 2) + mlxyz->mouse->x)
 		/ fractol->zoom;
-	fractol->cim = (-(mlxyz->screen->height / 2) + mlxyz->mouse->y)
+	fractol->ci = (-(mlxyz->screen->height / 2) + mlxyz->mouse->y)
 		/ fractol->zoom;
 	x = -(mlxyz->screen->width / 2);
 	while (x < mlxyz->screen->width)

@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 18:44:58 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/02 20:45:08 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/03 21:31:32 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_fractol	*init_fractol(char *fractal_name)
 		crash_fractol("Malloc");
 	ft_bzero(fractol, sizeof(t_fractol));
 	set_fractal_type(fractal_name, fractol);
-	fractol->render = 0;
+	fractol->render = 1;
 	fractol->max_iter = 100;
 	fractol->zoom = 180;
 	fractol->x = 0;

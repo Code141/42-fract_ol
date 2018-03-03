@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 12:57:39 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/02 17:30:18 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/04 00:24:57 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ int			load_kernel(t_opencl *opencl, char *kernel_name)
 	opencl->program = clCreateProgramWithSource(opencl->context, 1,
 		(const char **)&source_str, (const size_t *)&source_size, &opencl->ret);
 	opencl->ret = clBuildProgram(opencl->program, 1, &opencl->device,
-		"-cl-fast-relaxed-math", NULL, NULL);
-	opencl->kernel = clCreateKernel(opencl->program, kernel_name, &opencl->ret);
+		"-cl-fast-relaxed-math -Werror", NULL, NULL);
+	opencl->kernel = clCreateKernel(opencl->program, "luncher", &opencl->ret);
 	free(source_str);
 	if (opencl->ret)
 		return (0);
@@ -108,7 +108,7 @@ int			set_kernel(t_opencl *opencl, t_mlxyz *mlxyz, char *fractale_name)
 	opencl->global_work_size[1] = mlxyz->screen->height;
 	opencl->global_work_size[2] = 1;
 	opencl->mem[0] = clCreateBuffer(opencl->context, CL_MEM_READ_WRITE,
-		7 * sizeof(double), NULL, &opencl->ret);
+		sizeof(t_fractol), NULL, &opencl->ret);
 	opencl->mem[1] = clCreateBuffer(opencl->context, CL_MEM_READ_WRITE,
 		mlxyz->screen->width * mlxyz->screen->height * sizeof(int),
 		NULL, &opencl->ret);
