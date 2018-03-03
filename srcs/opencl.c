@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 12:57:39 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/04 00:24:57 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/04 00:54:57 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int			load_kernel(t_opencl *opencl, char *kernel_name)
 	char	*path;
 	char	*tmp;
 	char	*source_str;
-	size_t	source_size;
 
 	tmp = ft_strjoin("./srcs/kernel/", kernel_name);
 	path = ft_strjoin(tmp, ".cl");
@@ -64,9 +63,8 @@ int			load_kernel(t_opencl *opencl, char *kernel_name)
 	free(path);
 	if (!source_str)
 		return (0);
-	source_size = ft_strlen(source_str);
 	opencl->program = clCreateProgramWithSource(opencl->context, 1,
-		(const char **)&source_str, (const size_t *)&source_size, &opencl->ret);
+		(const char **)&source_str, NULL, &opencl->ret);
 	opencl->ret = clBuildProgram(opencl->program, 1, &opencl->device,
 		"-cl-fast-relaxed-math -Werror", NULL, NULL);
 	opencl->kernel = clCreateKernel(opencl->program, "luncher", &opencl->ret);
