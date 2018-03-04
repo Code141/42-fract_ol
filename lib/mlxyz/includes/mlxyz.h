@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 17:57:10 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/08 01:08:10 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/04 16:41:41 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@
 # include <events/events.h>
 # include <events/keyboard.h>
 # include <events/mouse.h>
+# include <opencl/opencl.h>
 
 #endif

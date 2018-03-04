@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/20 12:18:25 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/03 21:57:35 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/04 20:51:00 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,6 @@ void	julia_loop(t_mlxyz *mlxyz, t_fractol *fractol)
 	int		y;
 	int		i;
 
-	fractol->cr = (-(mlxyz->screen->width / 2) + mlxyz->mouse->x)
-		/ fractol->zoom;
-	fractol->ci = (-(mlxyz->screen->height / 2) + mlxyz->mouse->y)
-		/ fractol->zoom;
 	x = -(mlxyz->screen->width / 2);
 	while (x < mlxyz->screen->width)
 	{

@@ -6,15 +6,14 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 12:57:39 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/04 00:54:57 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/04 18:33:51 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <OpenCL/cl.h>
-#include <opencl.h>
 #include <libft.h>
 #include <mlxyz.h>
-#include <fractol.h>
+#include <opencl/opencl.h>
 
 int			get_platforms(t_opencl *opencl)
 {
@@ -50,25 +49,13 @@ int			get_devices(t_opencl *opencl)
 	return (0);
 }
 
-int			load_kernel(t_opencl *opencl, char *kernel_name)
+int				load_kernel(t_opencl *opencl, char **files, int number)
 {
-	char	*path;
-	char	*tmp;
-	char	*source_str;
-
-	tmp = ft_strjoin("./srcs/kernel/", kernel_name);
-	path = ft_strjoin(tmp, ".cl");
-	free(tmp);
-	source_str = ft_get_file(path);
-	free(path);
-	if (!source_str)
-		return (0);
-	opencl->program = clCreateProgramWithSource(opencl->context, 1,
-		(const char **)&source_str, NULL, &opencl->ret);
+	opencl->program = clCreateProgramWithSource(opencl->context, number,
+		(const char **)files, NULL, &opencl->ret);
 	opencl->ret = clBuildProgram(opencl->program, 1, &opencl->device,
-		"-cl-fast-relaxed-math -Werror", NULL, NULL);
+		"-cl-fast-relaxed-math", NULL, NULL);
 	opencl->kernel = clCreateKernel(opencl->program, "luncher", &opencl->ret);
-	free(source_str);
 	if (opencl->ret)
 		return (0);
 	return (1);
@@ -96,23 +83,4 @@ t_opencl	*init_opencl(void)
 	free(opencl->platforms);
 	free(opencl->devices);
 	return (opencl);
-}
-
-int			set_kernel(t_opencl *opencl, t_mlxyz *mlxyz, char *fractale_name)
-{
-	if (!load_kernel(opencl, fractale_name))
-		return (0);
-	opencl->global_work_size[0] = mlxyz->screen->width;
-	opencl->global_work_size[1] = mlxyz->screen->height;
-	opencl->global_work_size[2] = 1;
-	opencl->mem[0] = clCreateBuffer(opencl->context, CL_MEM_READ_WRITE,
-		sizeof(t_fractol), NULL, &opencl->ret);
-	opencl->mem[1] = clCreateBuffer(opencl->context, CL_MEM_READ_WRITE,
-		mlxyz->screen->width * mlxyz->screen->height * sizeof(int),
-		NULL, &opencl->ret);
-	opencl->ret = clSetKernelArg(opencl->kernel,
-		0, sizeof(cl_mem), (void*)&opencl->mem[0]);
-	opencl->ret = clSetKernelArg(opencl->kernel,
-		1, sizeof(cl_mem), (void*)&opencl->mem[1]);
-	return (1);
 }

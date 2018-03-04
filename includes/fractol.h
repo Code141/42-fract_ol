@@ -6,28 +6,14 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/07 09:11:43 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/03 21:56:32 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/04 17:36:41 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
-# include <opencl.h>
-
-typedef struct	s_fractol
-{
-	char		*fractal_name;
-	int			fractal;
-	int			render;
-	int			max_iter;
-	double		zoom;
-	double		x;
-	double		y;
-	double		color_indice;
-	double		cr;
-	double		ci;
-	t_opencl	*opencl;
-}				t_fractol;
+# include <mlxyz.h>
+# include <fractol_struct.h>
 
 void			crash_fractol(char *str);
 void			close_fractol(t_mlxyz *mlxyz);
@@ -48,4 +34,5 @@ int				bullet(double c_r, double c_i, int iterations,
 					t_fractol *fractol);
 void			buddhabrot_loop(t_mlxyz *mlxyz, t_fractol *fractol);
 int				buddhabrot(double c_r, double c_i, int iterations);
+
 #endif

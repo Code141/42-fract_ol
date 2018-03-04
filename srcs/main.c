@@ -6,14 +6,51 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 18:44:58 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/03 21:31:32 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/04 19:52:33 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlxyz.h>
 #include <libft.h>
 #include <fractol.h>
-#include <opencl.h>
+
+int			set_kernel(t_opencl *opencl, int x, int y, char *fractale_name)
+{
+	char	*path;
+	char	*tmp;
+	char	*source_str[3];
+
+	tmp = ft_strjoin("./srcs/kernel/", fractale_name);
+	path = ft_strjoin(tmp, ".cl");
+	free(tmp);
+
+	source_str[0] = ft_get_file("./includes/fractol_struct.h");
+	source_str[1] = ft_get_file(path);
+	source_str[2] = ft_get_file("./srcs/kernel/main.cl");
+
+	free(path);
+	if (!source_str[0] || !source_str[1])
+		return (0);
+
+	if (!load_kernel(opencl, source_str, 3))
+		return (0);
+	free(source_str[0]);
+	free(source_str[1]);
+	free(source_str[2]);
+
+	opencl->global_work_size[0] = x;
+	opencl->global_work_size[1] = y;
+	opencl->global_work_size[2] = 1;
+	opencl->mem[0] = clCreateBuffer(opencl->context, CL_MEM_READ_WRITE,
+		sizeof(t_fractol), NULL, &opencl->ret);
+	opencl->mem[1] = clCreateBuffer(opencl->context, CL_MEM_READ_WRITE,
+		x * y * sizeof(int), NULL, &opencl->ret);
+	opencl->ret = clSetKernelArg(opencl->kernel,
+		0, sizeof(cl_mem), (void*)&opencl->mem[0]);
+	opencl->ret = clSetKernelArg(opencl->kernel,
+		1, sizeof(cl_mem), (void*)&opencl->mem[1]);
+	return (1);
+}
 
 t_fractol	*init_fractol(char *fractal_name)
 {
@@ -36,7 +73,6 @@ int			main(int argc, char **argv)
 {
 	t_fractol	*fractol;
 	t_mlxyz		*mlxyz;
-	t_opencl	*opencl;
 
 	argc--;
 	argv++;
@@ -44,11 +80,14 @@ int			main(int argc, char **argv)
 		show_usage();
 	mlxyz = mlxyz_init();
 	fractol = init_fractol(*argv);
-	opencl = init_opencl();
-	if (set_kernel(opencl, mlxyz, fractol->fractal_name))
+	if (set_kernel(
+				mlxyz->opencl,
+				mlxyz->screen->width,
+				mlxyz->screen->height,
+				fractol->fractal_name))
 		fractol->render = 1;
-	fractol->opencl = opencl;
 	mlxyz->app = fractol;
+
 	mlx_loop(mlxyz->mlx);
 	return (0);
 }

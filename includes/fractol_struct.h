@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   closing.c                                          :+:      :+:    :+:   */
+/*   fractol_struct.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/01 12:52:57 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/04 17:12:40 by gelambin         ###   ########.fr       */
+/*   Created: 2018/03/04 17:36:00 by gelambin          #+#    #+#             */
+/*   Updated: 2018/03/04 18:37:26 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <mlx.h>
-#include <mlxyz.h>
-#include <fractol.h>
+#ifndef FRACTOL_STRUCT_H
+# define FRACTOL_STRUCT_H
 
-void	close_fractol(t_mlxyz *mlxyz)
+typedef struct	s_fractol
 {
-	mlxyz_close(mlxyz);
-	ft_putstr("Exit.");
-	exit(0);
-}
+	char		*fractal_name;
+	int			fractal;
+	int			render;
+	int			max_iter;
+	double		zoom;
+	double		x;
+	double		y;
+	double		color_indice;
+	double		cr;
+	double		ci;
+}				t_fractol;
 
-void	crash_fractol(char *str)
-{
-	ft_putendl("========== CRASH ==========");
-	ft_putendl(str);
-	ft_putendl("===========================");
-	exit(1);
-}
+#endif

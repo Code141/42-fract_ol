@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/04 17:08:14 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/22 14:29:32 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/04 19:31:36 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_mlxyz	*mlxyz_init(void)
 	mlxyz->mlx = mlx_init();
 	if (!mlxyz->mlx)
 		mlxyz_close(mlxyz);
-	mlxyz->screen = new_screen(mlxyz->mlx, 1024, 786);
+	mlxyz->screen = new_screen(mlxyz->mlx, 1024, 800);
 	mlxyz->stats = new_stats();
 	mlxyz->hud = new_hud();
 	mlxyz->hud->graphs[0] = new_graph(100, 60, mlxyz->stats->fps);
@@ -36,6 +36,7 @@ t_mlxyz	*mlxyz_init(void)
 	mlxyz->camera->pos.z = 0;
 	mlxyz->mouse = new_mouse();
 	mlxyz->keyboard = new_keyboard();
+	mlxyz->opencl = init_opencl();
 	hooks(mlxyz);
 	return (mlxyz);
 }

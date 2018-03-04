@@ -1,74 +1,39 @@
-__kernel void	julia(__global double *params, __global int *r)
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   julia.cl                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/03 17:59:33 by gelambin          #+#    #+#             */
+/*   Updated: 2018/03/03 18:00:03 by gelambin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+unsigned int	iterations(double c_r, double c_i, __global t_fractol *fractol, int x, int y, int width, __global *r)
 {
-	__private int	x;
-	__private int	width;
-	__private int	y;
-	__private int	height;
+	int		i;
+	double	z_r;
+	double	z_i;
+	double	z_r_c;
+	double	z_i_c;
 
-	width = get_global_size(0);
-	height = get_global_size(1);
-	x = get_global_id(0);
-	y = get_global_id(1);
-
-/* PARAMETRAGE */
-
-	__private double	zoom;
-	__private double	pos_x;
-	__private double	pos_y;
-	__private int		max_iter;
-	__private double	color_indice;
-
-	max_iter = params[0];
-	zoom = params[1];
-	pos_x = params[2];
-	pos_y = params[3];
-	color_indice = params[4];
-
-	__private double	c_r_e;
-	__private double	c_i_e;
-	c_r_e = params[5];
-	c_i_e = params[6];
-
-	__private double	c_r;
-	__private double	c_i;
-
-	c_r = (-(width / 2) + x) / zoom + pos_x;
-	c_i = (-(height / 2) + y) / zoom + pos_y;
-
-	__private double	z_r;
-	__private double	z_i;
-	__private double	z_r_c;
-	__private double	z_i_c;
-	__private int		i;
-
+	i = 0;
 	z_r_c = c_r * c_r;
 	z_i_c = c_i * c_i;
-	z_i = (c_i + c_i) * c_r  + c_r_e;
-	z_r = z_r_c - z_i_c + c_i_e;
+	z_i = (c_i + c_i) * c_r  + fractol->ci;
+	z_r = z_r_c - z_i_c + fractol->cr;
 	i = 0;
-	while (z_r_c + z_i_c <= 4 && i < max_iter)
+	while (z_r_c + z_i_c <= 4 && i < fractol->max_iter)
 	{
 		z_r_c = z_r * z_r;
 		z_i_c = z_i * z_i;
-		z_i = (z_i + z_i) * z_r  + c_r_e;
-		z_r = z_r_c - z_i_c + c_i_e;
+		z_i = (z_i + z_i) * z_r  + fractol->ci;
+		z_r = z_r_c - z_i_c + fractol->cr;
+r[x + (y * width)] += (z_r_c + z_i_c) * 2;
 		i++;
 	}
 
-	__private	unsigned int color;
-	__private	float pos;
 
-	pos = (float)i / (float)max_iter;
-
-	color = 0;
-// B G R A
-	if (pos == 1)
-		color = 0xffffff;
-	else
-	{
-		color += (unsigned int)(255 * ((sinpi((pos + M_PI_F * 2 * color_indice) * 8) + 1) / 2)) << 16;
-		color += (unsigned int)(255 * ((sinpi(pos * 6) + 1) / 2)) << 8;
-		color += 0x0000ff * (1 - ((sinpi(pos * 3 * color_indice) + 1) / 2));
-	}
-	r[x + (y * width)] = color;
+	return (i);
 }

@@ -6,7 +6,7 @@
 #    By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/17 12:32:21 by gelambin          #+#    #+#              #
-#    Updated: 2018/02/22 14:31:27 by gelambin         ###   ########.fr        #
+#    Updated: 2018/03/04 16:42:53 by gelambin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,9 @@ SRCS	=	./srcs/core/core.c				\
 			./srcs/object/object.c			\
 			./srcs/object/scene.c			\
 			./srcs/object/camera.c			\
-			./srcs/object/mesh.c
+			./srcs/object/mesh.c			\
+			\
+			./srcs/opencl/opencl.c
 
 OBJS	=	$(SRCS:.c=.o)
 

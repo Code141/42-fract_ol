@@ -10,37 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-typedef struct	s_fractol
-{
-	char		*fractal_name;
-	int			fractal;
-	int			render;
-	int			max_iter;
-	double		zoom;
-	double		x;
-	double		y;
-	double		color_indice;
-	double		cre;
-	double		cim;
-}				t_fractol;
-
-unsigned int	color(float pos, double c_indice)
-{
-	unsigned char r;
-	unsigned char g;
-	unsigned char b;
-
-	if (pos == 1)
-		return (0xffffff);
-	if (pos == 0)
-		return (0x000000);
-	r = 255 * ((sinpi((pos + M_PI_F * 2 * c_indice) * 8) + 1) / 2);
-	g = 255 * ((sinpi(pos * 6) + 1) / 2);
-	b = 255 * (1 - ((sinpi(pos * 3 * c_indice) + 1) / 2));
-	return ((r << 16) + (g << 8) + b);
-}
-
-unsigned int	mandelbrot(double c_r, double c_i, __global t_fractol *fractol)
+unsigned int	iterations(double c_r, double c_i, __global t_fractol *fractol)
 {
 	int		i;
 	double	z_r;
@@ -62,24 +32,4 @@ unsigned int	mandelbrot(double c_r, double c_i, __global t_fractol *fractol)
 		i++;
 	}
 	return (i);
-}
-
-__kernel void	luncher(__global t_fractol *fractol, __global int *r)
-{
-	int	width;
-	int	height;
-	int	x;
-	int	y;
-	int i;
-
-	width = get_global_size(0);
-	height = get_global_size(1);
-	x = get_global_id(0);
-	y = get_global_id(1);
-	i = mandelbrot(
-			(-(width / 2) + x) / fractol->zoom + fractol->x,
-			(-(height / 2) + y) / fractol->zoom + fractol->y,
-			fractol);
-	r[x + (y * width)] = color(
-		((float)(i)	/ fractol->max_iter), fractol->color_indice);
 }

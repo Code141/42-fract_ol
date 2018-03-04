@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 14:28:41 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/22 14:29:03 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/04 16:39:32 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <events/mouse.h>
 # include <object/scene.h>
 # include <object/camera.h>
+# include <opencl/opencl.h>
 # define PI 3.14159265
 # define RAD PI / 180
 # define TO_RAD(x) ((x) * PI / 180.0)
@@ -35,6 +36,7 @@ typedef	struct	s_mlxyz
 	t_mouse		*mouse;
 	t_scene		*scene;
 	t_camera	*camera;
+	t_opencl	*opencl;
 	void		*app;
 }				t_mlxyz;
 

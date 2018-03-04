@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 11:37:39 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/03 21:50:02 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/04 19:47:15 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,24 @@ void	loop_opencl(t_mlxyz *mlxyz, t_fractol *fractol, t_opencl *opencl)
 
 int		loop(t_mlxyz *mlxyz)
 {
-	t_fractol	*app;
-	t_opencl	*opencl;
+	t_fractol	*fractol;
 
-	app = mlxyz->app;
-	opencl = app->opencl;
-	refresh_input_devices(mlxyz, app);
+	fractol = mlxyz->app;
+
+	refresh_input_devices(mlxyz, fractol);
 	refresh_stats(mlxyz->stats);
-	app->color_indice = ((double)(mlxyz->stats->now % 100000) / 100000);
-	if (app->render % 2)
-		loop_opencl(mlxyz, app, opencl);
+
+	fractol->color_indice = ((double)(mlxyz->stats->now % 100000) / 100000);
+	fractol->cr = (-(mlxyz->screen->width / 2) + mlxyz->mouse->x)
+		/ fractol->zoom;
+	fractol->ci = (-(mlxyz->screen->height / 2) + mlxyz->mouse->y)
+		/ fractol->zoom;
+	
+	if (fractol->render % 2)
+		loop_opencl(mlxyz, fractol, mlxyz->opencl);
 	else
-		loop_cpu(mlxyz, app);
+		loop_cpu(mlxyz, fractol);
+
 	draw_hud(mlxyz);
 	mlx_put_image_to_window(mlxyz->mlx,
 		mlxyz->screen->win, mlxyz->screen->canevas->id, 0, 0);
