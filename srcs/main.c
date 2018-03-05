@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 18:44:58 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/04 19:52:33 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/05 23:19:04 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ t_fractol	*init_fractol(char *fractal_name)
 	ft_bzero(fractol, sizeof(t_fractol));
 	set_fractal_type(fractal_name, fractol);
 	fractol->render = 1;
-	fractol->max_iter = 100;
+	fractol->lock = 0;
+	fractol->max_iter = 50;
 	fractol->zoom = 180;
 	fractol->x = 0;
 	fractol->y = 0;

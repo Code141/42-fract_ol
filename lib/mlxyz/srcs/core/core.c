@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/04 17:08:14 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/04 19:31:36 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/05 19:10:51 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,32 @@ t_mlxyz	*mlxyz_init(void)
 	if (!mlxyz)
 		mlxyz_crash("Broken malloc");
 	ft_bzero(mlxyz, sizeof(t_mlxyz));
+
 	mlxyz->mlx = mlx_init();
+
 	if (!mlxyz->mlx)
 		mlxyz_close(mlxyz);
-	mlxyz->screen = new_screen(mlxyz->mlx, 1024, 800);
+
+	mlxyz->screen = new_screen(mlxyz->mlx, 1024, 786);
+
 	mlxyz->stats = new_stats();
+
 	mlxyz->hud = new_hud();
 	mlxyz->hud->graphs[0] = new_graph(100, 60, mlxyz->stats->fps);
 	mlxyz->hud->graphs[1] = new_graph(100, 60, mlxyz->stats->ms);
 	mlxyz->hud->graphs[1]->color_min.hex = 0x00ffff;
 	mlxyz->hud->graphs[1]->color_max.hex = 0xff0000;
 	mlxyz->hud->graphs[1]->x = 102;
+
 	mlxyz->camera = new_camera(TO_RAD(120), 10, 100);
 	mlxyz->camera->pos.z = 0;
+
 	mlxyz->mouse = new_mouse();
+
 	mlxyz->keyboard = new_keyboard();
+
 	mlxyz->opencl = init_opencl();
+
 	hooks(mlxyz);
 	return (mlxyz);
 }

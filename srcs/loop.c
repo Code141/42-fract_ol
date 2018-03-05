@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 11:37:39 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/04 19:47:15 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/05 23:09:59 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,13 @@ int		loop(t_mlxyz *mlxyz)
 	refresh_stats(mlxyz->stats);
 
 	fractol->color_indice = ((double)(mlxyz->stats->now % 100000) / 100000);
-	fractol->cr = (-(mlxyz->screen->width / 2) + mlxyz->mouse->x)
-		/ fractol->zoom;
-	fractol->ci = (-(mlxyz->screen->height / 2) + mlxyz->mouse->y)
-		/ fractol->zoom;
-	
+	if (!fractol->lock % 2)
+	{
+		fractol->cr = (-(mlxyz->screen->width / 2) + mlxyz->mouse->x)
+			/ fractol->zoom;
+		fractol->ci = (-(mlxyz->screen->height / 2) + mlxyz->mouse->y)
+			/ fractol->zoom;
+	}
 	if (fractol->render % 2)
 		loop_opencl(mlxyz, fractol, mlxyz->opencl);
 	else

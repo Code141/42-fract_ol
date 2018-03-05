@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/12 03:35:02 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/22 15:19:01 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/05 23:10:03 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	refresh_keyboard(t_mlxyz *mlxyz, t_fractol *fractol)
 		fractol_move(fractol, 0, 10);
 	if (mlxyz->keyboard->key[126])
 		fractol_move(fractol, 0, -10);
+	if (mlxyz->keyboard->key[49])
+		fractol->lock += 1;
 	if (mlxyz->keyboard->key[53])
 		close_fractol(mlxyz);
 }

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mandelbrot.cl                                      :+:      :+:    :+:   */
+/*   main.cl                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,50 +10,72 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-unsigned int	color(float pos, double c_indice)
+typedef union		u_color_rgba
 {
-	unsigned char r;
-	unsigned char g;
-	unsigned char b;
+	unsigned int	hex;
+	struct			s_c
+	{
+		unsigned char	b;
+		unsigned char	g;
+		unsigned char	r;
+		unsigned char	a;
+	}				c;
+}					t_color_rgba;
 
-	if (pos == 1)
+unsigned char	color_canal_sub(unsigned char base, unsigned char value)
+{
+	return ((base - value < 0) ? 0 : base - value);
+}
+
+unsigned char	color_canal_add(unsigned char base, unsigned char value)
+{
+	return ((base + value > 255) ? 255 : base + value);
+}
+
+unsigned int	color(t_pixel *pixel, double c_indice)
+{
+	t_color_rgba c;
+
+	c.hex = 0;
+	if (pixel->pos == 1)
 		return (0xffffff);
-//	if (pos == 0)
-//		return (0xffffff);
-	r = (255 *(1-pos)) * ((sinpi((pos + M_PI_F * 2 * c_indice) * 8) + 1) / 2);
-	g = (255 *(1-pos)) * ((sinpi(pos * 6) + 1) / 2);
-	b = (255 *(1-pos)) * (1 - ((sinpi(pos * 3 * c_indice) + 1) / 2));
-	return ((r << 16) + (g << 8) + b);
+	if (pixel->pos == 0)
+		return (0xffffff);
+
+	c.c.r = color_canal_add(c.c.r, 255 * ((sin(M_PI_F * ((pixel->pos + M_PI_F * 2 * c_indice)) * 8) + 1) / 2));
+	c.c.g = color_canal_add(c.c.g, 255 * ((sin(M_PI_F * pixel->pos * 6) + 1) / 2));
+	c.c.b = color_canal_add(c.c.b, 255 * ((sin(M_PI_F * pixel->pos * 3 * c_indice) + 1) / 2));
+
+	c.c.r = color_canal_add(c.c.r, pixel->value * 1.5);
+	c.c.g = color_canal_add(c.c.g, pixel->value * 1.5);
+	c.c.b = color_canal_add(c.c.b, pixel->value * 1.5);
+
+	c.c.r = color_canal_sub(c.c.r, (pixel->iterations % 2) * 0x66);
+	c.c.g = color_canal_sub(c.c.g, (pixel->iterations % 2) * 0x66);
+	c.c.b = color_canal_sub(c.c.b, (pixel->iterations % 2) * 0x66);
+
+	return (c.hex);
 }
 
 __kernel void	luncher(__global t_fractol *fractol, __global int *r)
 {
+	t_pixel	pixel;
 	int	width;
 	int	height;
 	int	x;
 	int	y;
 	int i;
 
-	width = get_global_size(0);
-	height = get_global_size(1);
-	x = get_global_id(0);
-	y = get_global_id(1);
-
-
-	
-	r[x + (y * width)] = 0;
-	i = iterations(
-			(-(width / 2) + x) / fractol->zoom + fractol->x,
-			(-(height / 2) + y) / fractol->zoom + fractol->y,
-			fractol,
-			x,
-			y,
-			width,
-			r);
-
-	r[x + (y * width)] += color(	
-		((float)(i)	/ fractol->max_iter), fractol->color_indice);
-
-
-//	r[x + (y * width)] += (0x666666 * (i % 2));
+	pixel.width = get_global_size(0);
+	pixel.height = get_global_size(1);
+	pixel.x = get_global_id(0);
+	pixel.y = get_global_id(1);
+	pixel.index = pixel.x + (pixel.y * pixel.width);
+	pixel.max_iter = fractol->max_iter;
+	pixel.c_r = (-(pixel.width / 2) + pixel.x) / fractol->zoom + fractol->x;
+	pixel.c_i = (-(pixel.height / 2) + pixel.y) / fractol->zoom + fractol->y;
+	pixel.value = 0;
+	iterations(fractol, &pixel);
+	pixel.pos = ((float)(pixel.iterations) / fractol->max_iter);
+	r[pixel.index] = color(&pixel, fractol->color_indice);
 }

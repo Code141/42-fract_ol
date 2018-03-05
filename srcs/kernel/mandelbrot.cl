@@ -10,26 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-unsigned int	iterations(double c_r, double c_i, __global t_fractol *fractol)
+void	iterations(__global t_fractol *fractol, t_pixel *pixel)
 {
-	int		i;
 	double	z_r;
 	double	z_i;
 	double	z_r_c;
 	double	z_i_c;
 
-	i = 0;
-	z_r_c = c_r * c_r;
-	z_i_c = c_i * c_i;
-	z_i = (c_i + c_i) * c_r + c_i;
-	z_r = z_r_c - z_i_c + c_r;
-	while (z_r_c + z_i_c <= 4 && i < fractol->max_iter)
+	pixel->iterations = 0;
+	z_r_c = pixel->c_r * pixel->c_r;
+	z_i_c = pixel->c_i * pixel->c_i;
+	z_i = (pixel->c_i + pixel->c_i) * pixel->c_r + pixel->c_i;
+	z_r = z_r_c - z_i_c + pixel->c_r;
+	while (z_r_c + z_i_c <= 4 && pixel->iterations < fractol->max_iter)
 	{
 		z_r_c = z_r * z_r;
 		z_i_c = z_i * z_i;
-		z_i = (z_i + z_i) * z_r + c_i;
-		z_r = z_r_c - z_i_c + c_r;
-		i++;
+		z_i = (z_i + z_i) * z_r + pixel->c_i;
+		z_r = z_r_c - z_i_c + pixel->c_r;
+		pixel->value += (z_r_c + z_i_c);
+		pixel->iterations++;
 	}
-	return (i);
 }
