@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/07 09:11:43 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/06 15:42:04 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/06 18:33:59 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ void	close_fractol(t_mlxyz *mlxyz);
 void	show_usage(void);
 void	set_fractal_type(char *fractal_name, t_fractol *fractol);
 void	fractol(t_mlxyz *mlxyz, t_fractol *fractol);
-
 void	julia(t_pixel *pixel);
 void	mandelbrot(t_pixel *pixel);
 void	bullet(t_pixel *pixel);
 void	burning_ship(t_pixel *pixel);
 void	tricorn(t_pixel *pixel);
+void	julia_fun(t_pixel *pixel);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 20:49:12 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/06 15:54:29 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/06 18:42:58 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,3 @@ void	bullet(t_pixel *pixel)
 		pixel->iterations++;
 	}
 }
-

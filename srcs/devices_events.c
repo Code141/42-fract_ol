@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/12 03:35:02 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/06 15:34:26 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/06 18:45:53 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,25 @@
 #include <move.h>
 #include <closing.h>
 
+void	selecting_fractal(t_mlxyz *mlxyz, t_fractol *fractol)
+{
+	if (mlxyz->keyboard->key[18])
+		fractol->fractal = 0;
+	if (mlxyz->keyboard->key[19])
+		fractol->fractal = 1;
+	if (mlxyz->keyboard->key[20])
+		fractol->fractal = 2;
+	if (mlxyz->keyboard->key[21])
+		fractol->fractal = 3;
+	if (mlxyz->keyboard->key[22])
+		fractol->fractal = 4;
+	if (mlxyz->keyboard->key[23])
+		fractol->fractal = 5;
+}
+
 void	refresh_keyboard(t_mlxyz *mlxyz, t_fractol *fractol)
 {
+	selecting_fractal(mlxyz, fractol);
 	if (mlxyz->keyboard->key[36])
 		fractol->render += 1;
 	if (mlxyz->keyboard->key[69])
@@ -33,21 +50,6 @@ void	refresh_keyboard(t_mlxyz *mlxyz, t_fractol *fractol)
 		fractol_move(fractol, 0, -10);
 	if (mlxyz->keyboard->key[49])
 		fractol->lock += 1;
-
-
-
-	if (mlxyz->keyboard->key[18])
-		fractol->fractal = 0;
-	if (mlxyz->keyboard->key[19])
-		fractol->fractal = 1;
-	if (mlxyz->keyboard->key[20])
-		fractol->fractal = 2;
-	if (mlxyz->keyboard->key[21])
-		fractol->fractal = 3;
-
-
-
-
 	if (mlxyz->keyboard->key[53])
 		close_fractol(mlxyz);
 }

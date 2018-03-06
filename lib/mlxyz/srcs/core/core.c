@@ -6,14 +6,14 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/04 17:08:14 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/05 19:10:51 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/06 18:21:52 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <core/core.h>
 #include <events/events.h>
 
-t_mlxyz	*mlxyz_init(void)
+t_mlxyz	*mlxyz_init(int	width, int height)
 {
 	t_mlxyz	*mlxyz;
 
@@ -27,7 +27,7 @@ t_mlxyz	*mlxyz_init(void)
 	if (!mlxyz->mlx)
 		mlxyz_close(mlxyz);
 
-	mlxyz->screen = new_screen(mlxyz->mlx, 1024, 786);
+	mlxyz->screen = new_screen(mlxyz->mlx, width, height);
 
 	mlxyz->stats = new_stats();
 

@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 14:28:41 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/04 16:39:32 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/06 17:09:57 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef	struct	s_mlxyz
 	void		*app;
 }				t_mlxyz;
 
-t_mlxyz			*mlxyz_init(void);
+t_mlxyz			*mlxyz_init(int	width, int height);
 void			mlxyz_close(t_mlxyz *mlxyz);
 void			mlxyz_crash(char *str);
 

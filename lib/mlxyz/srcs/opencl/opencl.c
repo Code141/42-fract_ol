@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 12:57:39 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/06 15:29:18 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/06 18:27:23 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int				load_kernel(t_opencl *opencl, char **files, int number)
 			(const char **)files, NULL, &opencl->ret);
 	opencl->ret = clBuildProgram(opencl->program, 1, &opencl->device,
 			"-I./includes -cl-fast-relaxed-math ", NULL, NULL);
-
+/*
 		if (opencl->ret != CL_SUCCESS) {
 			char *buff_erro;
 			cl_int errcode;
@@ -78,12 +78,12 @@ int				load_kernel(t_opencl *opencl, char **files, int number)
 				exit(-3);
 			}
 
-			fprintf(stderr,"Build log: \n%s\n", buff_erro); //Be careful with  the fprint
+	fprintf(stderr,"Build log: \n%s\n", buff_erro); //Be careful with  the fprint
 			free(buff_erro);
 			fprintf(stderr,"clBuildProgram failed\n");
 			exit(EXIT_FAILURE);
 		}
-
+*/
 	opencl->kernel = clCreateKernel(opencl->program, "luncher", &opencl->ret);
 	if (opencl->ret)
 		return (0);

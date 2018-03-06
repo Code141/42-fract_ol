@@ -6,7 +6,7 @@
 #    By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/17 12:32:21 by gelambin          #+#    #+#              #
-#    Updated: 2018/03/06 15:42:18 by gelambin         ###   ########.fr        #
+#    Updated: 2018/03/06 18:16:14 by gelambin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME		=	fractol
 
 CC			=	gcc
 
-CFLAGS		=	#-Wall -Wextra -Werror
+CFLAGS		=	-Wall -Wextra -Werror
 CPPFLAGS	=	-I./lib/mlx/					\
 				-I./lib/libft/includes/			\
 				-I./lib/mlxyz/includes/			\
@@ -35,7 +35,8 @@ SRCS		=	./srcs/main.c					\
 				./srcs/fractals/mandelbrot.c	\
 				./srcs/fractals/burning_ship.c	\
 				./srcs/fractals/tricorn.c		\
-				./srcs/fractals/bullet.c
+				./srcs/fractals/bullet.c		\
+				./srcs/fractals/julia_fun.c
 
 OBJS		=	$(SRCS:.c=.o)
 
@@ -55,7 +56,7 @@ libs		:
 
 $(NAME) 	:	libs $(OBJS)
 	@echo 'Compiling '$(NAME)
-	@$(CC) -O3 $(LIBS) $(FMWS) $(OBJS) -o $(NAME)
+	@$(CC) -Ofast $(LIBS) $(FMWS) $(OBJS) -o $(NAME)
 
 clean		:
 	@echo 'Remove all objects files'
