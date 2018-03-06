@@ -6,7 +6,7 @@
 #    By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/17 12:32:21 by gelambin          #+#    #+#              #
-#    Updated: 2018/03/04 17:12:55 by gelambin         ###   ########.fr        #
+#    Updated: 2018/03/06 15:42:18 by gelambin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME		=	fractol
 
 CC			=	gcc
 
-CFLAGS		=	-Wall -Wextra -Werror
+CFLAGS		=	#-Wall -Wextra -Werror
 CPPFLAGS	=	-I./lib/mlx/					\
 				-I./lib/libft/includes/			\
 				-I./lib/mlxyz/includes/			\
@@ -26,11 +26,11 @@ LIBS		=	-L./lib/mlx -lmlx				\
 
 SRCS		=	./srcs/main.c					\
 				./srcs/params.c					\
-				./srcs/fractol.c				\
 				./srcs/devices_events.c			\
 				./srcs/move.c					\
 				./srcs/closing.c				\
 				./srcs/loop.c					\
+				./srcs/common.c					\
 				./srcs/fractals/julia.c			\
 				./srcs/fractals/mandelbrot.c	\
 				./srcs/fractals/burning_ship.c	\

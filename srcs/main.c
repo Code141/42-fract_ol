@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 18:44:58 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/05 23:19:04 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/06 16:28:50 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,30 @@ int			set_kernel(t_opencl *opencl, int x, int y, char *fractale_name)
 {
 	char	*path;
 	char	*tmp;
-	char	*source_str[3];
+	char	*source_str[7];
 
-	tmp = ft_strjoin("./srcs/kernel/", fractale_name);
-	path = ft_strjoin(tmp, ".cl");
+	tmp = ft_strjoin("./srcs/fractals/", fractale_name);
+	path = ft_strjoin(tmp, ".c");
 	free(tmp);
-
-	source_str[0] = ft_get_file("./includes/fractol_struct.h");
-	source_str[1] = ft_get_file(path);
-	source_str[2] = ft_get_file("./srcs/kernel/main.cl");
-
+	source_str[0] = ft_get_file("./srcs/fractals/julia.c");
+	source_str[1] = ft_get_file("./srcs/fractals/mandelbrot.c");
+	source_str[2] = ft_get_file("./srcs/fractals/burning_ship.c");
+	source_str[3] = ft_get_file("./srcs/fractals/tricorn.c");
+	source_str[4] = ft_get_file("./srcs/fractals/bullet.c");
+	source_str[5] = ft_get_file("./srcs/common.c");
+	source_str[6] = ft_get_file("./srcs/kernel.cl");
 	free(path);
 	if (!source_str[0] || !source_str[1])
 		return (0);
-
-	if (!load_kernel(opencl, source_str, 3))
+	if (!load_kernel(opencl, source_str, 7))
 		return (0);
 	free(source_str[0]);
 	free(source_str[1]);
 	free(source_str[2]);
+	free(source_str[3]);
+	free(source_str[4]);
+	free(source_str[5]);
+	free(source_str[6]);
 
 	opencl->global_work_size[0] = x;
 	opencl->global_work_size[1] = y;
@@ -48,7 +53,7 @@ int			set_kernel(t_opencl *opencl, int x, int y, char *fractale_name)
 	opencl->ret = clSetKernelArg(opencl->kernel,
 		0, sizeof(cl_mem), (void*)&opencl->mem[0]);
 	opencl->ret = clSetKernelArg(opencl->kernel,
-		1, sizeof(cl_mem), (void*)&opencl->mem[1]);
+			1, sizeof(cl_mem), (void*)&opencl->mem[1]);
 	return (1);
 }
 
