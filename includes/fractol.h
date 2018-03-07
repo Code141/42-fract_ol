@@ -20,6 +20,7 @@ void	close_fractol(t_mlxyz *mlxyz);
 void	show_usage(void);
 void	set_fractal_type(char *fractal_name, t_fractol *fractol);
 void	fractol(t_mlxyz *mlxyz, t_fractol *fractol);
+
 void	julia(t_pixel *pixel);
 void	mandelbrot(t_pixel *pixel);
 void	bullet(t_pixel *pixel);

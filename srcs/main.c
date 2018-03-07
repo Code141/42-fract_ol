@@ -18,7 +18,7 @@ int			set_kernel(t_opencl *opencl, int x, int y, char *fractale_name)
 {
 	char	*path;
 	char	*tmp;
-	char	*source_str[8];
+	char	*source_str[9];
 
 	tmp = ft_strjoin("./srcs/fractals/", fractale_name);
 	path = ft_strjoin(tmp, ".c");
@@ -29,12 +29,13 @@ int			set_kernel(t_opencl *opencl, int x, int y, char *fractale_name)
 	source_str[3] = ft_get_file("./srcs/fractals/tricorn.c");
 	source_str[4] = ft_get_file("./srcs/fractals/bullet.c");
 	source_str[5] = ft_get_file("./srcs/fractals/julia_fun.c");
-	source_str[6] = ft_get_file("./srcs/common.c");
-	source_str[7] = ft_get_file("./srcs/kernel.cl");
+	source_str[6] = ft_get_file("./lib/mlxyz/srcs/color/rgba.c");
+	source_str[7] = ft_get_file("./srcs/common.c");
+	source_str[8] = ft_get_file("./srcs/kernel.cl");
 	free(path);
 	if (!source_str[0] || !source_str[1])
 		return (0);
-	if (!load_kernel(opencl, source_str, 8))
+	if (!load_kernel(opencl, source_str, 9))
 		return (0);
 	free(source_str[0]);
 	free(source_str[1]);

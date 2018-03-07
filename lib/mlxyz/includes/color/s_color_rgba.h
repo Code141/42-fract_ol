@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   color.h                                            :+:      :+:    :+:   */
+/*   s_color_rgba.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,16 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COLOR_H
-# define COLOR_H
-# include <color/s_color_rgba.h>
+#ifndef S_COLOR_RGBA_H
+# define S_COLOR_RGBA_H
 
-t_color_rgba		color_set_rgba(char r, char g, char b, char a);
-t_color_rgba		color_blend(
-						t_color_rgba *ca, t_color_rgba *cb, float balance);
-unsigned char		color_canal_sub(unsigned char base, unsigned char value);
-unsigned char		color_canal_add(unsigned char base, unsigned char value);
-t_color_rgba		color_sub(t_color_rgba base, t_color_rgba value);
-t_color_rgba		color_add(t_color_rgba base, t_color_rgba value);
+typedef union		u_color_rgba
+{
+	unsigned int	hex;
+	struct			s_c
+	{
+		unsigned char	b;
+		unsigned char	g;
+		unsigned char	r;
+		unsigned char	a;
+	}				c;
+}					t_color_rgba;
 
 #endif

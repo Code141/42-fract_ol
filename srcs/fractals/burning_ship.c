@@ -10,9 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FRACTOL_STRUCT_H
-# include <math.h>
-#endif
 #include <fractol_struct.h>
 #define ABS(value) (((value) < 0) ? -((value)) : (value))
 

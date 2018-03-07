@@ -30,6 +30,8 @@ typedef struct	s_fractol
 
 typedef struct	s_pixel
 {
+	int		win_width;
+	int		win_height;
 	int		width;
 	int		height;
 	int		x;

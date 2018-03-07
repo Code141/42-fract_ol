@@ -19,9 +19,7 @@
 
 void	loop_cpu(t_mlxyz *mlxyz, t_fractol *fractol, t_pixel *pixel)
 {
-	pixel->width = mlxyz->screen->width;
-	pixel->height = mlxyz->screen->height;
-	pixel->x = -(mlxyz->screen->width / 2);
+	pixel->x = 0;
 	while (pixel->x < pixel->width)
 	{
 		pixel->cr = (-(pixel->width / 2) + pixel->x)
@@ -31,12 +29,16 @@ void	loop_cpu(t_mlxyz *mlxyz, t_fractol *fractol, t_pixel *pixel)
 		{
 			pixel->ci = (-(pixel->height / 2) + pixel->y)
 				/ fractol->zoom + fractol->y;
-			pixel->index = pixel->x + (pixel->y * pixel->width);
+			pixel->index = pixel->x + (pixel->y * pixel->win_width);
 			pixel->max_iter = fractol->max_iter;
+
 			iterations(fractol->fractal, pixel);
+
 			pixel->pos = ((float)(pixel->iterations) / fractol->max_iter);
+
 			((unsigned int*)mlxyz->screen->canevas->data)[pixel->index] =
 				color(pixel, fractol->color_indice);
+
 			pixel->y++;
 		}
 		pixel->x++;
@@ -62,8 +64,17 @@ int		loop(t_mlxyz *mlxyz)
 	fractol = mlxyz->app;
 	refresh_input_devices(mlxyz, fractol);
 	refresh_stats(mlxyz->stats);
-	fractol->color_indice = ((double)(mlxyz->stats->now % 100000) / 100000);
+
 	pixel.max_iter = fractol->max_iter;
+	fractol->color_indice = ((double)(mlxyz->stats->now % 100000) / 100000);
+
+	mlxyz->opencl->global_work_size[0] = mlxyz->screen->width;
+	mlxyz->opencl->global_work_size[1] = mlxyz->screen->height;
+
+	pixel.win_width =mlxyz->opencl->global_work_size[0];
+	pixel.win_height = mlxyz->screen->height;
+	pixel.width = mlxyz->screen->width;
+	pixel.height = mlxyz->screen->height;
 	if (!fractol->lock % 2)
 	{
 		fractol->cr_custom = (-(mlxyz->screen->width / 2) + mlxyz->mouse->x)
@@ -77,6 +88,24 @@ int		loop(t_mlxyz *mlxyz)
 		loop_opencl(mlxyz, fractol, mlxyz->opencl);
 	else
 		loop_cpu(mlxyz, fractol, &pixel);
+
+
+/*
+
+	pixel.width = 200;
+	pixel.height = 200;
+	mlxyz->opencl->global_work_size[0] = pixel.width;
+	mlxyz->opencl->global_work_size[1] = pixel.height;
+
+
+	if (fractol->render % 2)
+		loop_opencl(mlxyz, fractol, mlxyz->opencl);
+	else
+		loop_cpu(mlxyz, fractol, &pixel);
+*/
+
+
+
 	draw_hud(mlxyz);
 	mlx_put_image_to_window(mlxyz->mlx,
 		mlxyz->screen->win, mlxyz->screen->canevas->id, 0, 0);

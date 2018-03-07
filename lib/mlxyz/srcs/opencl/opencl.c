@@ -12,7 +12,6 @@
 
 #include <OpenCL/cl.h>
 #include <libft.h>
-#include <mlxyz.h>
 #include <opencl/opencl.h>
 
 int			get_platforms(t_opencl *opencl)
@@ -54,36 +53,44 @@ int				load_kernel(t_opencl *opencl, char **files, int number)
 	opencl->program = clCreateProgramWithSource(opencl->context, number,
 			(const char **)files, NULL, &opencl->ret);
 	opencl->ret = clBuildProgram(opencl->program, 1, &opencl->device,
-			"-I./includes -cl-fast-relaxed-math ", NULL, NULL);
-/*
+			"-I./includes -I./lib/mlxyz/includes -cl-fast-relaxed-math ", NULL, NULL);
+
 		if (opencl->ret != CL_SUCCESS) {
 			char *buff_erro;
 			cl_int errcode;
 			size_t build_log_len;
 			errcode = clGetProgramBuildInfo(opencl->program, opencl->device, CL_PROGRAM_BUILD_LOG, 0, NULL, &build_log_len);
 			if (errcode) {
-				printf("clGetProgramBuildInfo failed at line %d\n", __LINE__);
+				ft_putstr("clGetProgramBuildInfo failed at line ");
+				ft_putnbr(__LINE__);
+				ft_putchar('\n');
 				exit(-1);
 			}
 
 			buff_erro = malloc(build_log_len);
 			if (!buff_erro) {
-				printf("malloc failed at line %d\n", __LINE__);
+				ft_putstr("malloc failed at line ");
+				ft_putnbr(__LINE__);
+				ft_putchar('\n');
 				exit(-2);
 			}
 
 			errcode = clGetProgramBuildInfo(opencl->program, opencl->device, CL_PROGRAM_BUILD_LOG, build_log_len, buff_erro, NULL);
 			if (errcode) {
-				printf("clGetProgramBuildInfo failed at line %d\n", __LINE__);
+				ft_putstr("clGetProgramBuildInfo failed at line ");
+				ft_putnbr(__LINE__);
+				ft_putchar('\n');
 				exit(-3);
 			}
 
-	fprintf(stderr,"Build log: \n%s\n", buff_erro); //Be careful with  the fprint
+				ft_putstr("Build log:\n");
+				ft_putstr(buff_erro);
+				ft_putchar('\n');
 			free(buff_erro);
-			fprintf(stderr,"clBuildProgram failed\n");
+			ft_putstr("clBuildProgram failed\n");
 			exit(EXIT_FAILURE);
 		}
-*/
+
 	opencl->kernel = clCreateKernel(opencl->program, "luncher", &opencl->ret);
 	if (opencl->ret)
 		return (0);
