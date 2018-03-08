@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 14:33:50 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/06 18:42:07 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/08 17:38:19 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ unsigned int	color(t_pixel *pixel, double cindice)
 		return (0xffffff);
 	if (pixel->pos == 0)
 		return (0xffffff);
+
 	c.c.r = color_canal_add(c.c.r, 255 *
 		((sin(M_PI_F * ((pixel->pos + M_PI_F * 2 * cindice)) * 8) + 1) / 2));
 	c.c.g = color_canal_add(c.c.g, 255 *

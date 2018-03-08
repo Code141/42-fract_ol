@@ -20,7 +20,8 @@ __kernel void	luncher(__global t_fractol *fractol, __global int *r)
 	pixel.height = get_global_size(1);
 	pixel.x = get_global_id(0);
 	pixel.y = get_global_id(1);
-	pixel.index = pixel.x + (pixel.y * pixel.width);
+	pixel.index = pixel.x + fractol->w_p_x + 
+		((pixel.y + fractol->w_p_y) * fractol->win_width);
 	pixel.max_iter = fractol->max_iter;
 	pixel.cr = (-(pixel.width / 2) + pixel.x) / fractol->zoom + fractol->x;
 	pixel.ci = (-(pixel.height / 2) + pixel.y) / fractol->zoom + fractol->y;
@@ -28,6 +29,6 @@ __kernel void	luncher(__global t_fractol *fractol, __global int *r)
 	pixel.ci_custom = fractol->ci_custom;
 
 	iterations(fractol->fractal, &pixel);
-	pixel.pos = ((float)(pixel.iterations) / fractol->max_iter);
+	pixel.pos = ((double)(pixel.iterations) / fractol->max_iter);
 	r[pixel.index] = color(&pixel, fractol->color_indice);
 }

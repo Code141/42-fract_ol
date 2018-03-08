@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 11:37:39 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/06 18:46:31 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/08 20:04:56 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,36 +17,42 @@
 #include <common.h>
 #include <devices_events.h>
 
-void	loop_cpu(t_mlxyz *mlxyz, t_fractol *fractol, t_pixel *pixel)
+void	loop_cpu(t_mlxyz *mlxyz, t_fractol *fractol)
 {
-	pixel->x = 0;
-	while (pixel->x < pixel->width)
+	t_pixel	pixel;
+
+	pixel.max_iter = fractol->max_iter;
+	pixel.cr_custom = fractol->cr_custom;
+	pixel.ci_custom = fractol->ci_custom;
+	pixel.x = 0;
+	while (pixel.x < fractol->w_w)
 	{
-		pixel->cr = (-(pixel->width / 2) + pixel->x)
-			/ fractol->zoom + fractol->x;
-		pixel->y = 0;
-		while (pixel->y < pixel->height)
+		pixel.cr = (-(fractol->w_w / 2) + pixel.x) / fractol->zoom + fractol->x;
+		pixel.y = 0;
+		while (pixel.y < fractol->w_h)
 		{
-			pixel->ci = (-(pixel->height / 2) + pixel->y)
+			pixel.ci = (-(fractol->w_h / 2) + pixel.y)
 				/ fractol->zoom + fractol->y;
-			pixel->index = pixel->x + (pixel->y * pixel->win_width);
-			pixel->max_iter = fractol->max_iter;
-
-			iterations(fractol->fractal, pixel);
-
-			pixel->pos = ((float)(pixel->iterations) / fractol->max_iter);
-
-			((unsigned int*)mlxyz->screen->canevas->data)[pixel->index] =
-				color(pixel, fractol->color_indice);
-
-			pixel->y++;
+			pixel.index = pixel.x + fractol->w_p_x +
+				((pixel.y + fractol->w_p_y) * fractol->win_width);
+			pixel.max_iter = fractol->max_iter;
+			iterations(fractol->fractal, &pixel);
+			pixel.pos = ((double)(pixel.iterations) / fractol->max_iter);
+			((unsigned int*)mlxyz->screen->canevas->data)[pixel.index] =
+				color(&pixel, fractol->color_indice);
+			pixel.y++;
 		}
-		pixel->x++;
+		pixel.x++;
 	}
 }
 
-void	loop_opencl(t_mlxyz *mlxyz, t_fractol *fractol, t_opencl *opencl)
+void	loop_opencl(t_mlxyz *mlxyz, t_fractol *fractol)
 {
+	t_opencl	*opencl;
+
+	opencl = mlxyz->opencl;
+	mlxyz->opencl->global_work_size[0] = fractol->w_w;
+	mlxyz->opencl->global_work_size[1] = fractol->w_h;
 	opencl->ret = clEnqueueWriteBuffer(opencl->command_queue, opencl->mem[0],
 		CL_TRUE, 0, sizeof(t_fractol), (void*)fractol, 0, NULL, NULL);
 	clEnqueueNDRangeKernel(opencl->command_queue, opencl->kernel, 2, NULL,
@@ -56,56 +62,62 @@ void	loop_opencl(t_mlxyz *mlxyz, t_fractol *fractol, t_opencl *opencl)
 		(void*)mlxyz->screen->canevas->data, 0, NULL, NULL);
 }
 
+void	render_main(t_mlxyz *mlxyz, t_fractol *fractol)
+{
+	fractol->w_w = 1400;
+	fractol->w_h = 1000;
+	fractol->w_p_x = 200;
+	fractol->w_p_y = 0;
+	if (fractol->render % 2)
+		loop_opencl(mlxyz, fractol);
+	else
+		loop_cpu(mlxyz, fractol);
+}
+
+void	render_aux(t_mlxyz *mlxyz, t_fractol fractol)
+{
+	t_vector2	v1;
+	t_vector2	v2;
+
+	fractol.w_p_y = 0;
+	fractol.w_w = 200;
+	fractol.w_h = 200;
+	fractol.w_p_x = fractol.win_width - fractol.w_w;
+
+	v1.x = fractol.win_width - fractol.w_w;
+	v1.y = 0;
+	v2.x = fractol.win_width - fractol.w_w + 199;
+	v2.y = 200;
+
+
+	fractol.zoom = 50;
+
+	if (fractol.render % 2)
+		loop_opencl(mlxyz, &fractol);
+	else
+		loop_cpu(mlxyz, &fractol);
+
+	square(mlxyz->screen->canevas, v1, v2, 0xff0000);
+}
+
 int		loop(t_mlxyz *mlxyz)
 {
-	t_pixel		pixel;
 	t_fractol	*fractol;
-
+	int			i;
+	
 	fractol = mlxyz->app;
 	refresh_input_devices(mlxyz, fractol);
 	refresh_stats(mlxyz->stats);
-
-	pixel.max_iter = fractol->max_iter;
 	fractol->color_indice = ((double)(mlxyz->stats->now % 100000) / 100000);
-
-	mlxyz->opencl->global_work_size[0] = mlxyz->screen->width;
-	mlxyz->opencl->global_work_size[1] = mlxyz->screen->height;
-
-	pixel.win_width =mlxyz->opencl->global_work_size[0];
-	pixel.win_height = mlxyz->screen->height;
-	pixel.width = mlxyz->screen->width;
-	pixel.height = mlxyz->screen->height;
-	if (!fractol->lock % 2)
+	if (fractol->lock % 2)
 	{
 		fractol->cr_custom = (-(mlxyz->screen->width / 2) + mlxyz->mouse->x)
 			/ fractol->zoom;
 		fractol->ci_custom = (-(mlxyz->screen->height / 2) + mlxyz->mouse->y)
 			/ fractol->zoom;
-		pixel.cr_custom = fractol->cr_custom;
-		pixel.ci_custom = fractol->ci_custom;
 	}
-	if (fractol->render % 2)
-		loop_opencl(mlxyz, fractol, mlxyz->opencl);
-	else
-		loop_cpu(mlxyz, fractol, &pixel);
-
-
-/*
-
-	pixel.width = 200;
-	pixel.height = 200;
-	mlxyz->opencl->global_work_size[0] = pixel.width;
-	mlxyz->opencl->global_work_size[1] = pixel.height;
-
-
-	if (fractol->render % 2)
-		loop_opencl(mlxyz, fractol, mlxyz->opencl);
-	else
-		loop_cpu(mlxyz, fractol, &pixel);
-*/
-
-
-
+	render_main(mlxyz, fractol);
+	render_aux(mlxyz, *fractol);
 	draw_hud(mlxyz);
 	mlx_put_image_to_window(mlxyz->mlx,
 		mlxyz->screen->win, mlxyz->screen->canevas->id, 0, 0);

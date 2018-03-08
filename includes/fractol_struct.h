@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 17:36:00 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/06 15:27:37 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/08 14:21:45 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,34 @@
 
 typedef struct	s_fractol
 {
-	char		*fractal_name;
+	int			win_width;
+	int			win_height;
+
 	int			fractal;
+
 	int			render;
+	char		lock;
+
+
 	int			max_iter;
 	double		zoom;
+
 	double		x;
 	double		y;
+
 	double		color_indice;
+
 	double		cr_custom;
 	double		ci_custom;
-	char		lock;
+
+	int			w_w;
+	int			w_h;
+	int			w_p_x;
+	int			w_p_y;
 }				t_fractol;
 
 typedef struct	s_pixel
 {
-	int		win_width;
-	int		win_height;
 	int		width;
 	int		height;
 	int		x;

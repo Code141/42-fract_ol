@@ -1,31 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   closing.c                                          :+:      :+:    :+:   */
+/*   square.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/01 12:52:57 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/08 18:31:04 by gelambin         ###   ########.fr       */
+/*   Created: 2018/03/08 19:19:01 by gelambin          #+#    #+#             */
+/*   Updated: 2018/03/08 19:52:48 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <mlx.h>
-#include <mlxyz.h>
-#include <fractol.h>
+#ifndef SQUARE_H
+# define SQUARE_H
+# include <math/pixel.h>
 
-void	close_fractol(t_mlxyz *mlxyz)
-{
-	mlxyz_close(mlxyz);
-	ft_putstr("Exit.");
-	exit(0);
-}
+void	square(t_img *canevas, t_vector2 v1, t_vector2 v2, unsigned int color);
 
-void	crash_fractol(char *str)
-{
-	ft_putendl("========== CRASH ==========");
-	ft_putendl(str);
-	ft_putendl("===========================");
-	while (1);
-	exit(1);
-}
+#endif

@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/12 03:35:02 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/06 18:45:53 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/08 19:49:48 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,35 @@ void	selecting_fractal(t_mlxyz *mlxyz, t_fractol *fractol)
 void	refresh_keyboard(t_mlxyz *mlxyz, t_fractol *fractol)
 {
 	selecting_fractal(mlxyz, fractol);
+
 	if (mlxyz->keyboard->key[36])
 		fractol->render += 1;
+
+	if (mlxyz->keyboard->key[49])
+		fractol->lock += 1;
+
 	if (mlxyz->keyboard->key[69])
 		fractol_zoom_in(mlxyz, fractol);
 	if (mlxyz->keyboard->key[78])
 		fractol_zoom_out(mlxyz, fractol);
-	if (mlxyz->keyboard->key[123])
-		fractol_move(fractol, -10, 0);
-	if (mlxyz->keyboard->key[124])
-		fractol_move(fractol, 10, 0);
+
 	if (mlxyz->keyboard->key[125])
-		fractol_move(fractol, 0, 10);
+		fractol->max_iter--;
 	if (mlxyz->keyboard->key[126])
+		fractol->max_iter++;
+
+	if (fractol->max_iter < 5)
+		fractol->max_iter = 5;
+
+	if (mlxyz->keyboard->key[0])
+		fractol_move(fractol, -10, 0);
+	if (mlxyz->keyboard->key[2])
+		fractol_move(fractol, 10, 0);
+	if (mlxyz->keyboard->key[1])
+		fractol_move(fractol, 0, 10);
+	if (mlxyz->keyboard->key[13])
 		fractol_move(fractol, 0, -10);
-	if (mlxyz->keyboard->key[49])
-		fractol->lock += 1;
+
 	if (mlxyz->keyboard->key[53])
 		close_fractol(mlxyz);
 }
@@ -71,6 +84,8 @@ void	refresh_mouse(t_mlxyz *mlxyz, t_fractol *fractol)
 		mlxyz->mouse->last_x = mlxyz->mouse->x;
 		mlxyz->mouse->last_y = mlxyz->mouse->y;
 	}
+	mlxyz->mouse->button[4] = 0;
+	mlxyz->mouse->button[5] = 0;
 }
 
 void	refresh_input_devices(t_mlxyz *mlxyz, t_fractol *fractol)

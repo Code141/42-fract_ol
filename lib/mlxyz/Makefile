@@ -6,7 +6,7 @@
 #    By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/17 12:32:21 by gelambin          #+#    #+#              #
-#    Updated: 2018/03/04 16:42:53 by gelambin         ###   ########.fr        #
+#    Updated: 2018/03/08 19:31:25 by gelambin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ SRCS	=	./srcs/core/core.c				\
 			./srcs/draw/draw_mesh.c			\
 			./srcs/draw/draw_hud.c			\
 			./srcs/draw/bresenham_line.c	\
+			./srcs/draw/square.c			\
 			\
 			./srcs/geometry/geometry.c		\
 			./srcs/geometry/cube.c			\

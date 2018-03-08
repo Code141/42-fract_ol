@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/04 17:08:14 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/06 18:21:52 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/08 17:26:53 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,14 @@ t_mlxyz	*mlxyz_init(int	width, int height)
 	mlxyz->stats = new_stats();
 
 	mlxyz->hud = new_hud();
-	mlxyz->hud->graphs[0] = new_graph(100, 60, mlxyz->stats->fps);
-	mlxyz->hud->graphs[1] = new_graph(100, 60, mlxyz->stats->ms);
+	mlxyz->hud->graphs[0] = new_graph(95, 60, mlxyz->stats->fps);
+	mlxyz->hud->graphs[0]->x = 2;
+	mlxyz->hud->graphs[0]->y = 2;
+	mlxyz->hud->graphs[1] = new_graph(98, 60, mlxyz->stats->ms);
 	mlxyz->hud->graphs[1]->color_min.hex = 0x00ffff;
 	mlxyz->hud->graphs[1]->color_max.hex = 0xff0000;
-	mlxyz->hud->graphs[1]->x = 102;
+	mlxyz->hud->graphs[1]->x = 99;
+	mlxyz->hud->graphs[1]->y = 2;
 
 	mlxyz->camera = new_camera(TO_RAD(120), 10, 100);
 	mlxyz->camera->pos.z = 0;
