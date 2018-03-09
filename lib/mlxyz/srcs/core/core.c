@@ -50,6 +50,7 @@ t_mlxyz	*mlxyz_init(int	width, int height)
 
 	mlxyz->opencl = init_opencl();
 
+
 	hooks(mlxyz);
 	return (mlxyz);
 }

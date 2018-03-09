@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   loop.h                                             :+:      :+:    :+:   */
+/*   s_keyboard.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/17 12:26:45 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/04 16:14:19 by gelambin         ###   ########.fr       */
+/*   Created: 2018/01/17 15:02:11 by gelambin          #+#    #+#             */
+/*   Updated: 2018/02/02 19:48:15 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LOOP_H
-# define LOOP_H
-# include <mlx.h>
-# include <libft.h>
-# include <core/core.h>
-# include <draw/draw.h>
-# include <draw/draw_hud.h>
+#ifndef S_KEYBOARD_H
+# define S_KEYBOARD_H
 
-int		mlxyz_loop(void *mlxyz);
-void	update_all(t_mlxyz *mlxyz, t_list *object);
-void	mlxyz_run_loop(t_mlxyz *mlxyz, void (*app_loop)(t_mlxyz* mlxyz));
+typedef struct	s_keyboard
+{
+	void	(*key_press)(void* mlxyz, int keycode);
+	char	key[300];
+}				t_keyboard;
 
 #endif

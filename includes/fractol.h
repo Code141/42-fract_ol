@@ -28,4 +28,6 @@ void	burning_ship(t_pixel *pixel);
 void	tricorn(t_pixel *pixel);
 void	julia_fun(t_pixel *pixel);
 
+void	loop(t_mlxyz *mlxyz);
+
 #endif

@@ -11,31 +11,32 @@
 /* ************************************************************************** */
 
 #include <events/mouse.h>
+#include <events/s_mouse.h>
 #include <core/core.h>
 
-int		mouse_move(int x, int y, t_mouse *mouse)
+int		mouse_move(int x, int y, t_mlxyz *mlxyz)
 {
-	mouse->x = x;
-	mouse->y = y;
+	mlxyz->mouse->x = x;
+	mlxyz->mouse->y = y;
 	return (1);
 }
 
-int		button_press(int button, int x, int y, t_mouse *mouse)
+int		button_press(int button, int x, int y, t_mlxyz *mlxyz)
 {
-	mouse_move(x, y, mouse);
+	mouse_move(x, y, mlxyz);
 	if (y >= 0)
 	{
-		mouse->button[button] = 1;
-		mouse->last_x = x;
-		mouse->last_y = y;
+		mlxyz->mouse->button[button] = 1;
+		mlxyz->mouse->last_x = x;
+		mlxyz->mouse->last_y = y;
 	}
 	return (1);
 }
 
-int		button_release(int button, int x, int y, t_mouse *mouse)
+int		button_release(int button, int x, int y, t_mlxyz *mlxyz)
 {
-	mouse_move(x, y, mouse);
-	mouse->button[button] = 0;
+	mouse_move(x, y, mlxyz);
+	mlxyz->mouse->button[button] = 0;
 	return (1);
 }
 

@@ -22,6 +22,7 @@ LIBS	=	-L../mlx -lmlx					\
 			-L../libft -lft
 
 SRCS	=	./srcs/core/core.c				\
+			./srcs/core/loop.c				\
 			\
 			./srcs/events/events.c			\
 			./srcs/events/mouse.c			\

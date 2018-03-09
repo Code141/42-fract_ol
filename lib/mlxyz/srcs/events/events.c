@@ -14,12 +14,12 @@
 
 int		hooks(t_mlxyz *mlxyz)
 {
-	mlx_hook(mlxyz->screen->win, KEYPRESS, 0, &key_press, mlxyz->keyboard);
-	mlx_hook(mlxyz->screen->win, KEYRELEASE, 0, &key_release, mlxyz->keyboard);
-	mlx_hook(mlxyz->screen->win, MOUSEMOVE, 0, &mouse_move, mlxyz->mouse);
-	mlx_hook(mlxyz->screen->win, MOUSEPRESS, 0, &button_press, mlxyz->mouse);
+	mlx_hook(mlxyz->screen->win, KEYPRESS, 0, &mlxyz_key_press, mlxyz);
+	mlx_hook(mlxyz->screen->win, KEYRELEASE, 0, &mlxyz_key_release, mlxyz);
+	mlx_hook(mlxyz->screen->win, MOUSEMOVE, 0, &mouse_move, mlxyz);
+	mlx_hook(mlxyz->screen->win, MOUSEPRESS, 0, &button_press, mlxyz);
 	mlx_hook(mlxyz->screen->win, MOUSERELEASE, 0, &button_release,
-		mlxyz->mouse);
-	mlx_loop_hook(mlxyz->mlx, &loop, mlxyz);
+		mlxyz);
+	mlx_loop_hook(mlxyz->mlx, &mlxyz_loop, mlxyz);
 	return (1);
 }

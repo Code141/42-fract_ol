@@ -12,19 +12,21 @@
 
 #include <events/keyboard.h>
 #include <core/core.h>
+#include <events/s_keyboard.h>
 
-int			key_release(int keycode, t_keyboard *keyboard)
+int			mlxyz_key_release(int keycode, t_mlxyz *mlxyz)
 {
-	keyboard->key[keycode] = 0;
+	mlxyz->keyboard->key[keycode] = 0;
 	return (1);
 }
 
-int			key_press(int keycode, t_keyboard *keyboard)
+int			mlxyz_key_press(int keycode, t_mlxyz *mlxyz)
 {
 	ft_putstr("KeyPress [");
 	ft_putnbr(keycode);
 	ft_putstr("]\n");
-	keyboard->key[keycode] = 1;
+	mlxyz->keyboard->key[keycode] = 1;
+	mlxyz->keyboard->key_press(mlxyz, keycode);
 	return (1);
 }
 

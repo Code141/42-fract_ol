@@ -13,6 +13,7 @@
 #include <mlxyz.h>
 #include <libft.h>
 #include <fractol.h>
+#include <devices_events.h>
 #include <cl.h>
 
 t_fractol	*init_fractol(char *fractal_name)
@@ -55,6 +56,7 @@ int			main(int argc, char **argv)
 	fractol->win_height= win_height;
 
 	mlxyz->app = fractol;
-	mlx_loop(mlxyz->mlx);
+	mlxyz->keyboard->key_press = &key_press;
+	mlxyz_run_loop(mlxyz, &loop);
 	return (0);
 }

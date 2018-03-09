@@ -16,6 +16,7 @@
 # include <fractol.h>
 
 void	refresh_keyboard(t_mlxyz *mlxyz, t_fractol *fractol);
+void	key_press(void *mlxyz, int keycode);
 void	refresh_mouse(t_mlxyz *mlxyz, t_fractol *fractol);
 void	refresh_input_devices(t_mlxyz *mlxyz, t_fractol *fractol);
 

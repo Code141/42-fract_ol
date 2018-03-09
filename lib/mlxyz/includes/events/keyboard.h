@@ -14,14 +14,11 @@
 # define KEYBOARD_H
 # include <stdlib.h>
 # include <libft.h>
+# include <core/core.h>
+# include <events/s_keyboard.h>
 
-typedef struct	s_keyboard
-{
-	char	key[300];
-}				t_keyboard;
-
-int				key_release(int keycode, t_keyboard *keyboard);
-int				key_press(int keycode, t_keyboard *keyboard);
+int				mlxyz_key_release(int keycode, t_mlxyz *mlxyz);
+int				mlxyz_key_press(int keycode, t_mlxyz *mlxyz);
 t_keyboard		*new_keyboard(void);
 void			destroy_keyboard(t_keyboard *keyboard);
 

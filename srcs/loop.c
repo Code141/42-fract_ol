@@ -90,7 +90,9 @@ void	render_aux(t_mlxyz *mlxyz, t_fractol fractol)
 	v2.y = 200;
 
 
-	fractol.zoom = 50;
+	fractol.zoom = 40;
+	fractol.x = 0;
+	fractol.y = 0;
 
 	if (fractol.render % 2)
 		loop_opencl(mlxyz, &fractol);
@@ -100,14 +102,13 @@ void	render_aux(t_mlxyz *mlxyz, t_fractol fractol)
 	square(mlxyz->screen->canevas, v1, v2, 0xff0000);
 }
 
-int		loop(t_mlxyz *mlxyz)
+void		loop(t_mlxyz *mlxyz)
 {
 	t_fractol	*fractol;
 	int			i;
 	
 	fractol = mlxyz->app;
 	refresh_input_devices(mlxyz, fractol);
-	refresh_stats(mlxyz->stats);
 	fractol->color_indice = ((double)(mlxyz->stats->now % 100000) / 100000);
 	if (fractol->lock % 2)
 	{
@@ -124,29 +125,58 @@ int		loop(t_mlxyz *mlxyz)
 
 /*----------------------------------------------------------------------------*/
 
-	char *fps;
-	fps = ft_itoa(mlxyz->stats->fps[0]);
-	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 5, 0, 0xffffff, fps);
-	free(fps);
-
+	char *str;
+	str = ft_itoa(mlxyz->stats->fps[0]);
+	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 6, 1, 0x000000, str);
+	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 31, 1, 0x000000, "Fps");
+	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 5, 0, 0xffffff, str);
 	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 30, 0, 0xffffff, "Fps");
+	free(str);
 	
-	char *ms;
-	ms = ft_itoa(mlxyz->stats->ms[0]);
-	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 100, 0, 0xffffff, ms);
-	free(ms);
-
+/**/
+	str = ft_itoa(mlxyz->stats->ms[0]);
+	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 101, 1, 0x000000, str);
+	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 126, 1, 0x000000, "Ms");
+	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 100, 0, 0xffffff, str);
 	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 125, 0, 0xffffff, "Ms");
+	free(str);
 
+/**/
+	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 5, 80, 0xffffff, "Iterations :");
 
+	str = ft_itoa(fractol->max_iter);
+	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 130, 80, 0xffffff, str);
+	free(str);
+/**/
 
-	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 5, 80, 0xffffff, "Iterations:");
+	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 5, 100, 0xffffff, "Render :");
+ 	if (fractol->render % 2)
+		mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 90, 100, 0x00ff00, "GPU");
+	else
+		mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 90, 100, 0x00ff0000, "CPU");
+/**/
+	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 5, 120, 0xfffffff, "Lock :");
+ 	if (fractol->lock % 2)
+		mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 70, 120, 0x00ff00, "On");
+	else
+		mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 70, 120, 0xffff00, "Off");
 
-	char *iter;
-	iter = ft_itoa(fractol->max_iter);
-	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 120, 80, 0xffffff, iter);
-	free(iter);
+/**/
+	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 5, 140, 0xfffffff, "Zoom :");
+	str = ft_itoa(fractol->zoom);
+	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 70, 140, 0xffffff, str);
+	free(str);
+/**/
 
+	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 5, 160, 0xfffffff, "Cr :");
+	str = ft_itoa(fractol->cr_custom);
+	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 50, 160, 0xffffff, str);
+	free(str);
 
-	return (1);
+	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 100, 160, 0xfffffff, "Ci :");
+	str = ft_itoa(fractol->ci_custom);
+	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 145, 160, 0xffffff, str);
+	free(str);
+	
+
 }

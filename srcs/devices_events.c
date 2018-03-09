@@ -17,6 +17,15 @@
 
 void	selecting_fractal(t_mlxyz *mlxyz, t_fractol *fractol)
 {
+}
+
+void	key_press(void *ptr, int keycode)
+{
+	t_mlxyz		*mlxyz;
+	t_fractol	*fractol;
+
+	mlxyz = (t_mlxyz*)ptr;
+	fractol = (t_fractol*)mlxyz->app;
 	if (mlxyz->keyboard->key[18])
 		fractol->fractal = 0;
 	if (mlxyz->keyboard->key[19])
@@ -29,17 +38,20 @@ void	selecting_fractal(t_mlxyz *mlxyz, t_fractol *fractol)
 		fractol->fractal = 4;
 	if (mlxyz->keyboard->key[23])
 		fractol->fractal = 5;
-}
-
-void	refresh_keyboard(t_mlxyz *mlxyz, t_fractol *fractol)
-{
-	selecting_fractal(mlxyz, fractol);
 
 	if (mlxyz->keyboard->key[36])
 		fractol->render += 1;
 
 	if (mlxyz->keyboard->key[49])
 		fractol->lock += 1;
+
+	if (mlxyz->keyboard->key[53])
+		close_fractol(mlxyz);
+}
+
+void	refresh_keyboard(t_mlxyz *mlxyz, t_fractol *fractol)
+{
+	selecting_fractal(mlxyz, fractol);
 
 	if (mlxyz->keyboard->key[69])
 		fractol_zoom_in(mlxyz, fractol);
@@ -63,8 +75,6 @@ void	refresh_keyboard(t_mlxyz *mlxyz, t_fractol *fractol)
 	if (mlxyz->keyboard->key[13])
 		fractol_move(fractol, 0, -10);
 
-	if (mlxyz->keyboard->key[53])
-		close_fractol(mlxyz);
 }
 
 void	refresh_mouse(t_mlxyz *mlxyz, t_fractol *fractol)

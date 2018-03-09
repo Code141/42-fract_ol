@@ -14,19 +14,12 @@
 # define MOUSE_H
 # include <stdlib.h>
 # include <libft.h>
+# include <core/core.h>
+# include <events/s_mouse.h>
 
-typedef struct	s_mouse
-{
-	int		button[10];
-	int		x;
-	int		y;
-	int		last_x;
-	int		last_y;
-}				t_mouse;
-
-int				button_release(int button, int x, int y, t_mouse *mouse);
-int				button_press(int button, int x, int y, t_mouse *mouse);
-int				mouse_move(int x, int y, t_mouse *mouse);
+int				button_release(int button, int x, int y, t_mlxyz *mlxyz);
+int				button_press(int button, int x, int y, t_mlxyz *mlxyz);
+int				mouse_move(int x, int y, t_mlxyz *mlxyz);
 t_mouse			*new_mouse(void);
 void			destroy_mouse(t_mouse *mouse);
 

@@ -16,8 +16,8 @@
 # include <screen/screen.h>
 # include <hud/hud.h>
 # include <hud/stats.h>
-# include <events/keyboard.h>
-# include <events/mouse.h>
+# include <events/s_keyboard.h>
+# include <events/s_mouse.h>
 # include <object/scene.h>
 # include <object/camera.h>
 # include <opencl/opencl.h>
@@ -26,7 +26,9 @@
 # define TO_RAD(x) ((x) * PI / 180.0)
 # define TO_DEG(x) ((x) * 180.0 / PI)
 
-typedef	struct	s_mlxyz
+
+typedef	struct	s_mlxyz		t_mlxyz;
+struct	s_mlxyz
 {
 	void		*mlx;
 	t_screen	*screen;
@@ -38,7 +40,8 @@ typedef	struct	s_mlxyz
 	t_camera	*camera;
 	t_opencl	*opencl;
 	void		*app;
-}				t_mlxyz;
+	void		(*loop_app)(t_mlxyz* mlxyz);
+};
 
 t_mlxyz			*mlxyz_init(int	width, int height);
 void			mlxyz_close(t_mlxyz *mlxyz);
