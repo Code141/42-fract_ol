@@ -26,12 +26,14 @@ unsigned int	color(t_pixel *pixel, double cindice)
 	if (pixel->pos == 0)
 		return (0xffffff);
 
+	
 	c.c.r = color_canal_add(c.c.r, 255 *
 		((sin(M_PI_F * ((pixel->pos + M_PI_F * 2 * cindice)) * 8) + 1) / 2));
 	c.c.g = color_canal_add(c.c.g, 255 *
 		((sin(M_PI_F * pixel->pos * 6) + 1) / 2));
 	c.c.b = color_canal_add(c.c.b, 255 *
 		((sin(M_PI_F * pixel->pos * 3 * cindice) + 1) / 2));
+
 	c.c.r = color_canal_add(c.c.r, pixel->value * 1.5);
 	c.c.g = color_canal_add(c.c.g, pixel->value * 1.5);
 	c.c.b = color_canal_add(c.c.b, pixel->value * 1.5);

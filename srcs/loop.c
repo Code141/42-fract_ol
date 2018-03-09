@@ -121,5 +121,32 @@ int		loop(t_mlxyz *mlxyz)
 	draw_hud(mlxyz);
 	mlx_put_image_to_window(mlxyz->mlx,
 		mlxyz->screen->win, mlxyz->screen->canevas->id, 0, 0);
+
+/*----------------------------------------------------------------------------*/
+
+	char *fps;
+	fps = ft_itoa(mlxyz->stats->fps[0]);
+	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 5, 0, 0xffffff, fps);
+	free(fps);
+
+	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 30, 0, 0xffffff, "Fps");
+	
+	char *ms;
+	ms = ft_itoa(mlxyz->stats->ms[0]);
+	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 100, 0, 0xffffff, ms);
+	free(ms);
+
+	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 125, 0, 0xffffff, "Ms");
+
+
+
+	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 5, 80, 0xffffff, "Iterations:");
+
+	char *iter;
+	iter = ft_itoa(fractol->max_iter);
+	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 120, 80, 0xffffff, iter);
+	free(iter);
+
+
 	return (1);
 }
