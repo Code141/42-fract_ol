@@ -174,7 +174,8 @@ void		loop(t_mlxyz *mlxyz)
 	free(str);
 
 	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 100, 160, 0xfffffff, "Ci :");
-	str = ft_itoa(fractol->ci_custom);
+	str = ft_ftoa(fractol->ci_custom);
+	printf("%.50f\n",fractol->cr_custom);
 	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 145, 160, 0xffffff, str);
 	free(str);
 	
