@@ -113,12 +113,18 @@ void		loop(t_mlxyz *mlxyz)
 	if (fractol->lock % 2)
 	{
 		fractol->cr_custom = (-(mlxyz->screen->width / 2) + mlxyz->mouse->x)
-			/ fractol->zoom;
+			/ fractol->zoom + fractol->x;
 		fractol->ci_custom = (-(mlxyz->screen->height / 2) + mlxyz->mouse->y)
-			/ fractol->zoom;
+			/ fractol->zoom + fractol->y;
 	}
+	
+	if (!(fractol->render % 2))
+		ft_bzero(mlxyz->screen->canevas->data,
+			mlxyz->screen->width * mlxyz->screen->height);
+
 	render_main(mlxyz, fractol);
 	render_aux(mlxyz, *fractol);
+
 	draw_hud(mlxyz);
 	mlx_put_image_to_window(mlxyz->mlx,
 		mlxyz->screen->win, mlxyz->screen->canevas->id, 0, 0);
@@ -132,7 +138,6 @@ void		loop(t_mlxyz *mlxyz)
 	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 5, 0, 0xffffff, str);
 	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 30, 0, 0xffffff, "Fps");
 	free(str);
-	
 /**/
 	str = ft_itoa(mlxyz->stats->ms[0]);
 	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 101, 1, 0x000000, str);
@@ -140,7 +145,6 @@ void		loop(t_mlxyz *mlxyz)
 	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 100, 0, 0xffffff, str);
 	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 125, 0, 0xffffff, "Ms");
 	free(str);
-
 /**/
 	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 5, 80, 0xffffff, "Iterations :");
 
@@ -148,7 +152,6 @@ void		loop(t_mlxyz *mlxyz)
 	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 130, 80, 0xffffff, str);
 	free(str);
 /**/
-
 	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 5, 100, 0xffffff, "Render :");
  	if (fractol->render % 2)
 		mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 90, 100, 0x00ff00, "GPU");
@@ -160,7 +163,6 @@ void		loop(t_mlxyz *mlxyz)
 		mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 70, 120, 0x00ff00, "On");
 	else
 		mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 70, 120, 0xffff00, "Off");
-
 /**/
 	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 5, 140, 0xfffffff, "Zoom :");
 	str = ft_itoa(fractol->zoom);
@@ -168,16 +170,37 @@ void		loop(t_mlxyz *mlxyz)
 	free(str);
 /**/
 
+
+
+
+
 	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 5, 160, 0xfffffff, "Cr :");
-	str = ft_itoa(fractol->cr_custom);
-	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 50, 160, 0xffffff, str);
+	if (fractol->cr_custom < 0)
+		mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 50, 160, 0xffffff, "-");
+	str = ft_itoa(fabs(fractol->cr_custom));
+	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 65, 160, 0xffffff, str);
+	free(str);
+	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 75, 160, 0xffffff, ".");
+	str = ft_itoa(fabs((fractol->cr_custom - ((int)fractol->cr_custom))) * 100000);
+	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 85, 160, 0xffffff, str);
 	free(str);
 
-	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 100, 160, 0xfffffff, "Ci :");
-	str = ft_ftoa(fractol->ci_custom);
-	printf("%.50f\n",fractol->cr_custom);
-	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 145, 160, 0xffffff, str);
-	free(str);
+
 	
+	
+	
+	
+	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 5, 180, 0xfffffff, "Ci :");
+	if (fractol->ci_custom > 0)
+		mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 50, 180, 0xffffff, "-");
+	str = ft_itoa(fabs(fractol->ci_custom));
+	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 65, 180, 0xffffff, str);
+	free(str);
+	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 75, 180, 0xffffff, ".");
+	str = ft_itoa(fabs((fractol->ci_custom - ((int)fractol->ci_custom))) * 100000);
+	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 85, 180, 0xffffff, str);
+	free(str);
 
+
+	
 }

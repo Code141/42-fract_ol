@@ -15,5 +15,7 @@
 # include <math/pixel.h>
 
 void	square(t_img *canevas, t_vector2 v1, t_vector2 v2, unsigned int color);
+void	square_full(t_img *canevas, t_vector2 v1, t_vector2 v2,
+			unsigned int color);
 
 #endif

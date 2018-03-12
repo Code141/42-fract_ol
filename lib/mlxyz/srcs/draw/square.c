@@ -30,3 +30,21 @@ void	square(t_img *canevas, t_vector2 v1, t_vector2 v2, unsigned int color)
 		v1.y++;
 	}
 }
+
+void	square_full(t_img *canevas, t_vector2 v1, t_vector2 v2,
+			unsigned int color)
+{
+	int x;
+
+	while (v1.y < v2.y)
+	{
+		x = v1.x;
+		while (x < v2.x)
+		{
+			((unsigned int*)canevas->data)[(v1.y * canevas->width) + x] =
+				color;
+			x++;
+		}
+		v1.y++;
+	}
+}
