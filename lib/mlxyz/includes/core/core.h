@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 14:28:41 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/06 17:09:57 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/13 18:56:30 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ struct	s_mlxyz
 	void		(*loop_app)(t_mlxyz* mlxyz);
 };
 
-t_mlxyz			*mlxyz_init(int	width, int height);
+t_mlxyz			*mlxyz_init();
 void			mlxyz_close(t_mlxyz *mlxyz);
 void			mlxyz_crash(char *str);
 

@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 18:44:58 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/08 19:48:28 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/13 22:54:53 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,27 @@ t_fractol	*init_fractol(char *fractal_name)
 	return (fractol);
 }
 
+t_mlxyz		*init_mlxyz(int win_width, int win_height)
+{
+	t_mlxyz		*mlxyz;
+
+	mlxyz = mlxyz_init(win_width, win_height);
+	mlxyz->screen = new_screen(mlxyz->mlx, win_width, win_height);
+	mlxyz->stats = new_stats();
+	mlxyz->hud = new_hud();
+	mlxyz->hud->graphs[0] = new_graph(95, 60, mlxyz->stats->fps);
+	mlxyz->hud->graphs[0]->x = 2;
+	mlxyz->hud->graphs[0]->y = 2;
+	mlxyz->hud->graphs[1] = new_graph(98, 60, mlxyz->stats->ms);
+	mlxyz->hud->graphs[1]->color_min.hex = 0x00ffff;
+	mlxyz->hud->graphs[1]->color_max.hex = 0xff0000;
+	mlxyz->hud->graphs[1]->x = 99;
+	mlxyz->hud->graphs[1]->y = 2;
+	mlxyz->opencl = init_opencl();
+	hooks(mlxyz);
+	return (mlxyz);
+}
+
 int			main(int argc, char **argv)
 {
 	t_fractol	*fractol;
@@ -41,20 +62,52 @@ int			main(int argc, char **argv)
 	int			win_width;
 	int			win_height;
 
-	win_width = 1800;
-	win_height = 1000;
 
+/*	float X;
+
+	X = 0.123456789;
+
+	printf("%d\n", (int)X % 10);
+
+	X *= 10;
+	printf("%d\n", (int)X % 10);
+
+	X *= 10;
+	printf("%d\n", (int)X % 10);
+
+	X *= 10;
+	printf("%d\n", (int)X % 10);
+	X *= 10;
+	printf("%d\n", (int)X % 10);
+	X *= 10;
+	printf("%d\n", (int)X % 10);
+	X *= 10;
+	printf("%d\n", (int)X % 10);
+	X *= 10;
+	printf("%d\n", (int)X % 10);
+	X *= 10;
+	printf("%d\n", (int)X % 10);
+	X *= 10;
+
+*/
+
+
+
+
+
+
+	win_width = 1600;
+	win_height = 1000;
 	argc--;
 	argv++;
 	if (argc == 0)
 		show_usage();
-	mlxyz = mlxyz_init(win_width, win_height);
+	mlxyz = init_mlxyz(win_width, win_height);
 	fractol = init_fractol(*argv);
-	if (set_kernel(mlxyz->opencl, mlxyz->screen->width, mlxyz->screen->height))
+	if (set_kernel(mlxyz->opencl, win_width, win_height))
 		fractol->render = 1;
 	fractol->win_width = win_width;
-	fractol->win_height= win_height;
-
+	fractol->win_height = win_height;
 	mlxyz->app = fractol;
 	mlxyz->keyboard->key_press = &key_press;
 	mlxyz_run_loop(mlxyz, &loop);

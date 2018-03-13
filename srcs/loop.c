@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 11:37:39 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/08 20:04:56 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/13 20:43:59 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <fractol.h>
 #include <common.h>
 #include <devices_events.h>
+#include <txt.h>
 
 void	loop_cpu(t_mlxyz *mlxyz, t_fractol *fractol)
 {
@@ -64,10 +65,8 @@ void	loop_opencl(t_mlxyz *mlxyz, t_fractol *fractol)
 
 void	render_main(t_mlxyz *mlxyz, t_fractol *fractol)
 {
-	fractol->w_w = 1400;
-	fractol->w_h = 1000;
-	fractol->w_p_x = 200;
-	fractol->w_p_y = 0;
+	fractol->w_w = mlxyz->screen->width;
+	fractol->w_h = mlxyz->screen->height;
 	if (fractol->render % 2)
 		loop_opencl(mlxyz, fractol);
 	else
@@ -79,21 +78,19 @@ void	render_aux(t_mlxyz *mlxyz, t_fractol fractol)
 	t_vector2	v1;
 	t_vector2	v2;
 
-	fractol.w_p_y = 0;
+	fractol.w_p_x = 0;
+	fractol.w_p_y = 70;
 	fractol.w_w = 200;
 	fractol.w_h = 200;
-	fractol.w_p_x = fractol.win_width - fractol.w_w;
 
-	v1.x = fractol.win_width - fractol.w_w;
-	v1.y = 0;
-	v2.x = fractol.win_width - fractol.w_w + 199;
-	v2.y = 200;
-
+	v1.x = 0;
+	v1.y = 70;
+	v2.x = 199;
+	v2.y = 269;
 
 	fractol.zoom = 40;
 	fractol.x = 0;
 	fractol.y = 0;
-
 	if (fractol.render % 2)
 		loop_opencl(mlxyz, &fractol);
 	else
@@ -105,7 +102,6 @@ void	render_aux(t_mlxyz *mlxyz, t_fractol fractol)
 void		loop(t_mlxyz *mlxyz)
 {
 	t_fractol	*fractol;
-	int			i;
 	
 	fractol = mlxyz->app;
 	refresh_input_devices(mlxyz, fractol);
@@ -128,79 +124,7 @@ void		loop(t_mlxyz *mlxyz)
 	draw_hud(mlxyz);
 	mlx_put_image_to_window(mlxyz->mlx,
 		mlxyz->screen->win, mlxyz->screen->canevas->id, 0, 0);
-
-/*----------------------------------------------------------------------------*/
-
-	char *str;
-	str = ft_itoa(mlxyz->stats->fps[0]);
-	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 6, 1, 0x000000, str);
-	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 31, 1, 0x000000, "Fps");
-	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 5, 0, 0xffffff, str);
-	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 30, 0, 0xffffff, "Fps");
-	free(str);
-/**/
-	str = ft_itoa(mlxyz->stats->ms[0]);
-	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 101, 1, 0x000000, str);
-	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 126, 1, 0x000000, "Ms");
-	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 100, 0, 0xffffff, str);
-	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 125, 0, 0xffffff, "Ms");
-	free(str);
-/**/
-	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 5, 80, 0xffffff, "Iterations :");
-
-	str = ft_itoa(fractol->max_iter);
-	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 130, 80, 0xffffff, str);
-	free(str);
-/**/
-	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 5, 100, 0xffffff, "Render :");
- 	if (fractol->render % 2)
-		mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 90, 100, 0x00ff00, "GPU");
-	else
-		mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 90, 100, 0x00ff0000, "CPU");
-/**/
-	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 5, 120, 0xfffffff, "Lock :");
- 	if (fractol->lock % 2)
-		mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 70, 120, 0x00ff00, "On");
-	else
-		mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 70, 120, 0xffff00, "Off");
-/**/
-	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 5, 140, 0xfffffff, "Zoom :");
-	str = ft_itoa(fractol->zoom);
-	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 70, 140, 0xffffff, str);
-	free(str);
-/**/
-
-
-
-
-
-	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 5, 160, 0xfffffff, "Cr :");
-	if (fractol->cr_custom < 0)
-		mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 50, 160, 0xffffff, "-");
-	str = ft_itoa(fabs(fractol->cr_custom));
-	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 65, 160, 0xffffff, str);
-	free(str);
-	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 75, 160, 0xffffff, ".");
-	str = ft_itoa(fabs((fractol->cr_custom - ((int)fractol->cr_custom))) * 100000);
-	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 85, 160, 0xffffff, str);
-	free(str);
-
-
-	
-	
-	
-	
-	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 5, 180, 0xfffffff, "Ci :");
-	if (fractol->ci_custom > 0)
-		mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 50, 180, 0xffffff, "-");
-	str = ft_itoa(fabs(fractol->ci_custom));
-	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 65, 180, 0xffffff, str);
-	free(str);
-	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 75, 180, 0xffffff, ".");
-	str = ft_itoa(fabs((fractol->ci_custom - ((int)fractol->ci_custom))) * 100000);
-	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 85, 180, 0xffffff, str);
-	free(str);
-
-
-	
+	txt_1(mlxyz, fractol);
+	txt_2(mlxyz, fractol);
+	txt_3(mlxyz, fractol);
 }

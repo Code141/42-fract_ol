@@ -6,7 +6,7 @@
 #    By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/17 12:32:21 by gelambin          #+#    #+#              #
-#    Updated: 2018/03/08 19:51:23 by gelambin         ###   ########.fr        #
+#    Updated: 2018/03/13 23:04:06 by gelambin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,34 +15,36 @@ NAME		=	fractol
 CC			=	gcc
 
 CFLAGS		=	#-Wall -Wextra -Werror
-CPPFLAGS	=	-I./lib/mlx/					\
-				-I./lib/libft/includes/			\
-				-I./lib/mlxyz/includes/			\
-				-I./includes/					\
+CPPFLAGS	=	-I./lib/mlx/						\
+				-I./lib/libft/includes/				\
+				-I./lib/mlxyz/includes/				\
+				-I./includes/						\
 
-LIBS		=	-L./lib/mlx -lmlx				\
-				-L./lib/mlxyz -lmlxyz			\
+LIBS		=	-L./lib/mlx -lmlx					\
+				-L./lib/mlxyz -lmlxyz				\
 				-L./lib/libft -lft
 
-SRCS		=	./srcs/main.c					\
-				./srcs/params.c					\
-				./srcs/devices_events.c			\
-				./srcs/cl.c						\
-				./srcs/move.c					\
-				./srcs/closing.c				\
-				./srcs/loop.c					\
-				./srcs/common.c					\
-				./srcs/fractals/julia.c			\
-				./srcs/fractals/mandelbrot.c	\
-				./srcs/fractals/burning_ship.c	\
-				./srcs/fractals/tricorn.c		\
-				./srcs/fractals/bullet.c		\
-				./srcs/fractals/julia_fun.c
+SRCS		=	./srcs/main.c						\
+				./srcs/params.c						\
+				./srcs/devices_events.c				\
+				./srcs/cl.c							\
+				./srcs/move.c						\
+				./srcs/closing.c					\
+				./srcs/txt.c						\
+				./srcs/loop.c						\
+				./srcs/common.c						\
+				./srcs/fractals/julia.c				\
+				./srcs/fractals/mandelbrot.c		\
+				./srcs/fractals/burning_ship.c		\
+				./srcs/fractals/tricorn.c			\
+				./srcs/fractals/bullet.c			\
+				./srcs/fractals/julia_fun.c			\
+				./srcs/fractals/sierpinski_carpet.c
 
 OBJS		=	$(SRCS:.c=.o)
 
-FMWS		=	-framework OpenGL				\
-				-framework OpenCL				\
+FMWS		=	-framework OpenGL					\
+				-framework OpenCL					\
 				-framework AppKit
 
 all			:	 $(NAME)

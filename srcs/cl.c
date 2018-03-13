@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/08 12:49:13 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/08 19:29:54 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/13 22:00:34 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,25 @@ void		load_files(char **files_to_load)
 	}
 }
 
+int			param_gl(t_opencl *opencl, int x, int y)
+{
+	opencl->global_work_size[0] = x;
+	opencl->global_work_size[1] = y;
+	opencl->global_work_size[2] = 1;
+	opencl->mem[0] = clCreateBuffer(opencl->context, CL_MEM_READ_WRITE,
+			sizeof(t_fractol), NULL, &opencl->ret);
+	opencl->mem[1] = clCreateBuffer(opencl->context, CL_MEM_READ_WRITE,
+			x * y * sizeof(int), NULL, &opencl->ret);
+	opencl->ret = clSetKernelArg(opencl->kernel,
+			0, sizeof(cl_mem), (void*)&opencl->mem[0]);
+	opencl->ret = clSetKernelArg(opencl->kernel,
+			1, sizeof(cl_mem), (void*)&opencl->mem[1]);
+	return (1);
+}
+
 int			set_kernel(t_opencl *opencl, int x, int y)
 {
-	char	*source_str[10];
+	char	*source_str[11];
 
 	source_str[0] = "./srcs/fractals/julia.c";
 	source_str[1] = "./srcs/fractals/mandelbrot.c";
@@ -58,27 +74,19 @@ int			set_kernel(t_opencl *opencl, int x, int y)
 	source_str[3] = "./srcs/fractals/tricorn.c";
 	source_str[4] = "./srcs/fractals/bullet.c";
 	source_str[5] = "./srcs/fractals/julia_fun.c";
-	source_str[6] = "./lib/mlxyz/srcs/color/rgba.c";
-	source_str[7] = "./srcs/common.c";
-	source_str[8] = "./srcs/kernel.cl";
-	source_str[9] = NULL;
+	source_str[6] = "./srcs/fractals/sierpinski_carpet.c";
+	source_str[7] = "./lib/mlxyz/srcs/color/rgba.c";
+	source_str[8] = "./srcs/common.c";
+	source_str[9] = "./srcs/kernel.cl";
+	source_str[10] = NULL;
 	load_files(source_str);
-	if (!load_kernel(opencl, source_str, 9))
+	if (!load_kernel(opencl, source_str, 10))
 	{
 		unload_files(source_str, 9);
 		return (0);
 	}
 	unload_files(source_str, 9);
-	opencl->global_work_size[0] = x;
-	opencl->global_work_size[1] = y;
-	opencl->global_work_size[2] = 1;
-	opencl->mem[0] = clCreateBuffer(opencl->context, CL_MEM_READ_WRITE,
-		sizeof(t_fractol), NULL, &opencl->ret);
-	opencl->mem[1] = clCreateBuffer(opencl->context, CL_MEM_READ_WRITE,
-		x * y * sizeof(int), NULL, &opencl->ret);
-	opencl->ret = clSetKernelArg(opencl->kernel,
-		0, sizeof(cl_mem), (void*)&opencl->mem[0]);
-	opencl->ret = clSetKernelArg(opencl->kernel,
-			1, sizeof(cl_mem), (void*)&opencl->mem[1]);
+	if (!param_gl(opencl, x, y))
+		return (0);
 	return (1);
 }

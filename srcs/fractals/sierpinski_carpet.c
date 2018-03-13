@@ -1,38 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   julia_fun.c                                        :+:      :+:    :+:   */
+/*   sierpinski_carpet.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/06 17:48:18 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/13 20:49:27 by gelambin         ###   ########.fr       */
+/*   Created: 2018/03/13 21:49:31 by gelambin          #+#    #+#             */
+/*   Updated: 2018/03/13 23:17:36 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fractol_struct.h>
 #define ABS(value) (((value) < 0) ? -((value)) : (value))
 
-void	julia_fun(t_pixel *pixel)
+void	sierpinski_carpet(t_pixel *pixel)
 {
-	double	z_r;
-	double	z_i;
-	double	z_r_c;
-	double	z_i_c;
+	double	x;
+	double	y;
+	double i;
 
 	pixel->value = 0;
 	pixel->iterations = 0;
-	z_r_c = pixel->cr * pixel->cr;
-	z_i_c = pixel->ci * pixel->ci;
-	z_i = (pixel->ci + pixel->ci) * pixel->cr + pixel->ci_custom;
-	z_r = z_r_c - z_i_c + pixel->cr_custom;
-	while (z_r_c + z_i_c <= 4 && pixel->iterations < pixel->max_iter)
+
+	x = ABS(pixel->cr);
+	y = ABS(pixel->ci);
+
+	i = 1;
+
+	while ((x < 1.5 * i || y < 1.5 * i) && pixel->iterations < pixel->max_iter)
 	{
-		z_r_c = z_r * z_r - ((double)(pixel->iterations % 3));
-		z_i_c = z_i * z_i;
-		z_i = (z_i + z_i) * z_r + pixel->ci_custom;
-		z_r = ABS(z_r_c - z_i_c + pixel->cr_custom);
-		pixel->value += (z_r_c + z_i_c);
+
+		if ((int)x % 3 == 1)
+			x = 0;
+		x *= 3;
+		if ((int)y % 3 == 1)
+			y = 0;
+		y *= 3;
+
+//		pixel->value = x + y;
 		pixel->iterations++;
 	}
 }
