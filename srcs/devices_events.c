@@ -15,10 +15,6 @@
 #include <move.h>
 #include <closing.h>
 
-void	selecting_fractal(t_mlxyz *mlxyz, t_fractol *fractol)
-{
-}
-
 void	key_press(void *ptr, int keycode)
 {
 	t_mlxyz		*mlxyz;
@@ -26,46 +22,38 @@ void	key_press(void *ptr, int keycode)
 
 	mlxyz = (t_mlxyz*)ptr;
 	fractol = (t_fractol*)mlxyz->app;
-	if (mlxyz->keyboard->key[18])
+	if (keycode == 18)
 		fractol->fractal = 0;
-	if (mlxyz->keyboard->key[19])
+	if (keycode == 19)
 		fractol->fractal = 1;
-	if (mlxyz->keyboard->key[20])
+	if (keycode == 20)
 		fractol->fractal = 2;
-	if (mlxyz->keyboard->key[21])
+	if (keycode == 21)
 		fractol->fractal = 3;
-	if (mlxyz->keyboard->key[22])
+	if (keycode == 22)
 		fractol->fractal = 4;
-	if (mlxyz->keyboard->key[23])
+	if (keycode == 23)
 		fractol->fractal = 5;
-
-	if (mlxyz->keyboard->key[36])
+	if (keycode == 36)
 		fractol->render += 1;
-
-	if (mlxyz->keyboard->key[49])
+	if (keycode == 49)
 		fractol->lock += 1;
-
-	if (mlxyz->keyboard->key[53])
+	if (keycode == 53)
 		close_fractol(mlxyz);
 }
 
 void	refresh_keyboard(t_mlxyz *mlxyz, t_fractol *fractol)
 {
-	selecting_fractal(mlxyz, fractol);
-
 	if (mlxyz->keyboard->key[69])
 		fractol_zoom_in(mlxyz, fractol);
 	if (mlxyz->keyboard->key[78])
 		fractol_zoom_out(mlxyz, fractol);
-
 	if (mlxyz->keyboard->key[125])
 		fractol->max_iter--;
 	if (mlxyz->keyboard->key[126])
 		fractol->max_iter++;
-
 	if (fractol->max_iter < 5)
 		fractol->max_iter = 5;
-
 	if (mlxyz->keyboard->key[0])
 		fractol_move(fractol, -10, 0);
 	if (mlxyz->keyboard->key[2])
@@ -74,7 +62,6 @@ void	refresh_keyboard(t_mlxyz *mlxyz, t_fractol *fractol)
 		fractol_move(fractol, 0, 10);
 	if (mlxyz->keyboard->key[13])
 		fractol_move(fractol, 0, -10);
-
 }
 
 void	refresh_mouse(t_mlxyz *mlxyz, t_fractol *fractol)
