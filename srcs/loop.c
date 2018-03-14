@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 11:37:39 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/13 20:43:59 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/14 19:38:53 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,11 @@ void	render_aux(t_mlxyz *mlxyz, t_fractol fractol)
 void		loop(t_mlxyz *mlxyz)
 {
 	t_fractol	*fractol;
-	
+
 	fractol = mlxyz->app;
 	refresh_input_devices(mlxyz, fractol);
+	if (fractol->max_iter < 1)
+		fractol->max_iter = 1;
 	fractol->color_indice = ((double)(mlxyz->stats->now % 100000) / 100000);
 	if (fractol->lock % 2)
 	{
@@ -113,14 +115,11 @@ void		loop(t_mlxyz *mlxyz)
 		fractol->ci_custom = (-(mlxyz->screen->height / 2) + mlxyz->mouse->y)
 			/ fractol->zoom + fractol->y;
 	}
-	
 	if (!(fractol->render % 2))
 		ft_bzero(mlxyz->screen->canevas->data,
 			mlxyz->screen->width * mlxyz->screen->height);
-
 	render_main(mlxyz, fractol);
 	render_aux(mlxyz, *fractol);
-
 	draw_hud(mlxyz);
 	mlx_put_image_to_window(mlxyz->mlx,
 		mlxyz->screen->win, mlxyz->screen->canevas->id, 0, 0);
