@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/08 12:49:13 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/13 22:00:34 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/15 23:21:09 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int			param_gl(t_opencl *opencl, int x, int y)
 
 int			set_kernel(t_opencl *opencl, int x, int y)
 {
-	char	*source_str[11];
+	char	*source_str[12];
 
 	source_str[0] = "./srcs/fractals/julia.c";
 	source_str[1] = "./srcs/fractals/mandelbrot.c";
@@ -75,17 +75,18 @@ int			set_kernel(t_opencl *opencl, int x, int y)
 	source_str[4] = "./srcs/fractals/bullet.c";
 	source_str[5] = "./srcs/fractals/julia_fun.c";
 	source_str[6] = "./srcs/fractals/sierpinski_carpet.c";
-	source_str[7] = "./lib/mlxyz/srcs/color/rgba.c";
-	source_str[8] = "./srcs/common.c";
-	source_str[9] = "./srcs/kernel.cl";
-	source_str[10] = NULL;
+	source_str[7] = "./srcs/fractals/zappa.c";
+	source_str[8] = "./lib/mlxyz/srcs/color/rgba.c";
+	source_str[9] = "./srcs/common.c";
+	source_str[10] = "./srcs/kernel.cl";
+	source_str[11] = NULL;
 	load_files(source_str);
-	if (!load_kernel(opencl, source_str, 10))
+	if (!load_kernel(opencl, source_str, 11))
 	{
-		unload_files(source_str, 9);
+		unload_files(source_str, 11);
 		return (0);
 	}
-	unload_files(source_str, 9);
+	unload_files(source_str, 11);
 	if (!param_gl(opencl, x, y))
 		return (0);
 	return (1);

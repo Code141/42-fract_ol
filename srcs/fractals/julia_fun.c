@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 17:48:18 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/14 15:33:54 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/15 17:41:17 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	julia_fun(t_pixel *pixel)
 		z_i_c = z_i * z_i;
 		z_i = (z_i + z_i) * z_r + pixel->ci_custom;
 		z_r = ABS(z_r_c - z_i_c + pixel->cr_custom);
-		pixel->value += (z_r_c + z_i_c);
+		pixel->value += (z_r_c + z_i_c) * 2;
 		pixel->iterations++;
 	}
 }

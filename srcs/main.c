@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 18:44:58 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/14 19:57:38 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/15 23:18:49 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,19 @@
 #include <fractol.h>
 #include <devices_events.h>
 #include <cl.h>
+
+void	reset_fractol(t_fractol *fractol)
+{
+
+	fractol->lock = 0;
+	fractol->max_iter = 10;
+	fractol->zoom = 180;
+	fractol->x = 0;
+	fractol->y = 0;
+	fractol->cr_custom = 0;
+	fractol->ci_custom = 0;
+	fractol->color = 0;
+}
 
 t_fractol	*init_fractol(char *fractal_name)
 {
@@ -88,16 +101,11 @@ int			main(int argc, char **argv)
 	X *= 10;
 	printf("%d\n", (int)X % 10);
 	X *= 10;
-
 */
 
 
-
-
-
-
-	win_width = 1600;
-	win_height = 1000;
+	win_width = 1024;
+	win_height = 786;
 	argc--;
 	argv++;
 	if (argc == 0)

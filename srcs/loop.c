@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 11:37:39 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/14 19:38:53 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/15 23:09:09 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	render_aux(t_mlxyz *mlxyz, t_fractol fractol)
 	v1.y = 70;
 	v2.x = 199;
 	v2.y = 269;
-
+	
 	fractol.zoom = 40;
 	fractol.x = 0;
 	fractol.y = 0;

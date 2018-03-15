@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/20 11:00:08 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/13 21:52:17 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/15 15:07:40 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	show_usage(void)
 	ft_putstr("	bullet\n");
 	ft_putstr("	julia_fun\n");
 	ft_putstr("	sierpinski_carpet\n");
+	ft_putstr("	zappa\n");
 	exit(0);
 }
 
@@ -45,6 +46,8 @@ void	set_fractal_type(char *fractal_name, t_fractol *fractol)
 		fractol->fractal = 5;
 	else if (!ft_strcmp(fractal_name, "sierpinski_carpet\0"))
 		fractol->fractal = 6;
+	else if (!ft_strcmp(fractal_name, "zappa\0"))
+		fractol->fractal = 7;
 	else
 		show_usage();
 }

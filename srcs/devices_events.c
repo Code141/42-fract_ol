@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/12 03:35:02 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/14 20:00:09 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/15 23:10:05 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,8 @@
 #include <move.h>
 #include <closing.h>
 
-void	reset_fractol(t_fractol *fractol)
+void	select_fractal(int keycode, t_fractol *fractol)
 {
-
-	fractol->lock = 0;
-	fractol->max_iter = 10;
-	fractol->zoom = 180;
-	fractol->x = 0;
-	fractol->y = 0;
-	fractol->cr_custom = 0;
-	fractol->ci_custom = 0;
-}
-
-void	key_press(void *ptr, int keycode)
-{
-	t_mlxyz		*mlxyz;
-	t_fractol	*fractol;
-
-	mlxyz = (t_mlxyz*)ptr;
-	fractol = (t_fractol*)mlxyz->app;
-	if (mlxyz->keyboard->key[125])
-		fractol->max_iter--;
-	if (mlxyz->keyboard->key[126])
-		fractol->max_iter++;
 	if (keycode == 18)
 		fractol->fractal = 0;
 	if (keycode == 19)
@@ -52,6 +31,28 @@ void	key_press(void *ptr, int keycode)
 		fractol->fractal = 5;
 	if (keycode == 26)
 		fractol->fractal = 6;
+	if (keycode == 28)
+		fractol->fractal = 7;
+}
+
+void	key_press(void *ptr, int keycode)
+{
+	t_mlxyz		*mlxyz;
+	t_fractol	*fractol;
+
+	mlxyz = (t_mlxyz*)ptr;
+	fractol = (t_fractol*)mlxyz->app;
+	select_fractal(keycode, fractol);
+	if (mlxyz->keyboard->key[83]) // 86 87 88 89 91 92
+		fractol->color = 1;
+	if (mlxyz->keyboard->key[84])
+		fractol->color = 2;
+	if (mlxyz->keyboard->key[85])
+		fractol->color = 3;
+	if (mlxyz->keyboard->key[125])
+		fractol->max_iter--;
+	if (mlxyz->keyboard->key[126])
+		fractol->max_iter++;
 	if (keycode == 36)
 		fractol->render += 1;
 	if (keycode == 49)

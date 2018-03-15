@@ -6,42 +6,13 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 21:49:31 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/14 20:14:05 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/15 15:10:02 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fractol_struct.h>
 #define ABS(value) (((value) < 0) ? -((value)) : (value))
 
-void	sierpinski_carpet(t_pixel *pixel)
-{
-	double	x;
-	double	y;
-	double	i;
-	double	cosy;
-
-	pixel->value = 0;
-	pixel->iterations = 0;
-
-	i = 1;
-	x = ABS(pixel->cr) + 1.5;
-	y = ABS(pixel->ci) + 1.5;
-
-	cosy = cos(y * 20) / 50;
-
-	pixel->iterations++;
-	while (
-			(x / 40 * pixel->iterations < y / 5)
-			&&
-			pixel->iterations < pixel->max_iter)
-	{
-		x += cosy * 5;
-		pixel->iterations++;
-	}
-}
-
-
-/*
 void	sierpinski_carpet(t_pixel *pixel)
 {
 	double	x;
@@ -67,4 +38,3 @@ void	sierpinski_carpet(t_pixel *pixel)
 		pixel->iterations++;
 	}
 }
-*/

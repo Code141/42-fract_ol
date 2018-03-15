@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 17:36:00 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/13 23:06:09 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/15 21:55:54 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 typedef struct	s_fractol
 {
+	int			color;
 	int			win_width;
 	int			win_height;
 	int			fractal;
