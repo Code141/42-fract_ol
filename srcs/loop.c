@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 11:37:39 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/15 23:09:09 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/16 18:48:38 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,14 @@
 #include <devices_events.h>
 #include <txt.h>
 
-void	loop_cpu(t_mlxyz *mlxyz, t_fractol *fractol)
+void	loop_cpu(unsigned int *canevas, t_fractol *fractol)
 {
 	t_pixel	pixel;
 
 	pixel.max_iter = fractol->max_iter;
 	pixel.cr_custom = fractol->cr_custom;
 	pixel.ci_custom = fractol->ci_custom;
+	pixel.color = fractol->color;
 	pixel.x = 0;
 	while (pixel.x < fractol->w_w)
 	{
@@ -39,8 +40,7 @@ void	loop_cpu(t_mlxyz *mlxyz, t_fractol *fractol)
 			pixel.max_iter = fractol->max_iter;
 			iterations(fractol->fractal, &pixel);
 			pixel.pos = ((double)(pixel.iterations) / fractol->max_iter);
-			((unsigned int*)mlxyz->screen->canevas->data)[pixel.index] =
-				color(&pixel, fractol->color_indice);
+			canevas[pixel.index] = color(&pixel, fractol->color_indice);
 			pixel.y++;
 		}
 		pixel.x++;
@@ -70,7 +70,7 @@ void	render_main(t_mlxyz *mlxyz, t_fractol *fractol)
 	if (fractol->render % 2)
 		loop_opencl(mlxyz, fractol);
 	else
-		loop_cpu(mlxyz, fractol);
+		loop_cpu((unsigned int *)mlxyz->screen->canevas->data, fractol);
 }
 
 void	render_aux(t_mlxyz *mlxyz, t_fractol fractol)
@@ -78,28 +78,25 @@ void	render_aux(t_mlxyz *mlxyz, t_fractol fractol)
 	t_vector2	v1;
 	t_vector2	v2;
 
-	fractol.w_p_x = 0;
-	fractol.w_p_y = 70;
+	fractol.w_p_x = fractol.win_width - 200;
+	fractol.w_p_y = 0;
 	fractol.w_w = 200;
 	fractol.w_h = 200;
-
-	v1.x = 0;
-	v1.y = 70;
-	v2.x = 199;
-	v2.y = 269;
-	
+	v1.x = fractol.win_width - 200;
+	v1.y = 0;
+	v2.x = fractol.win_width;
+	v2.y = 199;
 	fractol.zoom = 40;
 	fractol.x = 0;
 	fractol.y = 0;
 	if (fractol.render % 2)
 		loop_opencl(mlxyz, &fractol);
 	else
-		loop_cpu(mlxyz, &fractol);
-
-	square(mlxyz->screen->canevas, v1, v2, 0xff0000);
+		loop_cpu((unsigned int *)mlxyz->screen->canevas->data, &fractol);
+	square(mlxyz->screen->canevas, v1, v2, 0x888888);
 }
 
-void		loop(t_mlxyz *mlxyz)
+void	loop(t_mlxyz *mlxyz)
 {
 	t_fractol	*fractol;
 
@@ -115,15 +112,13 @@ void		loop(t_mlxyz *mlxyz)
 		fractol->ci_custom = (-(mlxyz->screen->height / 2) + mlxyz->mouse->y)
 			/ fractol->zoom + fractol->y;
 	}
-	if (!(fractol->render % 2))
-		ft_bzero(mlxyz->screen->canevas->data,
-			mlxyz->screen->width * mlxyz->screen->height);
 	render_main(mlxyz, fractol);
-	render_aux(mlxyz, *fractol);
-	draw_hud(mlxyz);
-	mlx_put_image_to_window(mlxyz->mlx,
-		mlxyz->screen->win, mlxyz->screen->canevas->id, 0, 0);
-	txt_1(mlxyz, fractol);
-	txt_2(mlxyz, fractol);
-	txt_3(mlxyz, fractol);
+	if (fractol->hud % 2)
+	{
+		draw_hud(mlxyz);
+		mlx_put_image_to_window(mlxyz->mlx,
+			mlxyz->screen->win, mlxyz->screen->canevas->id, 0, 0);
+	}
+	else
+		hud(mlxyz, fractol);
 }

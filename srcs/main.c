@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 18:44:58 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/15 23:18:49 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/16 18:49:09 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,18 @@
 #include <fractol.h>
 #include <devices_events.h>
 #include <cl.h>
+#include <fractol_loop.h>
 
-void	reset_fractol(t_fractol *fractol)
+void		reset_fractol(t_fractol *fractol)
 {
-
 	fractol->lock = 0;
-	fractol->max_iter = 10;
+	fractol->max_iter = 50;
 	fractol->zoom = 180;
 	fractol->x = 0;
 	fractol->y = 0;
 	fractol->cr_custom = 0;
 	fractol->ci_custom = 0;
-	fractol->color = 0;
+	fractol->color = 1;
 }
 
 t_fractol	*init_fractol(char *fractal_name)
@@ -38,12 +38,8 @@ t_fractol	*init_fractol(char *fractal_name)
 		crash_fractol("Malloc into init_fractol");
 	ft_bzero(fractol, sizeof(t_fractol));
 	set_fractal_type(fractal_name, fractol);
-	fractol->render = 1;
-	fractol->lock = 1;
-	fractol->max_iter = 10;
-	fractol->zoom = 180;
-	fractol->x = 0;
-	fractol->y = 0;
+	fractol->render = 0;
+	reset_fractol(fractol);
 	return (fractol);
 }
 
@@ -75,35 +71,6 @@ int			main(int argc, char **argv)
 	int			win_width;
 	int			win_height;
 
-
-/*	float X;
-
-	X = 0.123456789;
-
-	printf("%d\n", (int)X % 10);
-
-	X *= 10;
-	printf("%d\n", (int)X % 10);
-
-	X *= 10;
-	printf("%d\n", (int)X % 10);
-
-	X *= 10;
-	printf("%d\n", (int)X % 10);
-	X *= 10;
-	printf("%d\n", (int)X % 10);
-	X *= 10;
-	printf("%d\n", (int)X % 10);
-	X *= 10;
-	printf("%d\n", (int)X % 10);
-	X *= 10;
-	printf("%d\n", (int)X % 10);
-	X *= 10;
-	printf("%d\n", (int)X % 10);
-	X *= 10;
-*/
-
-
 	win_width = 1024;
 	win_height = 786;
 	argc--;
@@ -112,8 +79,7 @@ int			main(int argc, char **argv)
 		show_usage();
 	mlxyz = init_mlxyz(win_width, win_height);
 	fractol = init_fractol(*argv);
-	if (set_kernel(mlxyz->opencl, win_width, win_height))
-		fractol->render = 1;
+	set_kernel(mlxyz->opencl, win_width, win_height);
 	fractol->win_width = win_width;
 	fractol->win_height = win_height;
 	mlxyz->app = fractol;

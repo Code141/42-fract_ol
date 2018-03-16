@@ -6,12 +6,12 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/08 12:49:31 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/08 12:52:24 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/16 17:56:58 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CL_C
-# define CL_C
+#ifndef CL_H
+# define CL_H
 
 int			set_kernel(t_opencl *opencl, int x, int y);
 

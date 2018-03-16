@@ -6,22 +6,11 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 12:55:39 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/15 21:16:39 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/16 19:37:05 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <color/s_color_rgba.h>
-
-t_color_rgba	color_set_rgba(char r, char g, char b, char a)
-{
-	t_color_rgba	color;
-
-	color.c.r = r;
-	color.c.g = g;
-	color.c.b = b;
-	color.c.a = a;
-	return (color);
-}
 
 t_color_rgba	color_blend(t_color_rgba *ca, t_color_rgba *cb, float ratio)
 {

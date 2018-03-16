@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 14:28:41 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/13 18:56:30 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/16 19:34:50 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,8 @@
 # define TO_RAD(x) ((x) * PI / 180.0)
 # define TO_DEG(x) ((x) * 180.0 / PI)
 
-
-typedef	struct	s_mlxyz		t_mlxyz;
-struct	s_mlxyz
+typedef struct s_mlxyz		t_mlxyz;
+struct						s_mlxyz
 {
 	void		*mlx;
 	t_screen	*screen;
@@ -40,11 +39,11 @@ struct	s_mlxyz
 	t_camera	*camera;
 	t_opencl	*opencl;
 	void		*app;
-	void		(*loop_app)(t_mlxyz* mlxyz);
+	void		(*loop_app)(t_mlxyz *mlxyz);
 };
 
-t_mlxyz			*mlxyz_init();
-void			mlxyz_close(t_mlxyz *mlxyz);
-void			mlxyz_crash(char *str);
+t_mlxyz						*mlxyz_init();
+void						mlxyz_close(t_mlxyz *mlxyz);
+void						mlxyz_crash(char *str);
 
 #endif

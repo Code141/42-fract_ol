@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/12 03:35:02 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/15 23:10:05 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/16 18:45:01 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,14 @@ void	select_fractal(int keycode, t_fractol *fractol)
 		fractol->fractal = 6;
 	if (keycode == 28)
 		fractol->fractal = 7;
+	if (keycode == 83)
+		fractol->color = 1;
+	if (keycode == 84)
+		fractol->color = 2;
+	if (keycode == 85)
+		fractol->color = 3;
+	if (keycode == 86)
+		fractol->color = 0;
 }
 
 void	key_press(void *ptr, int keycode)
@@ -43,12 +51,6 @@ void	key_press(void *ptr, int keycode)
 	mlxyz = (t_mlxyz*)ptr;
 	fractol = (t_fractol*)mlxyz->app;
 	select_fractal(keycode, fractol);
-	if (mlxyz->keyboard->key[83]) // 86 87 88 89 91 92
-		fractol->color = 1;
-	if (mlxyz->keyboard->key[84])
-		fractol->color = 2;
-	if (mlxyz->keyboard->key[85])
-		fractol->color = 3;
 	if (mlxyz->keyboard->key[125])
 		fractol->max_iter--;
 	if (mlxyz->keyboard->key[126])
@@ -59,6 +61,8 @@ void	key_press(void *ptr, int keycode)
 		fractol->lock += 1;
 	if (keycode == 82)
 		reset_fractol(fractol);
+	if (keycode == 4)
+		fractol->hud++;
 	if (keycode == 53)
 		close_fractol(mlxyz);
 }

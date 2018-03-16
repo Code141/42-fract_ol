@@ -6,14 +6,14 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/04 17:08:14 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/13 18:59:45 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/16 19:36:09 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <core/core.h>
 #include <events/events.h>
 
-t_mlxyz	*mlxyz_init()
+t_mlxyz	*mlxyz_init(void)
 {
 	t_mlxyz	*mlxyz;
 

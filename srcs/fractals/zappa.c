@@ -6,9 +6,10 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 15:09:52 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/15 23:13:44 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/16 17:59:23 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #ifndef FRACTOL_STRUCT_H
 # include <math.h>
 #endif

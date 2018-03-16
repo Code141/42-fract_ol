@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 17:36:00 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/15 21:55:54 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/16 18:44:52 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct	s_fractol
 	int			w_h;
 	int			w_p_x;
 	int			w_p_y;
+	int			hud;
 }				t_fractol;
 
 typedef struct	s_pixel
@@ -49,6 +50,7 @@ typedef struct	s_pixel
 	int		iterations;
 	int		value;
 	double	pos;
+	int		color;
 }				t_pixel;
 
 #endif

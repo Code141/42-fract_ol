@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 21:49:31 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/15 15:10:02 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/16 17:57:46 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	sierpinski_carpet(t_pixel *pixel)
 
 	pixel->value = 0;
 	pixel->iterations = 0;
-
 	i = 1;
 	x = ABS(pixel->cr) + 1.5;
 	y = ABS(pixel->ci) + 1.5;
