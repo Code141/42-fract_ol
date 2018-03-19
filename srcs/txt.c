@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 19:44:07 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/16 19:30:00 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/19 20:19:36 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,11 @@ void	txt_2(t_mlxyz *mlxyz, t_fractol *fractol)
 	char *str;
 
 	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 5, 110, 0x0, "Lock :");
-	if (fractol->lock % 2)
-		mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 70, 110, 0xff0000, "On");
+	if (!(fractol->lock % 2))
+		mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 70, 110, 0xff00, "On");
 	else
-		mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 70, 110, 0xff00, "Off");
+		mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 70, 110,
+				0xff0000, "Off");
 	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 5, 130, 0x0, "Zoom :");
 	str = ft_itoa(fractol->zoom);
 	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 70, 130, 0x0, str);

@@ -6,7 +6,7 @@
 #    By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/17 12:32:21 by gelambin          #+#    #+#              #
-#    Updated: 2018/03/16 19:31:06 by gelambin         ###   ########.fr        #
+#    Updated: 2018/03/19 20:13:40 by gelambin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,15 +60,15 @@ libs		:
 
 $(NAME) 	:	libs $(OBJS)
 	@echo 'Compiling '$(NAME)
-	@$(CC) -Ofast $(LIBS) $(FMWS) $(OBJS) -o $(NAME)
+	@$(CC) -O3 $(LIBS) $(FMWS) $(OBJS) -o $(NAME)
 
 clean		:
-	@echo 'Remove all objects files'
+	@echo 'Remove .objects files'
 	@rm -f $(OBJS)
 
 fclean		:	clean
 	@echo 'Remove app'
-	@rm -f $(NAME) $(OBJS)
+	@rm -f $(NAME)
 
 re			:
 	@$(MAKE) $(MFLAGS) fclean
