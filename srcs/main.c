@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 18:44:58 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/16 18:49:09 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/19 18:59:41 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_mlxyz		*init_mlxyz(int win_width, int win_height)
 	t_mlxyz		*mlxyz;
 
 	mlxyz = mlxyz_init(win_width, win_height);
-	mlxyz->screen = new_screen(mlxyz->mlx, win_width, win_height);
+	mlxyz->screen = new_screen(mlxyz->mlx, win_width, win_height, "Fractol");
 	mlxyz->stats = new_stats();
 	mlxyz->hud = new_hud();
 	mlxyz->hud->graphs[0] = new_graph(95, 60, mlxyz->stats->fps);

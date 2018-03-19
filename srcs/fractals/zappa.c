@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 15:09:52 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/16 17:59:23 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/19 18:59:01 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	zappa(t_pixel *pixel)
 		x *= 1.1;
 		y *= 1.1;
 		pixel->iterations++;
+		pixel->value += x + y;
 		i = (double)pixel->iterations / 2;
 	}
 }

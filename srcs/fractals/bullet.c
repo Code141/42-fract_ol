@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 20:49:12 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/15 14:54:08 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/19 18:57:52 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	bullet(t_pixel *pixel)
 		z_i_c = z_i * z_i - z_r;
 		z_i = (z_i + z_i) * z_r;
 		z_r = z_r_c - z_i_c + pixel->cr;
-		pixel->value += (z_r_c + z_i_c) * 2;
+		pixel->value += (z_r_c + z_i_c) * 3;
 		pixel->iterations++;
 	}
 }

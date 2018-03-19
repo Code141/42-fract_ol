@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 08:00:38 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/15 15:00:37 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/19 18:57:48 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	burning_ship(t_pixel *pixel)
 		z_i_c = z_i * z_i;
 		z_i = ABS(2 * z_r * z_i + pixel->ci);
 		z_r = ABS(z_r_c - z_i_c + pixel->cr);
-		pixel->value += (z_r_c + z_i_c) * 2;
+		pixel->value += (z_r_c + z_i_c) * 3;
 		pixel->iterations++;
 	}
 }

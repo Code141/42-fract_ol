@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/10 17:54:41 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/02 18:58:43 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/19 19:01:32 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,6 @@ typedef	struct	s_screen
 }				t_screen;
 
 t_img			*new_canevas(void *mlx, int width, int height);
-t_screen		*new_screen(void *mlx, int width, int height);
+t_screen		*new_screen(void *mlx, int width, int height, char *name);
 
 #endif

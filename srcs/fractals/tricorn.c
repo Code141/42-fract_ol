@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 08:14:30 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/15 14:57:09 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/19 18:57:44 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	tricorn(t_pixel *pixel)
 		z_i_c = z_i * z_i;
 		z_i = -2 * z_r * z_i + pixel->ci;
 		z_r = z_r_c - z_i_c + pixel->cr;
-		pixel->value += (z_r_c + z_i_c) * 2;
+		pixel->value += (z_r_c + z_i_c) * 3;
 		pixel->iterations++;
 	}
 }

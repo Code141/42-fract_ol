@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 17:07:13 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/16 19:30:57 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/19 18:57:24 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ unsigned int	color_sugar(t_pixel *pixel, double cindice)
 		(sin(M_PI_F * pixel->pos * 5) + 1) / 2);
 	c.c.b = color_canal_add(c.c.b, 255 *
 		(sin(M_PI_F * pixel->pos * 3 * -cindice * 4) + 1) / 2);
-	c.c.r = color_canal_add(c.c.r, pixel->value * 1.5);
-	c.c.g = color_canal_add(c.c.g, pixel->value * 1.5);
-	c.c.b = color_canal_add(c.c.b, pixel->value * 1.5);
+	c.c.r = color_canal_add(c.c.r, pixel->value);
+	c.c.g = color_canal_add(c.c.g, pixel->value);
+	c.c.b = color_canal_add(c.c.b, pixel->value);
 	c.c.r = color_canal_sub(c.c.r, (pixel->iterations % 2) * 0x66);
 	c.c.g = color_canal_sub(c.c.g, (pixel->iterations % 2) * 0x66);
 	c.c.b = color_canal_sub(c.c.b, (pixel->iterations % 2) * 0x66);

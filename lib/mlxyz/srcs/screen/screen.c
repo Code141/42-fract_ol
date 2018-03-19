@@ -6,14 +6,14 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/10 17:50:43 by gelambin          #+#    #+#             */
-/*   Updated: 2018/02/04 17:11:40 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/19 18:59:54 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <screen/screen.h>
 #include <core/core.h>
 
-t_screen	*new_screen(void *mlx, int width, int height)
+t_screen	*new_screen(void *mlx, int width, int height, char *name)
 {
 	t_screen *screen;
 
@@ -23,7 +23,7 @@ t_screen	*new_screen(void *mlx, int width, int height)
 	screen->width = width;
 	screen->height = height;
 	screen->ar = width / height;
-	screen->win = mlx_new_window(mlx, width, height, "FdF");
+	screen->win = mlx_new_window(mlx, width, height, name);
 	screen->canevas = new_canevas(mlx, width, height);
 	return (screen);
 }
