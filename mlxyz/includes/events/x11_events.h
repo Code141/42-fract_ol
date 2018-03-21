@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/10 17:59:12 by gelambin          #+#    #+#             */
-/*   Updated: 2018/01/10 20:49:32 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/21 14:08:42 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,6 @@
 # define MOUSEMOVE				6
 # define MOUSEPRESS				4
 # define MOUSERELEASE			5
+# define CLOSEWINDOWS			17
 
 #endif

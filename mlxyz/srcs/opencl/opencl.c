@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 12:57:39 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/19 18:02:38 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/21 14:42:22 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int			load_kernel(t_opencl *opencl, char **files, int number)
 	opencl->program = clCreateProgramWithSource(opencl->context, number,
 			(const char **)files, NULL, &opencl->ret);
 	opencl->ret = clBuildProgram(opencl->program, 1, &opencl->device,
-			"-I./includes -I./lib/mlxyz/includes -cl-fast-relaxed-math ",
+			"-I./includes -I./mlxyz/includes -cl-fast-relaxed-math ",
 			NULL, NULL);
 	if (opencl->ret != CL_SUCCESS)
 		load_kernel_error(opencl);

@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/08 12:49:13 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/16 19:31:04 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/21 14:42:38 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int			set_kernel(t_opencl *opencl, int x, int y)
 	source_str[5] = "./srcs/fractals/julia_fun.c";
 	source_str[6] = "./srcs/fractals/sierpinski_carpet.c";
 	source_str[7] = "./srcs/fractals/zappa.c";
-	source_str[8] = "./lib/mlxyz/srcs/color/rgba.c";
+	source_str[8] = "./mlxyz/srcs/color/rgba.c";
 	source_str[9] = "./srcs/common.c";
 	source_str[10] = "./srcs/kernel.cl";
 	source_str[11] = NULL;

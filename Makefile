@@ -6,7 +6,7 @@
 #    By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/17 12:32:21 by gelambin          #+#    #+#              #
-#    Updated: 2018/03/21 12:43:08 by gelambin         ###   ########.fr        #
+#    Updated: 2018/03/21 14:25:46 by gelambin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,14 +15,14 @@ NAME		=	fractol
 CC			=	gcc
 
 CFLAGS		=	-Wall -Wextra -Werror
-CPPFLAGS	=	-I./lib/mlx/						\
-				-I./lib/libft/includes/				\
-				-I./lib/mlxyz/includes/				\
+CPPFLAGS	=	-I./mlx/							\
+				-I./libft/includes/					\
+				-I./mlxyz/includes/					\
 				-I./includes/						\
 
-LIBS		=	-L./lib/mlx -lmlx					\
-				-L./lib/mlxyz -lmlxyz				\
-				-L./lib/libft -lft
+LIBS		=	-L./mlx -lmlx						\
+				-L./mlxyz -lmlxyz					\
+				-L./libft -lft
 
 SRCS		=	./srcs/main.c						\
 				./srcs/params.c						\
@@ -70,27 +70,27 @@ re			:
 # **************************************************************************** #
 
 libs		:
-	$(MAKE) -C ./lib/libft
-	$(MAKE) -C ./lib/mlx 
-	$(MAKE) -C ./lib/mlxyz 
+	$(MAKE) -C ./libft
+	$(MAKE) -C ./mlx 
+	$(MAKE) -C ./mlxyz 
 
 libsclean	:
-	$(MAKE) clean -C ./lib/libft
-	$(MAKE) clean -C ./lib/mlx 
-	$(MAKE) clean -C ./lib/mlxyz 
+	$(MAKE) clean -C ./libft
+	$(MAKE) clean -C ./mlx 
+	$(MAKE) clean -C ./mlxyz 
 
 libsfclean	:
-	$(MAKE) fclean -C ./lib/libft
-	$(MAKE) fclean -C ./lib/mlx 
-	$(MAKE) fclean -C ./lib/mlxyz 
+	$(MAKE) fclean -C ./libft
+	$(MAKE) fclean -C ./mlx 
+	$(MAKE) fclean -C ./mlxyz 
 
 # **************************************************************************** #
 
-g			: $(OBJS)
+g			:	libs $(OBJS)
 	$(CC) -O3 -g $(LIBS) $(FMWS) $(OBJS) -o $(NAME)
 
-fsanitize	: $(OBJS)
+fsanitize	:	libs $(OBJS)
 	$(CC) -O3 -g -fsanitize=address $(LIBS) $(FMWS) $(OBJS) -o $(NAME)
 
 norminette	:
-	norminette $(SRCS) ./includes ./lib/libft/ ./lib/mlxyz
+	norminette $(SRCS) ./includes ./libft/ ./mlxyz

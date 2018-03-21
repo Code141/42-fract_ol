@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/07 09:11:43 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/16 19:32:15 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/21 14:21:00 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <fractol_struct.h>
 
 void	crash_fractol(char *str);
-void	close_fractol(t_mlxyz *mlxyz);
+int		close_fractol(t_mlxyz *mlxyz);
 void	show_usage(void);
 void	set_fractal_type(char *fractal_name, t_fractol *fractol);
 void	reset_fractol(t_fractol *fractol);

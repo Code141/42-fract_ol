@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 18:44:58 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/19 20:18:43 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/21 14:42:51 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_mlxyz		*init_mlxyz(int win_width, int win_height)
 	mlxyz->hud->graphs[1]->y = 2;
 	mlxyz->opencl = init_opencl();
 	hooks(mlxyz);
+	mlx_hook(mlxyz->screen->win, 17, 0, &close_fractol, mlxyz);
 	return (mlxyz);
 }
 

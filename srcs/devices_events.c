@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   events.c                                           :+:      :+:    :+:   */
+/*   device_events.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/12 03:35:02 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/19 19:03:00 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/21 13:53:28 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlxyz.h>
 #include <fractol.h>
 #include <move.h>
-#include <closing.h>
 
 void	select_fractal(int keycode, t_fractol *fractol)
 {
