@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 19:45:15 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/16 18:28:11 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/21 14:57:13 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 
 void	hud(t_mlxyz *mlxyz, t_fractol *fractol);
 void	cadre(t_mlxyz *mlxyz);
-void	txt_1(t_mlxyz *mlxyz, t_fractol *fractol);
-void	txt_2(t_mlxyz *mlxyz, t_fractol *fractol);
-void	txt_3(t_mlxyz *mlxyz, t_fractol *fractol);
+void	txt_uno(t_mlxyz *mlxyz, t_fractol *fractol);
+void	txt_dos(t_mlxyz *mlxyz, t_fractol *fractol);
+void	txt_tres(t_mlxyz *mlxyz, t_fractol *fractol);
 
 #endif

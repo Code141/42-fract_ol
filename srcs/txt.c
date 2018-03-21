@@ -6,7 +6,7 @@
 /*   By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 19:44:07 by gelambin          #+#    #+#             */
-/*   Updated: 2018/03/19 20:19:36 by gelambin         ###   ########.fr       */
+/*   Updated: 2018/03/21 15:01:36 by gelambin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	cadre(t_mlxyz *mlxyz)
 	square_full(mlxyz->screen->canevas, v1, v2, 0x888888);
 }
 
-void	txt_1(t_mlxyz *mlxyz, t_fractol *fractol)
+void	txt_uno(t_mlxyz *mlxyz, t_fractol *fractol)
 {
 	char *str;
 
@@ -53,7 +53,7 @@ void	txt_1(t_mlxyz *mlxyz, t_fractol *fractol)
 			90, 90, 0xff0000, "CPU");
 }
 
-void	txt_2(t_mlxyz *mlxyz, t_fractol *fractol)
+void	txt_dos(t_mlxyz *mlxyz, t_fractol *fractol)
 {
 	char *str;
 
@@ -63,10 +63,6 @@ void	txt_2(t_mlxyz *mlxyz, t_fractol *fractol)
 	else
 		mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 70, 110,
 				0xff0000, "Off");
-	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 5, 130, 0x0, "Zoom :");
-	str = ft_itoa(fractol->zoom);
-	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 70, 130, 0x0, str);
-	free(str);
 	mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 5, 150, 0x0, "Cr :");
 	if (fractol->cr_custom < 0)
 		mlx_string_put(mlxyz->mlx, mlxyz->screen->win, 50, 150, 0x0, "-");
@@ -80,7 +76,7 @@ void	txt_2(t_mlxyz *mlxyz, t_fractol *fractol)
 	free(str);
 }
 
-void	txt_3(t_mlxyz *mlxyz, t_fractol *fractol)
+void	txt_tres(t_mlxyz *mlxyz, t_fractol *fractol)
 {
 	char *str;
 
@@ -104,7 +100,7 @@ void	hud(t_mlxyz *mlxyz, t_fractol *fractol)
 	draw_hud(mlxyz);
 	mlx_put_image_to_window(mlxyz->mlx,
 		mlxyz->screen->win, mlxyz->screen->canevas->id, 0, 0);
-	txt_1(mlxyz, fractol);
-	txt_2(mlxyz, fractol);
-	txt_3(mlxyz, fractol);
+	txt_uno(mlxyz, fractol);
+	txt_dos(mlxyz, fractol);
+	txt_tres(mlxyz, fractol);
 }
