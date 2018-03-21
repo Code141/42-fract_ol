@@ -6,7 +6,7 @@
 #    By: gelambin <gelambin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/17 12:32:21 by gelambin          #+#    #+#              #
-#    Updated: 2018/03/19 20:30:37 by gelambin         ###   ########.fr        #
+#    Updated: 2018/03/21 12:43:08 by gelambin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,58 +48,49 @@ FMWS		=	-framework OpenGL					\
 				-framework OpenCL					\
 				-framework AppKit
 
+# **************************************************************************** #
+
 all			:	 $(NAME)
 
-libs		:
-	echo 'Compiling libft'
-	$(MAKE) -C ./lib/libft
-	echo 'Compiling mlx'
-	$(MAKE) -C ./lib/mlx 
-	echo 'Compiling mlxyz'
-	$(MAKE) -C ./lib/mlxyz 
-
-libsclean	:
-	echo 'clean libft'
-	$(MAKE) clean -C ./lib/libft
-	echo 'clean mlx'
-	$(MAKE) clean -C ./lib/mlx 
-	echo 'clean mlxyz'
-	$(MAKE) clean -C ./lib/mlxyz 
-
-libsfclean	:
-	echo 'fclean libft'
-	$(MAKE) fclean -C ./lib/libft
-	echo 'fclean mlx'
-	$(MAKE) fclean -C ./lib/mlx 
-	echo 'fclean mlxyz'
-	$(MAKE) fclean -C ./lib/mlxyz 
-
-
 $(NAME) 	:	libs $(OBJS)
-	echo 'Compiling '$(NAME)
 	$(CC) -O3 $(LIBS) $(FMWS) $(OBJS) -o $(NAME)
 
 clean		:	libsclean
-	echo 'Remove .objects files'
 	rm -f $(OBJS)
 
 fclean		:	libsfclean clean
-	echo 'Remove app'
 	rm -f $(NAME)
 
 re			:
 	$(MAKE) $(MFLAGS) fclean
 	$(MAKE) $(MFLAGS) all
 
-.PHONY		:	 all clean fclean re
+.PHONY		:	 all libs libsclean libsfclean clean fclean re
 
-################################################################################
+# **************************************************************************** #
 
-g: $(OBJS)
+libs		:
+	$(MAKE) -C ./lib/libft
+	$(MAKE) -C ./lib/mlx 
+	$(MAKE) -C ./lib/mlxyz 
+
+libsclean	:
+	$(MAKE) clean -C ./lib/libft
+	$(MAKE) clean -C ./lib/mlx 
+	$(MAKE) clean -C ./lib/mlxyz 
+
+libsfclean	:
+	$(MAKE) fclean -C ./lib/libft
+	$(MAKE) fclean -C ./lib/mlx 
+	$(MAKE) fclean -C ./lib/mlxyz 
+
+# **************************************************************************** #
+
+g			: $(OBJS)
 	$(CC) -O3 -g $(LIBS) $(FMWS) $(OBJS) -o $(NAME)
 
-fsanitize: $(OBJS)
+fsanitize	: $(OBJS)
 	$(CC) -O3 -g -fsanitize=address $(LIBS) $(FMWS) $(OBJS) -o $(NAME)
 
-norminette:
-	norminette ./srcs ./includes ./lib/libft/ ./lib/mlxyz
+norminette	:
+	norminette $(SRCS) ./includes ./lib/libft/ ./lib/mlxyz
