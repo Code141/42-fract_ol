@@ -17,6 +17,7 @@ Dans le cadre de votre partie obligatoire, vous avez le droit d’utiliser les f
 # Bonus Features :
 * Live switch CPU / GPU (When ENTER is pressed fractol Compiling in live while executing, the same files and jump from CPU to GPU )
 * Parallel computing (OpenCL)
+* Live minimap
 
 # Screenshot
 ![Alt text](/screenshot/1.png?raw=true "Optional Title")
